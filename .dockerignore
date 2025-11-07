@@ -1,0 +1,10 @@
+# We can use a .dockerignore file to exclude files or directories from the build context.
+.git
+.gitignore
+.env
+.vscode
+
+Dockerfile*
+
+README.md
+docs
