@@ -26,7 +26,7 @@ struct Foo
     }
 
     // explicit Foo(int)
-    Foo(int)
+    explicit Foo(int)
     {
         cout << "Constructor called with int / copy init\n";
     }
@@ -42,22 +42,24 @@ void initialize_variable()
     cout << "\n--- Variable Initialization Examples ---\n";
     // There are there common ways to intialize a variable
     // * Default
-    int initDefaultVar;
-    Foo initDefaultObj;
+    [[maybe_unused]] int initDefaultVar;
+    [[maybe_unused]] Foo initDefaultObj;
 
-    // *Traditional
-    //      * copy-init: Type var = value;
-    // 1. Compiler tries to create a temporary Foo from 2.3 by implicit conversion (calls Foo(<implicit int to double>) ).
-    // 2. If constructor is explicit, implicit conversion is not allowed → error.
-    // 3. Otherwise, temporary Foo is created and then copy/move into copyInitObj2.
-    Foo copyInitObj = 2.3; // implicit 2.3(float) -> 2(int) -> call Foo(int) -> create a temporary Foo -> is copied or moved into copyInitObj
+    // * Traditional initialization
+    //   * Copy-init: Type var = value;
+    //     1. Compiler tries to convert the value to a temporary Foo.
+    //     2. If the constructor is explicit, implicit conversion is blocked -> compilation error.
+    //     3. Otherwise, a temporary Foo is created and then copied/moved into the variable.
+    [[maybe_unused]] Foo copyInitObj = (Foo)2.3; // explicit cast: double 2.3 -> int 2 (implicit narrowing) -> Foo(int) -> temporary Foo -> copied/moved into copyInitObj
+    // Foo copyInitObjError = 2.3; // ERROR: implicit conversion blocked by explicit constructor
+    // We can explicitly prevent certain conversions using = delete or using {}
 
     //      * direct-init: Type var(value);
-    Foo directInitObj(4);    // call Foo(int)
-    Foo directInitObj2(4.3); // look for constructor -> implicit 4.3(float) -> 4(int) -> call Foo(int) ->
+    [[maybe_unused]] Foo directInitObj(4);    // call Foo(int)
+    [[maybe_unused]] Foo directInitObj2(4.3); // look for constructor -> implicit 4.3(float) -> 4(int) -> call Foo(int) ->
 
     //      * Brace init
     // calls the constructor directly without allowing implicit conversions.
-    Foo braceInit{3};
+    [[maybe_unused]] Foo braceInit{3};
     // Foo braceInit2{3.3}; // ERORR => Prefer this way
 }

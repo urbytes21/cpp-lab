@@ -57,7 +57,7 @@ void arithmeticOperator()
 
     cout << "a = " << a << "\n";
     int postIn = a++; // copy a to a copy, then increase a, return copy
-    cout << "postIn = " << preIn << "\n";
+    cout << "postIn = " << postIn << "\n";
 
     // Decrement
     cout << "b = " << b << "\n";
@@ -69,9 +69,9 @@ void arithmeticOperator()
     cout << "postDe = " << postDe << "\n";
 
     // Comma:
+    int value = (a++, b); // a is incremented, then b is returned
     cout << "a = " << a << ", b = " << b << "\n";
-    int value = (a, b); // evalue a then b, return value of b
-    cout << "Comma(a,b) = " << value << "\n";
+    cout << "comma(a++, b) = " << value << "\n";
 }
 
 void logicalOperator()
@@ -88,7 +88,7 @@ void logicalOperator()
     cout << "[AND] a && b = " << (a && b) << "\n";
 
     // OR (||)
-    cout << "[OR ] a || c = " << (a || c) << "\n";
+    cout << "[OR ] a || b = " << (a || b) << "\n";
 
     // NOT (!)
     cout << "[NOT] !c = " << (!c) << "\n";
