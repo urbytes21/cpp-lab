@@ -79,6 +79,9 @@ set(APP_SOURCES
     "src/core/basics/InitializeVariable.cpp"
     "src/core/basics/Operations.cpp"
     "src/core/basics/ControlFlow.cpp"
+    "src/core/datatypes/Fundamental.cpp"
+    "src/core/datatypes/CReferences.cpp"
+    "src/core/datatypes/CPointers.cpp"
 )
 
 # Test files
