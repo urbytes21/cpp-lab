@@ -86,7 +86,7 @@ set(APP_SOURCES
     "src/core/datatypes/CEnum.cpp"
     "src/core/datatypes/CStruct.cpp"
     "src/core/datatypes/CUnion.cpp"
-
+    "src/core/datatypes/TypeConVersions.cpp"
 )
 
 # Test files
