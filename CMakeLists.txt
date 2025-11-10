@@ -87,6 +87,9 @@ set(APP_SOURCES
     "src/core/datatypes/CStruct.cpp"
     "src/core/datatypes/CUnion.cpp"
     "src/core/datatypes/TypeConVersions.cpp"
+    "src/core/datatypes/class/CConstructors.cpp"
+    "src/core/datatypes/class/CDestructors.cpp"
+    "src/patterns/structural/Adapter.cpp"
 )
 
 # Test files

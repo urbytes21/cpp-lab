@@ -25,7 +25,7 @@ struct Foo
         cout << "Default constructor/ default init\n";
     }
 
-    // explicit Foo(int)
+    // Foo(int)
     explicit Foo(int)
     {
         cout << "Constructor called with int / copy init\n";
