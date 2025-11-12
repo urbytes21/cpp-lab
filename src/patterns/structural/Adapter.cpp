@@ -1,6 +1,8 @@
+// Adapters make legacy code work with modern classes.
+// UML: docs/uml/patterns_structural_adapter.drawio.svg
+
 #include <iostream>
 
-// Adapters make legacy code work with modern classes.
 namespace AdapterPattern
 {
     /**

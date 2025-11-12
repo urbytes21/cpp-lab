@@ -1,3 +1,8 @@
+// Bridge lets we split a large class or a set of closely related classes
+// into two separate hierarchies—abstraction and implementation
+// which can be developed independently of each other.
+// UML: docs/uml/patterns_structural_bridge.drawio.svg
+
 #include <iostream>
 
 namespace Problem
