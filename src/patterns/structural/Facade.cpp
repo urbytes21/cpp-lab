@@ -5,7 +5,7 @@
 // Appicability:
 // (*)   when you need to have a limited but straightforward interface to a complex subsystem.
 // (**)  when you want to structure a subsystem into layers.
-// UML: docs/uml/patterns_structural_Composite.drawio.svg
+// UML: docs/uml/patterns_structural_facade.drawio.svg
 
 #include <iostream>
 namespace
