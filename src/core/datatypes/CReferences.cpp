@@ -48,6 +48,33 @@ void references()
     std::cout << "By reference: " << b << '\n';
 }
 
+namespace RvalueReference
+{
+    using namespace std;
+
+    // Move-like function taking an rvalue reference as parameter
+    int copyConstructor(int &&x)
+    {
+        // Inside the function, x is a named lvalue that refers to the original object passed in (here, 'a')
+        int result = x * 10; // compute result based on x
+        x = 0;               // reset the original object to 0
+        return result;       // return the computed result
+    }
+
+    void run()
+    {
+        int a{10}; // original value
+
+        // Call function with an rvalue reference using std::move
+        // std::move(a) casts a (lvalue) into an rvalue reference (int&&)
+        int b = copyConstructor(std::move(a));
+
+        cout << b << endl; // prints 100
+        cout << a << endl; // prints 0, because x in the function referred to a and was reset
+    }
+
+}
+
 // A struct that runs code when its object is created
 struct CReferences
 {
@@ -58,6 +85,7 @@ struct CReferences
              << "Compound type: References\n";
 
         references();
+        RvalueReference::run();
     }
 };
 
