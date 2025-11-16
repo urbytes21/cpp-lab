@@ -97,6 +97,7 @@ set(APP_SOURCES
     "src/patterns/structural/Composite.cpp"
     "src/patterns/structural/Flyweight.cpp"
     "src/patterns/structural/Facade.cpp"
+    "src/patterns/structural/Decorator.cpp"
 )
 
 # Test files
