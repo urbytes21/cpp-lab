@@ -104,6 +104,7 @@ set(APP_SOURCES
     "src/patterns/behavioral/Mediator.cpp"
     "src/patterns/behavioral/Memento.cpp"
     "src/patterns/behavioral/Visitor.cpp"
+    "src/patterns/behavioral/TemplateMethod.cpp"
 )
 
 # Test files
