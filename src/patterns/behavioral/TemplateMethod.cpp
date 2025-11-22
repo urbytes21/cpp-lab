@@ -7,11 +7,9 @@
 // (**)   when you have several classes that contain almost identical algorithms with some minor differences.
 //        As a result, you might need to modify all classes when the algorithm changes.
 // (**)  when a behavior makes sense only in some classes of a class hierarchy, but not in others.
-// UML: docs/uml/patterns_behavioral_visitor.drawio.svg
+// UML: docs/uml/patterns_behavioral_templatemethod.drawio.svg
 
 #include <iostream>
-#include <string>
-#include <vector>
 
 namespace
 {
