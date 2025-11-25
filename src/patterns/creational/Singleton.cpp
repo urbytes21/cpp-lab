@@ -6,6 +6,8 @@
 // (*)  when a class in your program should have just a single instance available to all clients; for example, a single database object shared by different parts of the program.
 // (**) when you need stricter control over global variables.
 
+// UML: docs/uml/patterns_creational_singleton.drawio.svg
+
 #include <iostream>
 
 namespace
