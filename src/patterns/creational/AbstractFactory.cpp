@@ -4,11 +4,11 @@
 // families of related objects without specifying their concrete classes.
 // Appicability:
 // (*)  when your code needs to work with various families of related products,
-// but you don’t want it to depend on the concrete classes
+//      but you don’t want it to depend on the concrete classes
 //      of those products—they might be unknown beforehand or you simply want to
 //      allow for future extensibility.
 // (**) when you have a class with a set of Factory Methods that blur its
-// primary responsibility.
+//      primary responsibility.
 
 // UML: docs/uml/patterns_behavioral_iterator.drawio.svg
 
@@ -16,12 +16,12 @@
 
 namespace {}
 
-// struct SingletonAutoRuner
+// struct SingletonAutoRunner
 // {
-//     SingletonAutoRuner()
+//     SingletonAutoRunner()
 //     {
 //         std::cout << "\n--- Singleton Pattern Example ---\n";
 //     }
 // };
 
-// static SingletonAutoRuner instance;
+// static SingletonAutoRunner instance;
