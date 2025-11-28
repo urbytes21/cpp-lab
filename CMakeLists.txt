@@ -112,6 +112,7 @@ set(APP_SOURCES
     "src/patterns/creational/Singleton.cpp"
     "src/patterns/creational/FactoryMethod.cpp"
     "src/patterns/creational/Builder.cpp"
+    "src/patterns/creational/Prototype.cpp"
 )
 
 # Test files
