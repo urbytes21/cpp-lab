@@ -1,4 +1,7 @@
 // cppcheck-suppress-file [unreadVariable]
+// A function declared constexpr is implicitly an inline function.
+// A static member variable (but not a namespace-scope variable) declared constexpr is implicitly an inline variable.
+
 #include <iostream>
 using namespace std;
 
