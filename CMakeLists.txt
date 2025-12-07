@@ -97,6 +97,7 @@ set(APP_SOURCES
     "src/core/datatypes/class/CDestructors.cpp"
     "src/core/datatypes/class/SallowDeepCopying.cpp"
     "src/core/datatypes/class/RoleOfThreeFiveZero.cpp"
+    "src/core/string/CString.cpp"
     "src/patterns/structural/Adapter.cpp"
     "src/patterns/structural/Bridge.cpp"
     "src/patterns/structural/Proxy.cpp"
