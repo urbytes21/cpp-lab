@@ -102,6 +102,10 @@ namespace CompareString {
 void run() {
   const char str1[] = "abc";
   const char str2[] = "abcde";
+  // 0. Compare memory
+  // int memcmp ( const void * ptr1, const void * ptr2, size_t num );
+  int result0 = memcmp(str1, str2,sizeof(str1));
+  std::cout << "strcmp(str1, \"abcde\") = " << result0 << "\n";
 
   // 1. Compare full str
   int result1 = strcmp(str1, "abc");
