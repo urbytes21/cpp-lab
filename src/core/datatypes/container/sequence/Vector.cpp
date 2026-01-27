@@ -7,7 +7,6 @@
  * <vector>
  */
 #include <iostream>
-#include <span>
 #include <vector>  // for std::vector
 
 namespace {

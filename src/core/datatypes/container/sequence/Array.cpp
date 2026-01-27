@@ -8,7 +8,6 @@
  */
 #include <array>  // for std::array
 #include <iostream>
-#include <span>
 
 namespace {
 void example() {
