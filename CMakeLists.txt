@@ -123,6 +123,7 @@ set(APP_SOURCES
     ## Container
     "src/core/datatypes/container/sequence/Array.cpp"
     "src/core/datatypes/container/sequence/Vector.cpp"
+    "src/core/datatypes/container/unordered/UnorderedMap.cpp"
 )
 
 # Test files
