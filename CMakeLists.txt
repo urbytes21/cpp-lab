@@ -120,8 +120,9 @@ set(APP_SOURCES
     "src/patterns/creational/AbstractFactory.cpp"
     "src/patterns/creational/Builder.cpp"
     "src/patterns/creational/Prototype.cpp"
-    # Container
+    ## Container
     "src/core/datatypes/container/sequence/Array.cpp"
+    "src/core/datatypes/container/sequence/Vector.cpp"
 )
 
 # Test files
