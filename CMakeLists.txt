@@ -124,6 +124,8 @@ set(APP_SOURCES
     "src/core/datatypes/container/sequence/Array.cpp"
     "src/core/datatypes/container/sequence/Vector.cpp"
     "src/core/datatypes/container/unordered/UnorderedMap.cpp"
+    "src/core/expression/Lambda.cpp"
+    "src/core/expression/FunctionPointer.cpp"
 )
 
 # Test files
