@@ -126,11 +126,13 @@ set(APP_SOURCES
     "src/core/datatypes/container/unordered/UnorderedMap.cpp"
     "src/core/expression/Lambda.cpp"
     "src/core/expression/FunctionPointer.cpp"
+    "src/leetcode/arrays/two_sum/TwoSum.cpp"
 )
 
 # Test files
 set(APP_TESTS
     "tests/DeleteMeTest.cpp"
+    "tests/two_sum_unittest.cpp"
 )
 
 # ----------------------------------------------------------------------------------------
