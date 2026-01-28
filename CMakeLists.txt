@@ -25,7 +25,7 @@ set(PROJECT_NAME_TEST ${PROJECT_NAME}_unit_test) # name for the unit-test execut
 # Compiler and language configuration
 # ----------------------------------------------------------------------------------------
 # Require C++17 for GoogleTest and modern C++ features
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Optionally enforce warnings (good for learning/debugging)
@@ -124,6 +124,8 @@ set(APP_SOURCES
     "src/core/datatypes/container/sequence/Array.cpp"
     "src/core/datatypes/container/sequence/Vector.cpp"
     "src/core/datatypes/container/unordered/UnorderedMap.cpp"
+    "src/core/expression/Lambda.cpp"
+    "src/core/expression/FunctionPointer.cpp"
 )
 
 # Test files
