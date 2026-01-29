@@ -133,8 +133,8 @@ set(APP_SOURCES
 # Test files
 set(APP_TESTS
     "tests/DeleteMeTest.cpp"
-    "tests/two_sum_unittest.cpp"
-    "tests/median_two_sorted_arrays.cpp"
+    "tests/two_sum_ut.cpp"
+    "tests/median_two_sorted_arrays_ut.cpp"
 )
 
 # ----------------------------------------------------------------------------------------
