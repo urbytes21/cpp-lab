@@ -127,12 +127,14 @@ set(APP_SOURCES
     "src/core/expression/Lambda.cpp"
     "src/core/expression/FunctionPointer.cpp"
     "src/leetcode/arrays/two_sum/TwoSum.cpp"
+    "src/leetcode/arrays/median_two_arrays/MedianTwoSortedArrays.cpp"
 )
 
 # Test files
 set(APP_TESTS
     "tests/DeleteMeTest.cpp"
     "tests/two_sum_unittest.cpp"
+    "tests/median_two_sorted_arrays.cpp"
 )
 
 # ----------------------------------------------------------------------------------------
