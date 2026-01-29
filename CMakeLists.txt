@@ -120,6 +120,10 @@ set(APP_SOURCES
     "src/patterns/creational/AbstractFactory.cpp"
     "src/patterns/creational/Builder.cpp"
     "src/patterns/creational/Prototype.cpp"
+    ## Streams
+    "src/core/filehandle/IOStream.cpp"
+    "src/core/filehandle/StringStream.cpp"
+    "src/core/filehandle/FileIO.cpp"
     ## Container
     "src/core/datatypes/container/sequence/Array.cpp"
     "src/core/datatypes/container/sequence/Vector.cpp"
@@ -128,6 +132,7 @@ set(APP_SOURCES
     "src/core/expression/FunctionPointer.cpp"
     "src/leetcode/arrays/two_sum/TwoSum.cpp"
     "src/leetcode/arrays/median_two_arrays/MedianTwoSortedArrays.cpp"
+    "src/leetcode/arrays/container_with_most_water/ContainerWithMostWater.cpp"
 )
 
 # Test files
@@ -135,6 +140,7 @@ set(APP_TESTS
     "tests/DeleteMeTest.cpp"
     "tests/two_sum_ut.cpp"
     "tests/median_two_sorted_arrays_ut.cpp"
+    "tests/container_with_most_water_ut.cpp"
 )
 
 # ----------------------------------------------------------------------------------------
