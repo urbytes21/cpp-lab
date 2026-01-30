@@ -5,8 +5,8 @@
  * Time Complexity: O((m+n) + (m+n)log(m+n)) ~ O((m+n)log(m+n))
  * Space Complexity: O(n+m)
  */
-double Solution::findMedianSortedArrays(const std::vector<int>& nums1,
-                                        const std::vector<int>& nums2) {
+double MedianTwoSortedArrays::findMedianSortedArrays(
+    const std::vector<int>& nums1, const std::vector<int>& nums2) {
   std::vector<int> nums{};
   nums.reserve(
       nums1.size() +

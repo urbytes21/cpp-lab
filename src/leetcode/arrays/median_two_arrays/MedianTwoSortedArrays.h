@@ -1,4 +1,5 @@
 
+//cppcheck-suppress-file [functionStatic]
 #pragma once
 // Hard
 
@@ -24,7 +25,7 @@
 // -106 <= nums1[i], nums2[i] <= 106
 
 #include <vector>
-class Solution {
+class MedianTwoSortedArrays {
  public:
   double findMedianSortedArrays(const std::vector<int>& nums1,
                                 const std::vector<int>& nums2);

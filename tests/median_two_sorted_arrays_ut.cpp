@@ -6,7 +6,7 @@ TEST(MedianTwoSortedArrays, TC1) {
   std::vector<int> nums2{3};
   double expected{2.0};
 
-  Solution s{};
+  MedianTwoSortedArrays s{};
 
   EXPECT_EQ(expected, s.findMedianSortedArrays(nums1, nums2));
 }
@@ -16,7 +16,7 @@ TEST(MedianTwoSortedArrays, TC2) {
   std::vector<int> nums2{3, 3};
   double expected{2.5};
 
-  Solution s{};
+  MedianTwoSortedArrays s{};
 
   EXPECT_EQ(expected, s.findMedianSortedArrays(nums1, nums2));
 }
