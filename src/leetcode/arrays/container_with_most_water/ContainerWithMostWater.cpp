@@ -5,13 +5,13 @@
 //  *  Time: O(n^2)
 //  *  Space: O(1)
 //  */
-// int ContainerWithMostWater::getMaxAmount(const std::vector<int>& heights) {
-//   std::size_t size = heights.size();
+// int ContainerWithMostWater::getMaxAmount(const std::vector<int>& height) {
+//   std::size_t size = height.size();
 //   int max{};
 //   for (std::size_t i = 0; i < size - 1; ++i) {
 //     for (std::size_t j = i + 1; j < size; ++j) {
 //       int w = j - i;
-//       int h = std::min(heights.at(i), heights.at(j));
+//       int h = std::min(height.at(i), height.at(j));
 //       max = std::max(max, w * h);
 //     }
 //   }
@@ -26,15 +26,15 @@
  *    Space: O(1)
  */
 #include <iostream>
-int ContainerWithMostWater::getMaxAmount(const std::vector<int>& heights) {
-  std::size_t size = heights.size();
+int ContainerWithMostWater::getMaxAmount(const std::vector<int>& height) {
+  std::size_t size = height.size();
   if (size < 2) {
     return -1;
   }
 
   // size_t index = it - v.begin();
-  auto lpos = heights.begin();
-  auto rpos = heights.end() - 1;  // end point to the last one e
+  auto lpos = height.begin();
+  auto rpos = height.end() - 1;  // end point to the last one e
   int result{0};
   while (lpos < rpos) {
     int h = std::min(*lpos, *rpos);

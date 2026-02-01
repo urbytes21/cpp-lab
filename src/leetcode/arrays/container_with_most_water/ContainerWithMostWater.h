@@ -45,5 +45,5 @@ h[1] & h[8]
 
 class ContainerWithMostWater {
  public:
-  int getMaxAmount(const std::vector<int>& heights);
+  int getMaxAmount(const std::vector<int>& height);
 };
