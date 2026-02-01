@@ -133,6 +133,7 @@ set(APP_SOURCES
     "src/leetcode/arrays/two_sum/TwoSum.cpp"
     "src/leetcode/arrays/median_two_arrays/MedianTwoSortedArrays.cpp"
     "src/leetcode/arrays/container_with_most_water/ContainerWithMostWater.cpp"
+    "src/leetcode/arrays/longest_common_prefix/Solution.cpp"
 )
 
 # Test files
@@ -141,6 +142,7 @@ set(APP_TESTS
     "tests/two_sum_ut.cpp"
     "tests/median_two_sorted_arrays_ut.cpp"
     "tests/container_with_most_water_ut.cpp"
+    "tests/longest_common_prefix_ut.cpp"
 )
 
 # ----------------------------------------------------------------------------------------
