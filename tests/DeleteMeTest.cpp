@@ -44,6 +44,10 @@ TEST(DivTest, InvalidNumbers) {
   ASSERT_EQ(0, calc.get_last_result());
 }
 
+TEST(DivTest, FailureMessage) {
+  // ASSERT_FALSE(true) << "FailureMessage: ASSERT_FALSE(true)";
+}
+
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
