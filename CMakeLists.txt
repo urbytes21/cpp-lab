@@ -24,7 +24,7 @@ set(PROJECT_NAME_TEST ${PROJECT_NAME}_unit_test) # name for the unit-test execut
 # ----------------------------------------------------------------------------------------
 # Compiler and language configuration
 # ----------------------------------------------------------------------------------------
-# Require C++17 for GoogleTest and modern C++ features
+# Require at least C++17 for GoogleTest and modern C++ features
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -124,6 +124,7 @@ set(APP_SOURCES
     "src/core/filehandle/IOStream.cpp"
     "src/core/filehandle/StringStream.cpp"
     "src/core/filehandle/FileIO.cpp"
+    "src/core/filehandle/Directory.cpp"
     ## Container
     "src/core/datatypes/container/sequence/Array.cpp"
     "src/core/datatypes/container/sequence/Vector.cpp"
@@ -175,9 +176,10 @@ target_include_directories(${PROJECT_NAME_TEST}
     PRIVATE ${APP_HEADERS} # PRIVATE for internal use within a target,
 )
 
-# Link GoogleTest to the test executable
+# Link GoogleTest, GoogleMock to the test executable
 target_link_libraries(${PROJECT_NAME_TEST}
     GTest::gtest_main
+    GTest::gmock_main
 )
 
 # Register tests with CTest
