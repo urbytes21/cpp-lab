@@ -2,6 +2,10 @@
 
 #include <gtest/gtest.h>
 
+/**
+ * ASSERT_* versions generate fatal failures when they fail, and abort the current function
+ * EXPECT_* are preferred, as they allow more than one failure to be reported in a test.
+ */
 TEST(AddTest, ValidNumbers) {
   DeleteMe calc = DeleteMe();
 
