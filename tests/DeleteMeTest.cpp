@@ -52,6 +52,47 @@ TEST(DivTest, FailureMessage) {
   // ASSERT_FALSE(true) << "FailureMessage: ASSERT_FALSE(true)";
 }
 
+#include <gmock/gmock.h>
+#include "mock/MockTurtle.h"
+#include "mock/Painter.h"
+TEST(MockPainterTest, DrawSquare_CallsCorrectTurtleOperations) {
+  MockTurtle turtle;
+  Painter painter{turtle};
+
+  EXPECT_CALL(turtle, PenDown()).Times(1);
+
+  EXPECT_CALL(turtle, Forward(100)).Times(4);
+  EXPECT_CALL(turtle, Turn(90)).Times(4);
+
+  EXPECT_CALL(turtle, PenUp()).Times(1);
+
+  painter.DrawSquare(100);
+}
+
+#include "mock/FakeTurtle.h"
+TEST(FakePainterTest, DrawSquare_ProducesSquarePath) {
+  FakeTurtle turtle;
+  Painter painter{turtle};
+
+  painter.DrawSquare(10);
+
+  const auto& path = turtle.Path();
+
+  ASSERT_EQ(path.size(), 8);  // 4 lines → 8 points (start/end)
+
+  EXPECT_EQ(path[0], std::make_pair(0, 0));
+  EXPECT_EQ(path[1], std::make_pair(0, 10));
+
+  EXPECT_EQ(path[2], std::make_pair(0, 10));
+  EXPECT_EQ(path[3], std::make_pair(10, 10));
+
+  EXPECT_EQ(path[4], std::make_pair(10, 10));
+  EXPECT_EQ(path[5], std::make_pair(10, 0));
+
+  EXPECT_EQ(path[6], std::make_pair(10, 0));
+  EXPECT_EQ(path[7], std::make_pair(0, 0));
+}
+
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
