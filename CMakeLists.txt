@@ -131,10 +131,12 @@ set(APP_SOURCES
     "src/core/datatypes/container/unordered/UnorderedMap.cpp"
     "src/core/expression/Lambda.cpp"
     "src/core/expression/FunctionPointer.cpp"
+    ## LC
     "src/leetcode/arrays/two_sum/TwoSum.cpp"
     "src/leetcode/arrays/median_two_arrays/MedianTwoSortedArrays.cpp"
     "src/leetcode/arrays/container_with_most_water/ContainerWithMostWater.cpp"
     "src/leetcode/arrays/longest_common_prefix/Solution.cpp"
+    "src/leetcode/arrays/3sum/Solution.cpp"
 )
 
 # Test files
@@ -144,6 +146,7 @@ set(APP_TESTS
     "tests/median_two_sorted_arrays_ut.cpp"
     "tests/container_with_most_water_ut.cpp"
     "tests/longest_common_prefix_ut.cpp"
+    "tests/three_sum_ut.cpp"
 )
 
 # ----------------------------------------------------------------------------------------
