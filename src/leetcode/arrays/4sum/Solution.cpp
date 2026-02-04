@@ -15,19 +15,15 @@ std::vector<std::vector<int>> Solution::fourSum(std::vector<int>& nums,
   }
 
   std::sort(nums.begin(), nums.end());
-  if (nums[0] > target) {
-    return {};
-  }
 
   std::vector<std::vector<int>> result;
   for (size_t fI = 0; fI < size - 3; ++fI) {
     if (fI > 0 && nums[fI] == nums[fI - 1]) {
-      ++fI;
       continue;
     }
 
     for (size_t sI = fI + 1; sI < size - 2; ++sI) {
-      if (sI > 1 && nums[sI] == nums[sI - 1]) {
+      if (sI > fI + 1 && nums[sI] == nums[sI - 1]) {
         continue;
       }
 
@@ -38,8 +34,7 @@ std::vector<std::vector<int>> Solution::fourSum(std::vector<int>& nums,
         int s = nums[sI];
         int t = nums[tI];
         int fr = nums[frI];
-
-        int diff = f + s + t + fr - target;
+        long diff = static_cast<long>(f) + s + t + fr - target;
         if (diff == 0) {
           result.push_back({f, s, t, fr});
           // Next
