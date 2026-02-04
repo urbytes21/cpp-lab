@@ -21,7 +21,7 @@ std::vector<std::vector<int>> Solution::threeSum(std::vector<int>& nums) {
   }
 
   for (size_t i = 0; i < size - 2; ++i) {
-    if (i > 0 && i < size - 2 && nums[i] == nums[i - 1]) {
+    if (i > 0 && nums[i] == nums[i - 1]) {
       // we should not use num[i] == num[i+1] expression because we
       // may fall thorough out
       continue;  // skip duplicates for the 1st
@@ -44,11 +44,11 @@ std::vector<std::vector<int>> Solution::threeSum(std::vector<int>& nums) {
         --k;
 
         // move next
-        while (nums[j] == nums[j - 1] && j < k) {
+        while (j < k && nums[j] == nums[j - 1]) {
           ++j;  // skip duplicates for the 2nd
         }
 
-        while (nums[k] == nums[k + 1] && j < k) {
+        while (j < k && nums[k] == nums[k + 1]) {
           --k;  // skip duplicates for the 3rd
         }
       } else if (sum < 0) {
