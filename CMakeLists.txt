@@ -137,6 +137,7 @@ set(APP_SOURCES
     "src/leetcode/arrays/container_with_most_water/ContainerWithMostWater.cpp"
     "src/leetcode/arrays/longest_common_prefix/Solution.cpp"
     "src/leetcode/arrays/3sum/Solution.cpp"
+    "src/leetcode/arrays/4sum/Solution.cpp"
 )
 
 # Test files
@@ -147,6 +148,7 @@ set(APP_TESTS
     "tests/container_with_most_water_ut.cpp"
     "tests/longest_common_prefix_ut.cpp"
     "tests/three_sum_ut.cpp"
+    "tests/four_sum_ut.cpp"
 )
 
 # ----------------------------------------------------------------------------------------
