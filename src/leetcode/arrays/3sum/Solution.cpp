@@ -3,7 +3,7 @@
 /**
  * @brief Complexity
  *  - Time: O(nlog(n) + n(n-1)) ~ O(n2)
- *  - Space: O(1)
+ *  - Space: O(logn) // sort
  */
 std::vector<std::vector<int>> Solution::threeSum(std::vector<int>& nums) {
   std::vector<std::vector<int>> trips{};
