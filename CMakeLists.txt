@@ -141,6 +141,9 @@ set(APP_SOURCES
     "src/leetcode/arrays/longest_common_prefix/Solution.cpp"
     "src/leetcode/arrays/3sum/Solution.cpp"
     "src/leetcode/arrays/4sum/Solution.cpp"
+    ## Controller
+    "src/controller/pid/pid.cpp"
+    "src/controller/pid/PIDSim.cpp"
 )
 
 # Test files
