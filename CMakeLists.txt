@@ -120,6 +120,9 @@ set(APP_SOURCES
     "src/patterns/creational/AbstractFactory.cpp"
     "src/patterns/creational/Builder.cpp"
     "src/patterns/creational/Prototype.cpp"
+    ## Exceptions
+    "src/core/exception/BasicHandle.cpp"
+    "src/core/exception/ThrowNoexcept.cpp"
     ## Streams
     "src/core/filehandle/IOStream.cpp"
     "src/core/filehandle/StringStream.cpp"
