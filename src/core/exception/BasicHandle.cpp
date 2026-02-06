@@ -24,7 +24,10 @@ void run() {
 }  // namespace
 
 struct BasicHandleRunner {
-  BasicHandleRunner() { run(); }
+  BasicHandleRunner() {
+    std::cout << "\n--- Basic Expception Handle Example ---\n";
+    run();
+  }
 };
 
 static BasicHandleRunner autoRunner;

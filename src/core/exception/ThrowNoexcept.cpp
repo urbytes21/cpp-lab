@@ -35,7 +35,10 @@ void run() {
 }  // namespace
 
 struct ThrowNoexceptRunner {
-  ThrowNoexceptRunner() { run(); }
+  ThrowNoexceptRunner() {
+    std::cout << "\n--- Exception throw/noexcept Example ---\n";
+    run();
+  }
 };
 
 static ThrowNoexceptRunner autoRunner;
