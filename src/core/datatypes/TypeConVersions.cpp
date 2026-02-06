@@ -65,6 +65,21 @@ void explicitConversion() {
   const void* pVoid = reinterpret_cast<const void*>(&pi);
   cout << "reinterpret_cast: address of pi = " << pVoid << "\n";
 
+  // ** Use case: Memory-Mapped I/O **
+  // C
+  // #define REG_ADDR 0x000fff01
+  //   volatile uint8_t* reg = reinterpret_cast<volatile uint8_t*>(REG_ADDR);
+  //   *reg = 0xF;
+  //   *reg = 0x1;
+
+  // C++
+  // #include <cstdint>
+  // constexpr std::uintptr_t REG_ADDR = 0x000fff02;
+  // auto* const reg = reinterpret_cast<volatile uint8_t*>(REG_ADDR);
+  // *reg = 0xF;
+
+  // *reg = 0x1;
+
   // *5. dynamic_cast: safe cast between related classes (runtime checked)
   Base* basePtr = new Derived();
   const Derived* derivedPtr = dynamic_cast<Derived*>(basePtr);

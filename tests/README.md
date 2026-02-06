@@ -16,6 +16,12 @@
  - write a default destructor or `TearDown()` function to release resources.
  - use `TEST_F(TestFixtureClassName, TestName)` instead of `TEST()`
 
+>All documentation is covered in the official github repo. The primer documentation also covers a lot of information regarding the test macros. You could use the following summary and the examples linked to choose what you want to use. (https://stackoverflow.com/questions/58600728/what-is-the-difference-between-test-test-f-and-test-p)
+
+- **TEST()** is useful when you want to write unit tests for static or global functions or simple classes.
+- **TEST_F()** is useful when you need access to objects and subroutines in the unit test.
+- **TEST_P()** is useful when you want to write tests with a parameter. Instead of writing multiple tests with different values of the parameter, you can write one test using TEST_P() which uses GetParam() and can be instantiated using INSTANTIATE_TEST_SUITE_P().
+
 - e.g.
 ```cpp
 #include "this/package/foo.h"

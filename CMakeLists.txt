@@ -120,6 +120,9 @@ set(APP_SOURCES
     "src/patterns/creational/AbstractFactory.cpp"
     "src/patterns/creational/Builder.cpp"
     "src/patterns/creational/Prototype.cpp"
+    ## Exceptions
+    "src/core/exception/BasicHandle.cpp"
+    "src/core/exception/ThrowNoexcept.cpp"
     ## Streams
     "src/core/filehandle/IOStream.cpp"
     "src/core/filehandle/StringStream.cpp"
@@ -137,6 +140,14 @@ set(APP_SOURCES
     "src/leetcode/arrays/container_with_most_water/ContainerWithMostWater.cpp"
     "src/leetcode/arrays/longest_common_prefix/Solution.cpp"
     "src/leetcode/arrays/3sum/Solution.cpp"
+    "src/leetcode/arrays/4sum/Solution.cpp"
+    ## Controller
+    "src/controller/pid/pid.cpp"
+    "src/controller/pid/PIDSim.cpp"
+    ## Smart Pointers
+    "src/core/datatypes/smart_pointer/Unique.cpp"
+    "src/core/datatypes/smart_pointer/Shared.cpp"
+    "src/core/datatypes/smart_pointer/Weak.cpp"
 )
 
 # Test files
@@ -147,6 +158,7 @@ set(APP_TESTS
     "tests/container_with_most_water_ut.cpp"
     "tests/longest_common_prefix_ut.cpp"
     "tests/three_sum_ut.cpp"
+    "tests/four_sum_ut.cpp"
 )
 
 # ----------------------------------------------------------------------------------------
