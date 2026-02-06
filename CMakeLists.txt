@@ -144,6 +144,10 @@ set(APP_SOURCES
     ## Controller
     "src/controller/pid/pid.cpp"
     "src/controller/pid/PIDSim.cpp"
+    ## Smart Pointers
+    "src/core/datatypes/smart_pointer/Unique.cpp"
+    "src/core/datatypes/smart_pointer/Shared.cpp"
+    "src/core/datatypes/smart_pointer/Weak.cpp"
 )
 
 # Test files
