@@ -82,7 +82,7 @@ void loops() {
     ++j;
   } while (j < 2);
 
-  // for
+  // for(initialization; condition; update)
   for (int k = 0; k < 3; ++k) {
     cout << "for loop k = " << k << "\n";
   }
