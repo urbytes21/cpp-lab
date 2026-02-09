@@ -23,6 +23,7 @@ Unordered associative containers implement unsorted (hashed) data structures tha
 **Container adaptors** provide a different interface for **sequential containers**.
 |name|description|
 |---|---|
-|queue|apdapts a container to provide queue (FIFO data structure)|
+|queue|apdapts a container to provide queue (**FIFO** data structure)|
+|stack|adapts a container to provide stack (**LIFO** data structure)|
 
 TBD
