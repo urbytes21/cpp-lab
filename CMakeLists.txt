@@ -134,6 +134,9 @@ set(APP_SOURCES
     "src/core/datatypes/container/unordered/UnorderedMap.cpp"
     "src/core/expression/Lambda.cpp"
     "src/core/expression/FunctionPointer.cpp"
+    "src/core/datatypes/container/adapter/Queue.cpp"
+    "src/core/datatypes/container/adapter/Stack.cpp"
+    "src/core/datatypes/container/sequence/Deque.cpp"
     ## LC
     "src/leetcode/arrays/two_sum/TwoSum.cpp"
     "src/leetcode/arrays/median_two_arrays/MedianTwoSortedArrays.cpp"

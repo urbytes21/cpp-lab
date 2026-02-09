@@ -19,4 +19,11 @@ Unordered associative containers implement unsorted (hashed) data structures tha
 |unordered_map|collection of key-value pairs, hashed by keys, keys are unique|
 |unordered_set|collection of unique keys, hashed by keys|
 
+## 3. Adapter Container
+**Container adaptors** provide a different interface for **sequential containers**.
+|name|description|
+|---|---|
+|queue|apdapts a container to provide queue (**FIFO** data structure)|
+|stack|adapts a container to provide stack (**LIFO** data structure)|
+
 TBD
