@@ -18,6 +18,8 @@
 - `throw()`: (O)
 - `-> int`: (O) trailing-return-type
 - body
+- `[](){ ... }`defines a lambda
+- `[](){ ... }()` defines and immediately CALLS it
 
 ### 1.1 Capture Clause
 - It uses to introduce new variables in its body, specifics which vars are captured, and whether the capture is `by value[=]` or `by reference [&]`. 
