@@ -46,11 +46,15 @@ void run() {
  * wp.expired() == false // at least one shared_ptr still owns it
  * wp.lock() != nullptr  // same condition
  */
-struct WeakRunner {
-  WeakRunner() {
-    std::cout << "\n--- Weak Pointer Example ---\n";
-    run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Weak : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Weak"; }
+  std::string description() const override { return "Weak Pointer Example"; }
+  void execute() override { run(); }
 };
 
-static WeakRunner autoRunner;
+REGISTER_EXAMPLE(Weak, "core", "Weak");

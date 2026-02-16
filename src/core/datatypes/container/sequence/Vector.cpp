@@ -10,7 +10,7 @@
 #include <vector>  // for std::vector
 
 namespace {
-void example() {
+void run() {
   std::cout << "\n--- std::vector Example ---\n";
   // 1) Init
   std::vector<int> m_vec = {9, 100, 0};
@@ -47,8 +47,15 @@ void example() {
 }
 }  // namespace
 
-struct VectorRunner {
-  VectorRunner() { example(); }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Vector : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Vector"; }
+  std::string description() const override { return ""; }
+  void execute() override { run(); }
 };
 
-static VectorRunner autoRunner;
+REGISTER_EXAMPLE(Vector, "core", "Vector");

@@ -1,22 +1,26 @@
 #include <iostream>
 using namespace std;
 
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 void arithmeticOperator();
 void logicalOperator();
 void bitWiseOperator();
 
-struct Operations {
-  Operations() {
-    cout << "\n"
-         << "\n"
-         << "Operation\n";
+class Operations : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Operations"; }
+  std::string description() const override { return "Operation"; }
+  void execute() override {
     arithmeticOperator();
     logicalOperator();
     bitWiseOperator();
   }
 };
 
-static Operations autoRunInstance;
+REGISTER_EXAMPLE(Operations, "core", "Operations");
 
 void arithmeticOperator() {
   cout << "\n--- ArithmeticOperator Examples ---\n";
@@ -94,33 +98,32 @@ void logicalOperator() {
 void bitWiseOperator() {
   cout << "\n--- BitWiseOperator Examples ---\n";
   bitset<8> bitsA {
-    0b1111'1111}; bitset<8> bitsB {
-      0b1111'0000};
+    0b1111'1111}; bitset<8> bitsB { 0b1111'0000};
 
-          cout
-          << "bitA = " << bitsA << ", bitB = " << bitsB << "\n";
+        cout
+        << "bitA = " << bitsA << ", bitB = " << bitsB << "\n";
 
-      // AND
-      bitset<8> result = bitsA & bitsB;
-      cout << "bitA && bitB= " << result << "\n";
+    // AND
+    bitset<8> result = bitsA & bitsB;
+    cout << "bitA && bitB= " << result << "\n";
 
-      // OR
-      result = bitsA | bitsB;
-      cout << "bitA | bitB= " << result << "\n";
+    // OR
+    result = bitsA | bitsB;
+    cout << "bitA | bitB= " << result << "\n";
 
-      // XOR
-      result = bitsA ^ bitsB;
-      cout << "bitA ^ bitB= " << result << "\n";
+    // XOR
+    result = bitsA ^ bitsB;
+    cout << "bitA ^ bitB= " << result << "\n";
 
-      // NOT
-      result = ~bitsA;
-      cout << "~bitA = " << result << "\n";
+    // NOT
+    result = ~bitsA;
+    cout << "~bitA = " << result << "\n";
 
-      // LEFT SHIFT
-      result = bitsA << 1;
-      cout << "bitA << 1 = " << result << "\n";
+    // LEFT SHIFT
+    result = bitsA << 1;
+    cout << "bitA << 1 = " << result << "\n";
 
-      // RIGHT SHIFT
-      result = bitsA >> 1;
-      cout << "bitA >> 1 = " << result << "\n";
-    }
+    // RIGHT SHIFT
+    result = bitsA >> 1;
+    cout << "bitA >> 1 = " << result << "\n";
+  }

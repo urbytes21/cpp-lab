@@ -117,11 +117,17 @@ void run() {
 }  // namespace Prototy
 }  // namespace
 
-struct PrototypeAutoRunner {
-  PrototypeAutoRunner() {
-    std::cout << "\n--- Prototype Pattern Example ---\n";
-    Prototy::run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class PrototypeExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Prototype"; }
+  std::string description() const override {
+    return "Prototype Pattern Example";
   }
+  void execute() override { Prototy::run(); }
 };
 
-static PrototypeAutoRunner instance;
+REGISTER_EXAMPLE(PrototypeExample, "patterns", "Prototype");

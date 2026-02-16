@@ -1,6 +1,10 @@
 #include <filesystem>  // for creating dir
 #include <iostream>
 #include <string>
+
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 namespace {
 void run() {
   std::filesystem::path path1{"p1"};
@@ -38,8 +42,12 @@ void run() {
 }
 }  // namespace
 
-struct DirectoryRunner {
-  DirectoryRunner() { run(); }
+class Directory : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Directory"; }
+  std::string description() const override { return ""; }
+  void execute() override { run(); }
 };
 
-static DirectoryRunner autoRunner;
+REGISTER_EXAMPLE(Directory, "core", "Directory");

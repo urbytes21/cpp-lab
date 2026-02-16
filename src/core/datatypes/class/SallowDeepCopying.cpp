@@ -151,11 +151,18 @@ void run() {
 }  // namespace DeepCopying
 }  // namespace
 
-struct ShallowDeepCopying {
-  ShallowDeepCopying() {
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class ShallowDeepCopying : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "ShallowDeepCopying"; }
+  std::string description() const override { return ""; }
+  void execute() override {
     Shallow::run();
     DeepCopying::run();
   }
 };
 
-static ShallowDeepCopying instance;
+REGISTER_EXAMPLE(ShallowDeepCopying, "core", "ShallowDeepCopying");

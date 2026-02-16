@@ -171,7 +171,7 @@ class Model {
   // noexcept is a specifier that indicates a function will not throw
   // exceptions.
   Model(Model&& other) noexcept
-      : cstring(std::exchange(other.cstring, nullptr)) {};
+      : cstring(std::exchange(other.cstring, nullptr)){};
 
   // V. move assignment
   Model& operator=(Model&& other) noexcept {
@@ -271,9 +271,16 @@ void run() {
 }
 }  // namespace RoleOfZero
 }  // namespace
-struct RoleOfThreeFiveZeroAutoRunner {
-  // Virtual default destructor: Does not break Rule of Three, Five, or Zero
-  RoleOfThreeFiveZeroAutoRunner() {
+
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class RoleOfThreeFiveZero : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "RoleOfThreeFiveZero"; }
+  std::string description() const override { return ""; }
+  void execute() override {
     Problem::run();
     RoleOfThree::run();
     RoleOfFive::run();
@@ -281,4 +288,4 @@ struct RoleOfThreeFiveZeroAutoRunner {
   }
 };
 
-static RoleOfThreeFiveZeroAutoRunner instance;
+REGISTER_EXAMPLE(RoleOfThreeFiveZero, "core", "RoleOfThreeFiveZero");

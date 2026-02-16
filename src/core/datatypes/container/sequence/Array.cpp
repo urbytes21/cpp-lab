@@ -10,8 +10,8 @@
 #include <iostream>
 
 namespace {
-void example() {
-    std::cout << "\n--- std::array Example ---\n";
+void run() {
+  std::cout << "\n--- std::array Example ---\n";
   // 1) Init
   std::array<int, 3> m_array = {9, 100, 0};
   // m_array = {1,2,3,5,6}; // ERROR
@@ -69,13 +69,20 @@ void example() {
   board.fill({0xE2, 0x96, 0x84, 0xE2, 0x96, 0x80, 0,
               0});  // "▄▀"; // fill means fill all 16 Cell with "▄▀"
   //   board = {Cell{0xE2, 0x96, 0x84, 0xE2, 0x96, 0x80, 0, 0},Cell{0xE2, 0x96, 0x84, 0xE2, 0x96, 0x80, 0, 0}};
-  for (std::size_t count{}; Cell c : board)
+  for (size_t count{}; Cell c : board)
     std::cout << c.data() << ((++count % xy) ? "" : "\n");
 }
 }  // namespace
 
-struct ArrayRunner {
-  ArrayRunner() { example(); }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Array : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Array"; }
+  std::string description() const override { return ""; }
+  void execute() override { run(); }
 };
 
-static ArrayRunner autoRunner;
+REGISTER_EXAMPLE(Array, "core", "Array");

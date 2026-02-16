@@ -12,6 +12,10 @@
 // UML: docs/uml/patterns_structural_bridge.drawio.svg
 
 #include <iostream>
+
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 namespace {
 namespace Problem {
 class Widget {
@@ -166,13 +170,16 @@ void run() {
 }
 }  // namespace BridgePattern
 
-struct BridgeAutoRunner {
-  BridgeAutoRunner() {
-    std::cout << "\n--- Bridge Pattern Example ---\n";
+class BridgeExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Bridge"; }
+  std::string description() const override { return "Bridge Pattern Example"; }
+  void execute() override {
     Problem::run();
     BridgePattern::run();
   }
 };
 
-static BridgeAutoRunner instance;
+REGISTER_EXAMPLE(BridgeExample, "patterns", "Bridge");
 }  // namespace

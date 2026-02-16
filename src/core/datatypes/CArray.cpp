@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 void arrayExamples() {
   std::cout << "\n--- Array Examples ---\n";
 
@@ -17,8 +20,12 @@ void arrayExamples() {
   }
 }
 
-struct CArray {
-  CArray() { arrayExamples(); }
+class CArray : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CArray"; }
+  std::string description() const override { return ""; }
+  void execute() override { arrayExamples(); }
 };
 
-static CArray autoRunArray;
+REGISTER_EXAMPLE(CArray, "core", "CArray");

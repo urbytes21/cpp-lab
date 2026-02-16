@@ -34,11 +34,17 @@ void run() {
 }
 }  // namespace
 
-struct ThrowNoexceptRunner {
-  ThrowNoexceptRunner() {
-    std::cout << "\n--- Exception throw/noexcept Example ---\n";
-    run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class ThrowNoexcept : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "ThrowNoexcept"; }
+  std::string description() const override {
+    return "Exception throw/noexcept Example";
   }
+  void execute() override { run(); }
 };
 
-static ThrowNoexceptRunner autoRunner;
+REGISTER_EXAMPLE(ThrowNoexcept, "core", "ThrowNoexcept");

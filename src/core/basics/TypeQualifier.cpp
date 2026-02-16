@@ -30,13 +30,15 @@ void run() {
 
 }  // namespace
 
-struct TypeQualifier {
-  TypeQualifier() {
-    cout << "\n"
-         << "\n"
-         << "TypeQualifier\n";
-    Constant::run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class TypeQualifier : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "TypeQualifier"; }
+  std::string description() const override { return "TypeQualifier"; }
+  void execute() override { Constant::run(); }
 };
 
-static TypeQualifier autoRunInstance;
+REGISTER_EXAMPLE(TypeQualifier, "core", "TypeQualifier");

@@ -141,12 +141,18 @@ void run() {
 }
 }  // namespace CaseStudy
 
-struct AdapterAutoRunner {
-  AdapterAutoRunner() {
-    std::cout << "\n--- Factory Pattern Example ---\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class AdapterExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Adapter"; }
+  std::string description() const override { return "Factory Pattern Example"; }
+  void execute() override {
     AdapterPattern::run();
     CaseStudy::run();
   }
 };
 
-static AdapterAutoRunner instance;
+REGISTER_EXAMPLE(AdapterExample, "patterns", "Adapter");

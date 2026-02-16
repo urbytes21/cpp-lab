@@ -24,16 +24,21 @@ void run() {
 }
 }  // namespace InlineWay
 
-struct SharingGlobalConstantsAcrossMultipleFilesngAutoRunner {
-  SharingGlobalConstantsAcrossMultipleFilesngAutoRunner() {
-    cout << "\n"
-         << "\n"
-         << "SharingGlobalConstantsAcrossMultipleFiles\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
 
+class Sharing : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Sharing"; }
+  std::string description() const override {
+    return "SharingGlobalConstantsAcrossMultipleFiles";
+  }
+  void execute() override {
     InternalWay::run();  // prefer 2
     ExternalWay::run();
     InlineWay::run();  // prefer 1
   }
 };
 
-static SharingGlobalConstantsAcrossMultipleFilesngAutoRunner autoRunInstance;
+REGISTER_EXAMPLE(Sharing, "core", "Sharing");

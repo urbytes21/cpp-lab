@@ -161,11 +161,15 @@ void run() {
 }  // namespace BuilderPattern
 }  // namespace
 
-struct BuilderAutoRunner {
-  BuilderAutoRunner() {
-    std::cout << "\n--- Builder Pattern Example ---\n";
-    BuilderPattern::run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class BuilderExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Builder"; }
+  std::string description() const override { return "Builder Pattern Example"; }
+  void execute() override { BuilderPattern::run(); }
 };
 
-static BuilderAutoRunner instance;
+REGISTER_EXAMPLE(BuilderExample, "patterns", "Builder");

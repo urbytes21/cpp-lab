@@ -82,17 +82,20 @@ void run() {
 
 }  // namespace RvalueReference
 
-// A struct that runs code when its object is created
-struct CReferences {
-  CReferences() {
-    cout << "\n"
-         << "\n"
-         << "Compound type: References\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
 
+class CReferences : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CReferences"; }
+  std::string description() const override {
+    return "Compound type: References";
+  }
+  void execute() override {
     references();
     RvalueReference::run();
   }
 };
 
-// All global and static objects are constructed before main() begins.
-static CReferences autoRunInstance;
+REGISTER_EXAMPLE(CReferences, "core", "CReferences");

@@ -103,16 +103,15 @@ void pointers() {
   std::cout << "By ptr: " << *b_ptr << '\n';
 }
 
-// A struct that runs code when its object is created
-struct CPointers {
-  CPointers() {
-    cout << "\n"
-         << "\n"
-         << "Compound type: Pointers\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
 
-    pointers();
-  }
+class CPointers : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CPointers"; }
+  std::string description() const override { return "Compound type: Pointers"; }
+  void execute() override { pointers(); }
 };
 
-// All global and static objects are constructed before main() begins.
-static CPointers autoRunInstance;
+REGISTER_EXAMPLE(CPointers, "core", "CPointers");

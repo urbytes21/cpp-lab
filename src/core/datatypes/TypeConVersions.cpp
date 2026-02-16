@@ -144,8 +144,15 @@ void typeDeduction() {
   cout << "common_type<int,double>: " << val << "\n";
 }
 
-struct CTypeConversion {
-  CTypeConversion() {
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class CTypeConversion : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CTypeConversion"; }
+  std::string description() const override { return ""; }
+  void execute() override {
     implicitConversion();
     explicitConversion();
 
@@ -154,4 +161,4 @@ struct CTypeConversion {
   }
 };
 
-static CTypeConversion autoRunTypes;
+REGISTER_EXAMPLE(CTypeConversion, "core", "CTypeConversion");

@@ -12,7 +12,7 @@
 #include <vector>
 
 namespace {
-void example() {
+void run() {
   std::cout << "\n--- std::unordered_map Example ---\n";
   // 1) Init
   std::unordered_map<std::string, int> m_map{
@@ -69,8 +69,15 @@ void example() {
 }
 }  // namespace
 
-struct UnorderedMap {
-  UnorderedMap() { example(); }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class UnorderedMap : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "UnorderedMap"; }
+  std::string description() const override { return ""; }
+  void execute() override { run(); }
 };
 
-static UnorderedMap autoRunner;
+REGISTER_EXAMPLE(UnorderedMap, "core", "UnorderedMap");

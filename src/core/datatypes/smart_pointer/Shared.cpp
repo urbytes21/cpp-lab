@@ -65,11 +65,15 @@ void run() {
 
 }  // namespace
 
-struct SharedRunner {
-  SharedRunner() {
-    std::cout << "\n--- Shared Pointer Example ---\n";
-    run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Shared : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Shared"; }
+  std::string description() const override { return "Shared Pointer Example"; }
+  void execute() override { run(); }
 };
 
-static SharedRunner autoRunner;
+REGISTER_EXAMPLE(Shared, "core", "Shared");

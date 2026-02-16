@@ -1,6 +1,9 @@
 #include <iostream>
 #include "pid.h"
 
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 namespace {
 void run() {
   PID pid = PID(0.1, 100, -100, 0.1, 0.01, 0.5);
@@ -15,8 +18,12 @@ void run() {
 }
 }  // namespace
 
-struct PIDSimRunner {
-  PIDSimRunner() { run(); }
+class PIDSim : public IExample {
+ public:
+  std::string group() const override { return "controller"; }
+  std::string name() const override { return "PIDSim"; }
+  std::string description() const override { return "PID example"; }
+  void execute() override { run(); }
 };
 
-static PIDSimRunner autoRunner;
+REGISTER_EXAMPLE(PIDSim, "controller", "PIDSim");

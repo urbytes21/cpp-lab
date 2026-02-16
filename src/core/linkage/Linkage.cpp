@@ -38,14 +38,18 @@ void run() {
 
 }  // namespace External
 
-struct LinkageAutoRunner {
-  LinkageAutoRunner() {
-    cout << "\n"
-         << "\n"
-         << "Linkage\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Linkage : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Linkage"; }
+  std::string description() const override { return "Linkage"; }
+  void execute() override {
     Internal::run();
     External::run();
   }
 };
 
-static LinkageAutoRunner autoRunInstance;
+REGISTER_EXAMPLE(Linkage, "core", "Linkage");
