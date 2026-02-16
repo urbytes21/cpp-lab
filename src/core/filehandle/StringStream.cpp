@@ -1,8 +1,12 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 namespace {
-void run() {
+void runStringStreamExample() {
   std::cout << "\n--- String Stream Example ---\n";
 
   std::stringstream os{};
@@ -34,8 +38,12 @@ void run() {
 }
 }  // namespace
 
-struct StringStreamRunner {
-  StringStreamRunner() { run(); }
+class StringStream : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "StringStream"; }
+  std::string description() const override { return ""; }
+  void execute() override { runStringStreamExample(); }
 };
 
-static StringStreamRunner autoRunner;
+REGISTER_EXAMPLE(StringStream, "core", "StringStream");

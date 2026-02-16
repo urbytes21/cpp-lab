@@ -37,12 +37,15 @@ void unionDemo() {
 }
 
 // --- Auto-run struct ---
-struct CUnion {
-  CUnion() {
-    std::cout << "\nCompound type: Union\n";
-    unionDemo();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class CUnion : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CUnion"; }
+  std::string description() const override { return "Compound type: Union"; }
+  void execute() override { unionDemo(); }
 };
 
-// Constructed before main()
-static CUnion autoRunUnionInstance;
+REGISTER_EXAMPLE(CUnion, "core", "CUnion");

@@ -196,11 +196,17 @@ void run() {
 }  // namespace Iterator
 }  // namespace
 
-struct IteratorAutoRunner {
-  IteratorAutoRunner() {
-    std::cout << "\n--- Iterator Pattern Example ---\n";
-    Iterator::run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class IteratorExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Iterator"; }
+  std::string description() const override {
+    return "Iterator Pattern Example";
   }
+  void execute() override { Iterator::run(); }
 };
 
-static IteratorAutoRunner instance;
+REGISTER_EXAMPLE(IteratorExample, "patterns", "Iterator");

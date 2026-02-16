@@ -132,11 +132,15 @@ void run() {
 }  // namespace State
 }  // namespace
 
-struct StateAutoRunner {
-  StateAutoRunner() {
-    std::cout << "\n--- State Pattern Example ---\n";
-    State::run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class StateExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "State"; }
+  std::string description() const override { return "State Pattern Example"; }
+  void execute() override { State::run(); }
 };
 
-static StateAutoRunner instance;
+REGISTER_EXAMPLE(StateExample, "patterns", "State");

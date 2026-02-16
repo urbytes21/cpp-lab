@@ -106,8 +106,15 @@ void run() {
 }
 }  // namespace
 
-struct FileIO {
-  FileIO() { run(); }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class FileIO : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "FileIO"; }
+  std::string description() const override { return ""; }
+  void execute() override { run(); }
 };
 
-static FileIO autoRunner;
+REGISTER_EXAMPLE(FileIO, "core", "FileIO");

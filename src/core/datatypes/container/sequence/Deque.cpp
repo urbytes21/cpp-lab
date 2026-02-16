@@ -35,11 +35,15 @@ void run() {
 }
 }  // namespace
 
-struct DequeRunner {
-  DequeRunner() {
-    std::cout << "\n--- std::deque Example ---\n";
-    run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Deque : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Deque"; }
+  std::string description() const override { return "std::deque Example"; }
+  void execute() override { run(); }
 };
 
-static DequeRunner autoRunner;
+REGISTER_EXAMPLE(Deque, "core", "Deque");

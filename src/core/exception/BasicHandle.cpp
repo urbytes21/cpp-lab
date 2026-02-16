@@ -23,11 +23,17 @@ void run() {
 }
 }  // namespace
 
-struct BasicHandleRunner {
-  BasicHandleRunner() {
-    std::cout << "\n--- Basic Expception Handle Example ---\n";
-    run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class BasicHandle : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "BasicHandle"; }
+  std::string description() const override {
+    return "Basic Expception Handle Example";
   }
+  void execute() override { run(); }
 };
 
-static BasicHandleRunner autoRunner;
+REGISTER_EXAMPLE(BasicHandle, "core", "BasicHandle");

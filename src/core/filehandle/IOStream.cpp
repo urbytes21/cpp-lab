@@ -2,6 +2,9 @@
 #include <sstream>
 #include <string>
 
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 namespace {
 void run() {
   std::cout << "\n--- IO Streams Example ---\n";
@@ -28,8 +31,12 @@ void run() {
 }
 }  // namespace
 
-struct IOStreamRunner {
-  IOStreamRunner() { run(); }
+class IOStream : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "IOStream"; }
+  std::string description() const override { return ""; }
+  void execute() override { run(); }
 };
 
-static IOStreamRunner autoRunner;
+REGISTER_EXAMPLE(IOStream, "core", "IOStream");

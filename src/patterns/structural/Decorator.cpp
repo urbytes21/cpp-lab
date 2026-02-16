@@ -185,12 +185,20 @@ void run() {
 
 }  // namespace
 
-struct DecoratorAutoRunner {
-  DecoratorAutoRunner() {
-    std::cout << "\n--- Decorator Pattern Example ---\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class DecoratorExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Decorator"; }
+  std::string description() const override {
+    return "Decorator Pattern Example";
+  }
+  void execute() override {
     Problem::run();
     DecoratorPattern::run();
   }
 };
 
-static DecoratorAutoRunner instance;
+REGISTER_EXAMPLE(DecoratorExample, "patterns", "Decorator");

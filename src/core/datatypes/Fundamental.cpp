@@ -50,16 +50,15 @@ void primative() {
   cout << "nullptr_t: " << ptr << "\n";
 }
 
-// A struct that runs code when its object is created
-struct Fundamental {
-  Fundamental() {
-    cout << "\n"
-         << "\n"
-         << "Fundamental\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
 
-    primative();
-  }
+class Fundamental : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Fundamental"; }
+  std::string description() const override { return "Fundamental"; }
+  void execute() override { primative(); }
 };
 
-// All global and static objects are constructed before main() begins.
-static Fundamental autoRunInstance;
+REGISTER_EXAMPLE(Fundamental, "core", "Fundamental");

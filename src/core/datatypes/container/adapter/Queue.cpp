@@ -42,11 +42,15 @@ void run() {
 }
 }  // namespace
 
-struct QueueRunner {
-  QueueRunner() {
-    std::cout << "\n--- std::queue Example ---\n";
-    run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Queue : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Queue"; }
+  std::string description() const override { return "std::queue Example"; }
+  void execute() override { run(); }
 };
 
-static QueueRunner autoRunner;
+REGISTER_EXAMPLE(Queue, "core", "Queue");

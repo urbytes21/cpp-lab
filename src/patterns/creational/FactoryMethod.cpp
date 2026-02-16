@@ -130,11 +130,17 @@ void run() {
 }  // namespace FactoryMethod
 }  // namespace
 
-struct FactoryMethodAutoRunner {
-  FactoryMethodAutoRunner() {
-    std::cout << "\n--- FactoryMethod Pattern Example ---\n";
-    FactoryMethod::run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class FactoryMethodExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "FactoryMethod"; }
+  std::string description() const override {
+    return "FactoryMethod Pattern Example";
   }
+  void execute() override { FactoryMethod::run(); }
 };
 
-static FactoryMethodAutoRunner instance;
+REGISTER_EXAMPLE(FactoryMethodExample, "patterns", "FactoryMethod");

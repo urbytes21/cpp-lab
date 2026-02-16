@@ -302,8 +302,15 @@ void constructers() {
 }
 }  // namespace Move
 
-struct CConstructorsAutoRunner {
-  CConstructorsAutoRunner() {
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class CConstructors : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CConstructors"; }
+  std::string description() const override { return ""; }
+  void execute() override {
     InitializerList::constructers();
     Default::constructers();
     Delegate::constructors();
@@ -312,4 +319,4 @@ struct CConstructorsAutoRunner {
   }
 };
 
-static CConstructorsAutoRunner instance;
+REGISTER_EXAMPLE(CConstructors, "core", "CConstructors");

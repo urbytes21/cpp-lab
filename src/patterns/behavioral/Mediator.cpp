@@ -162,11 +162,17 @@ void run() {
 }  // namespace Mediator
 }  // namespace
 
-struct MediatorAutoRunner {
-  MediatorAutoRunner() {
-    std::cout << "\n--- Mediator Pattern Example ---\n";
-    Mediator::run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class MediatorExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Mediator"; }
+  std::string description() const override {
+    return "Mediator Pattern Example";
   }
+  void execute() override { Mediator::run(); }
 };
 
-static MediatorAutoRunner instance;
+REGISTER_EXAMPLE(MediatorExample, "patterns", "Mediator");

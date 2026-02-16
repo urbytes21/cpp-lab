@@ -61,16 +61,15 @@ void structs() {
   s2.print();
 }
 
-// A struct that runs code when its object is created
-struct CStruct {
-  CStruct() {
-    cout << "\n"
-         << "\n"
-         << "Compound type: Struct\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
 
-    structs();
-  }
+class CStruct : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CStruct"; }
+  std::string description() const override { return "Compound type: Struct"; }
+  void execute() override { structs(); }
 };
 
-// All global and static objects are constructed before main() begins.
-static CStruct autoRunInstance;
+REGISTER_EXAMPLE(CStruct, "core", "CStruct");

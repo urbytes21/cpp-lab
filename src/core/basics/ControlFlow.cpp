@@ -116,12 +116,15 @@ void exceptions() {
   }
 }
 
-// A struct that runs code when its object is created
-struct ControlFlow {
-  ControlFlow() {
-    cout << "\n"
-         << "\n"
-         << "ControlFlow\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class ControlFlow : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "ControlFlow"; }
+  std::string description() const override { return "ControlFlow"; }
+  void execute() override {
     conditionals();
     jumps();
     functionCalls();
@@ -131,5 +134,4 @@ struct ControlFlow {
   }
 };
 
-// All global and static objects are constructed before main() begins.
-static ControlFlow autoRunInstance;
+REGISTER_EXAMPLE(ControlFlow, "core", "ControlFlow");

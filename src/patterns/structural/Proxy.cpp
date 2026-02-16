@@ -15,6 +15,10 @@
 // UML: docs/uml/patterns_structural_proxy.drawio.svg
 
 #include <iostream>
+
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 namespace {
 namespace Problem {
 const std::string admin = "admin";
@@ -216,13 +220,16 @@ void run() {
 }
 }  // namespace ProxyPattern
 
-struct ProxyAutoRunner {
-  ProxyAutoRunner() {
-    std::cout << "\n--- Proxy Pattern Example ---\n";
+class ProxyExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Proxy"; }
+  std::string description() const override { return "Proxy Pattern Example"; }
+  void execute() override {
     Problem::run();
     ProxyPattern::run();
   }
 };
 
-static ProxyAutoRunner instance;
+REGISTER_EXAMPLE(ProxyExample, "patterns", "Proxy");
 }  // namespace

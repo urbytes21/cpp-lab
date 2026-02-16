@@ -175,11 +175,17 @@ void run() {
 }  // namespace Observer
 }  // namespace
 
-struct ObserverAutoRunner {
-  ObserverAutoRunner() {
-    std::cout << "\n--- Observer Pattern Example ---\n";
-    Observer::run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class ObserverExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Observer"; }
+  std::string description() const override {
+    return "Observer Pattern Example";
   }
+  void execute() override { Observer::run(); }
 };
 
-static ObserverAutoRunner instance;
+REGISTER_EXAMPLE(ObserverExample, "patterns", "Observer");

@@ -101,11 +101,17 @@ void run() {
 }  // namespace Strategy
 }  // namespace
 
-struct StrategyAutoRunner {
-  StrategyAutoRunner() {
-    std::cout << "\n--- Strategy Pattern Example ---\n";
-    Strategy::run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class StrategyExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Strategy"; }
+  std::string description() const override {
+    return "Strategy Pattern Example";
   }
+  void execute() override { Strategy::run(); }
 };
 
-static StrategyAutoRunner instance;
+REGISTER_EXAMPLE(StrategyExample, "patterns", "Strategy");

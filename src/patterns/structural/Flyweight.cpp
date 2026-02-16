@@ -327,12 +327,20 @@ void run() {
 }  // namespace FlyweightPattern
 }  // namespace
 
-struct FlyweightAutoRunner {
-  FlyweightAutoRunner() {
-    std::cout << "\n--- Flyweight Pattern Example ---\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class FlyweightExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Flyweight"; }
+  std::string description() const override {
+    return "Flyweight Pattern Example";
+  }
+  void execute() override {
     Problem::run();
     FlyweightPattern::run();
   }
 };
 
-static FlyweightAutoRunner instance;
+REGISTER_EXAMPLE(FlyweightExample, "patterns", "Flyweight");

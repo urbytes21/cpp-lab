@@ -1,20 +1,20 @@
 #include <iostream>
 using namespace std;
 
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
 void initialize_variable();
 
-// A struct that runs code when its object is created
-struct InitializeVariable {
-  InitializeVariable() {
-    cout << "\n"
-         << "\n"
-         << "InitializeVariable\n";
-    initialize_variable();
-  }
+class InitializeVariable : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "InitializeVariable"; }
+  std::string description() const override { return "InitializeVariable"; }
+  void execute() override { initialize_variable(); }
 };
 
-// All global and static objects are constructed before main() begins.
-static InitializeVariable autoRunInstance;
+REGISTER_EXAMPLE(InitializeVariable, "core", "InitializeVariable");
 
 struct Foo {
   Foo() { cout << "Default constructor/ default init\n"; }

@@ -53,11 +53,15 @@ void run() {
 }
 }  // namespace
 
-struct UniqueRunner {
-  UniqueRunner() {
-    std::cout << "\n--- Unique Pointer Example ---\n";
-    run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Unique : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Unique"; }
+  std::string description() const override { return "Unique Pointer Example"; }
+  void execute() override { run(); }
 };
 
-static UniqueRunner autoRunner;
+REGISTER_EXAMPLE(Unique, "core", "Unique");

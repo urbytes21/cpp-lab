@@ -30,8 +30,7 @@ void run() {
   std::cout << "Before sorting : \n";
   f_print(vect);
 
-  std::cout << "Sorting in descending "
-            << "order \n";
+  std::cout << "Sorting in descending " << "order \n";
 
   // Use auto
   auto sortTypeAuto = increase;
@@ -41,8 +40,7 @@ void run() {
   SortFcn sortTypePtr = decrease;
   f_print(vect);
 
-  std::cout << "Sorting with absolute "
-            << "value as parameter\n ";
+  std::cout << "Sorting with absolute " << "value as parameter\n ";
   std::sort(vect.begin(), vect.end(), sortTypePtr);
 
   for (auto i : vect)
@@ -51,11 +49,17 @@ void run() {
 }
 }  // namespace
 
-struct FunctionPointer {
-  FunctionPointer() {
-    std::cout << "\n--- Function Pointer Example ---\n";
-    run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class FunctionPointer : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "FunctionPointer"; }
+  std::string description() const override {
+    return "Function Pointer Example";
   }
+  void execute() override { run(); }
 };
 
-static FunctionPointer autoRunner;
+REGISTER_EXAMPLE(FunctionPointer, "core", "FunctionPointer");

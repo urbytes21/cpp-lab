@@ -39,16 +39,15 @@ void enums() {
   [[maybe_unused]] ScopeEnumClassB st = ScopeEnumClassB::enumratorA;
 }
 
-// A struct that runs code when its object is created
-struct CEnum {
-  CEnum() {
-    cout << "\n"
-         << "\n"
-         << "Compound type: Enum\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
 
-    enums();
-  }
+class CEnum : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CEnum"; }
+  std::string description() const override { return "Compound type: Enum"; }
+  void execute() override { enums(); }
 };
 
-// All global and static objects are constructed before main() begins.
-static CEnum autoRunInstance;
+REGISTER_EXAMPLE(CEnum, "core", "CEnum");

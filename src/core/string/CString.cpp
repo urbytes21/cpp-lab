@@ -191,10 +191,15 @@ void run() {
 }  // namespace NumberConversion
 }  // namespace
 
-struct CStringAutoRunner {
-  CStringAutoRunner() {
-    std::cout << "\n--- C String Example ---\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
 
+class CString : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CString"; }
+  std::string description() const override { return "C String Example"; }
+  void execute() override {
     InitializeString::run();
     CopyString::run();
     ConcatString::run();
@@ -205,4 +210,4 @@ struct CStringAutoRunner {
   }
 };
 
-static CStringAutoRunner instance;
+REGISTER_EXAMPLE(CString, "core", "CString");

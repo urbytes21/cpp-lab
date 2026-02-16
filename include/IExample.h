@@ -8,5 +8,5 @@ class IExample {
   virtual std::string name() const = 0;
   virtual std::string description() const = 0;
 
-  virtual void run() = 0;
+  virtual void execute() = 0;
 };

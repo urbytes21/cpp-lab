@@ -125,11 +125,15 @@ void run() {
 }  // namespace Command
 }  // namespace
 
-struct CommandAutoRunner {
-  CommandAutoRunner() {
-    std::cout << "\n--- Command Pattern Example ---\n";
-    Command::run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class CommandExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Command"; }
+  std::string description() const override { return "Command Pattern Example"; }
+  void execute() override { Command::run(); }
 };
 
-static CommandAutoRunner instance;
+REGISTER_EXAMPLE(CommandExample, "patterns", "Command");

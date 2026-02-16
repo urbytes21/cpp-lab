@@ -70,11 +70,17 @@ void run() {
 }  // namespace SingletonPattern
 }  // namespace
 
-struct SingletonAutoRunner {
-  SingletonAutoRunner() {
-    std::cout << "\n--- Singleton Pattern Example ---\n";
-    SingletonPattern::run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class SingletonExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Singleton"; }
+  std::string description() const override {
+    return "Singleton Pattern Example";
   }
+  void execute() override { SingletonPattern::run(); }
 };
 
-static SingletonAutoRunner instance;
+REGISTER_EXAMPLE(SingletonExample, "patterns", "Singleton");

@@ -425,12 +425,20 @@ void run() {
 
 }  // namespace
 
-struct CompositeAutoRunner {
-  CompositeAutoRunner() {
-    std::cout << "\n--- Composite Pattern Example ---\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class CompositeExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Composite"; }
+  std::string description() const override {
+    return "Composite Pattern Example";
+  }
+  void execute() override {
     Problem::run();
     CompositePattern::run();
   }
 };
 
-static CompositeAutoRunner instance;
+REGISTER_EXAMPLE(CompositeExample, "patterns", "Composite");

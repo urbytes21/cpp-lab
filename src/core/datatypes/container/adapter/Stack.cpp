@@ -41,11 +41,15 @@ void run() {
 }
 }  // namespace
 
-struct StackRunner {
-  StackRunner() {
-    std::cout << "\n--- std::stack Example ---\n";
-    run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Stack : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Stack"; }
+  std::string description() const override { return "std::stack Example"; }
+  void execute() override { run(); }
 };
 
-static StackRunner autoRunner;
+REGISTER_EXAMPLE(Stack, "core", "Stack");

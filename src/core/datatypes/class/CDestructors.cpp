@@ -57,11 +57,18 @@ void destructers() {
 }
 }  // namespace Virtual
 
-struct CDestructorsAutoRunner {
-  CDestructorsAutoRunner() {
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class CDestructors : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "CDestructors"; }
+  std::string description() const override { return ""; }
+  void execute() override {
     Basic::destructers();
     Virtual::destructers();
   }
 };
 
-static CDestructorsAutoRunner instance;
+REGISTER_EXAMPLE(CDestructors, "core", "CDestructors");

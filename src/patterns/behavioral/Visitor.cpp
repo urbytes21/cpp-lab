@@ -236,11 +236,15 @@ void run() {
 }  // namespace Visitor
 }  // namespace
 
-struct VisitorAutoRunner {
-  VisitorAutoRunner() {
-    std::cout << "\n--- Visitor Pattern Example ---\n";
-    Visitor::run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class VisitorExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Visitor"; }
+  std::string description() const override { return "Visitor Pattern Example"; }
+  void execute() override { Visitor::run(); }
 };
 
-static VisitorAutoRunner instance;
+REGISTER_EXAMPLE(VisitorExample, "patterns", "Visitor");

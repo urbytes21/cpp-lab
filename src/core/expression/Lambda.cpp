@@ -22,14 +22,12 @@ void run() {
   std::cout << "Before sorting : \n";
   f_print(vect);
 
-  std::cout << "Sorting in descending "
-            << "order \n";
+  std::cout << "Sorting in descending " << "order \n";
   std::sort(vect.begin(), vect.end(), [](int a, int b) { return a > b; });
 
   f_print(vect);
 
-  std::cout << "Sorting with absolute "
-            << "value as parameter\n ";
+  std::cout << "Sorting with absolute " << "value as parameter\n ";
   std::sort(vect.begin(), vect.end(), [](int a, int b) { return a < b; });
 
   for (auto i : vect)
@@ -38,11 +36,17 @@ void run() {
 }
 }  // namespace
 
-struct LambdaRunner {
-  LambdaRunner() {
-    std::cout << "\n--- Lambda Expression Example ---\n";
-    run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class Lambda : public IExample {
+ public:
+  std::string group() const override { return "core"; }
+  std::string name() const override { return "Lambda"; }
+  std::string description() const override {
+    return "Lambda Expression Example";
   }
+  void execute() override { run(); }
 };
 
-static LambdaRunner autoRunner;
+REGISTER_EXAMPLE(Lambda, "core", "Lambda");

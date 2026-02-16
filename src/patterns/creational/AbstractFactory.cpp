@@ -163,11 +163,17 @@ void run() {
 }  // namespace AbstractFactory
 }  // namespace
 
-struct AbstractFactoryAutoRunner {
-  AbstractFactoryAutoRunner() {
-    std::cout << "\n--- AbstractFactory Pattern Example ---\n";
-    AbstractFactory::run();
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class AbstractFactoryExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "AbstractFactory"; }
+  std::string description() const override {
+    return "AbstractFactory Pattern Example";
   }
+  void execute() override { AbstractFactory::run(); }
 };
 
-static AbstractFactoryAutoRunner instance;
+REGISTER_EXAMPLE(AbstractFactoryExample, "patterns", "AbstractFactory");

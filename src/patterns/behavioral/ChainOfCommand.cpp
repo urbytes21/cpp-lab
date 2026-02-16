@@ -134,11 +134,16 @@ void run() {
 
 }  // namespace
 
-struct CoRAutoRunner {
-  CoRAutoRunner() {
-    std::cout << "\n--- CoR Pattern Example ---\n";
-    CoR::run();
-  }
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class ChainOfResponsibilityExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "ChainOfResponsibility"; }
+  std::string description() const override { return "CoR Pattern Example"; }
+  void execute() override { CoR::run(); }
 };
 
-static CoRAutoRunner instance;
+REGISTER_EXAMPLE(ChainOfResponsibilityExample, "patterns",
+                 "ChainOfResponsibility");

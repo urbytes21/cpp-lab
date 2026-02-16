@@ -209,12 +209,18 @@ void run() {
 }  // namespace Facade
 }  // namespace
 
-struct FacadeAutoRunner {
-  FacadeAutoRunner() {
-    std::cout << "\n--- Facade Pattern Example ---\n";
+#include "ExampleRegistry.h"
+#include "IExample.h"
+
+class FacadeExample : public IExample {
+ public:
+  std::string group() const override { return "patterns"; }
+  std::string name() const override { return "Facade"; }
+  std::string description() const override { return "Facade Pattern Example"; }
+  void execute() override {
     Problem::run();
     Facade::run();
   }
 };
 
-static FacadeAutoRunner instance;
+REGISTER_EXAMPLE(FacadeExample, "patterns", "Facade");
