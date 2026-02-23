@@ -146,7 +146,7 @@ void run() {
 
 class AdapterExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/structural"; }
   std::string name() const override { return "Adapter"; }
   std::string description() const override { return "Factory Pattern Example"; }
   void execute() override {
@@ -155,4 +155,4 @@ class AdapterExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(AdapterExample, "patterns", "Adapter");
+REGISTER_EXAMPLE(AdapterExample, "patterns/structural", "Adapter");

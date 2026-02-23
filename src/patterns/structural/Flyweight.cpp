@@ -332,7 +332,7 @@ void run() {
 
 class FlyweightExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/structural"; }
   std::string name() const override { return "Flyweight"; }
   std::string description() const override {
     return "Flyweight Pattern Example";
@@ -343,4 +343,4 @@ class FlyweightExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(FlyweightExample, "patterns", "Flyweight");
+REGISTER_EXAMPLE(FlyweightExample, "patterns/structural", "Flyweight");

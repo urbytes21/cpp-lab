@@ -214,7 +214,7 @@ void run() {
 
 class FacadeExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/structural"; }
   std::string name() const override { return "Facade"; }
   std::string description() const override { return "Facade Pattern Example"; }
   void execute() override {
@@ -223,4 +223,4 @@ class FacadeExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(FacadeExample, "patterns", "Facade");
+REGISTER_EXAMPLE(FacadeExample, "patterns/structural", "Facade");
