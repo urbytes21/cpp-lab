@@ -122,7 +122,7 @@ void run() {
 
 class PrototypeExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/creational"; }
   std::string name() const override { return "Prototype"; }
   std::string description() const override {
     return "Prototype Pattern Example";
@@ -130,4 +130,4 @@ class PrototypeExample : public IExample {
   void execute() override { Prototy::run(); }
 };
 
-REGISTER_EXAMPLE(PrototypeExample, "patterns", "Prototype");
+REGISTER_EXAMPLE(PrototypeExample, "patterns/creational", "Prototype");

@@ -168,7 +168,7 @@ void run() {
 
 class AbstractFactoryExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/creational"; }
   std::string name() const override { return "AbstractFactory"; }
   std::string description() const override {
     return "AbstractFactory Pattern Example";
@@ -176,4 +176,4 @@ class AbstractFactoryExample : public IExample {
   void execute() override { AbstractFactory::run(); }
 };
 
-REGISTER_EXAMPLE(AbstractFactoryExample, "patterns", "AbstractFactory");
+REGISTER_EXAMPLE(AbstractFactoryExample, "patterns/creational", "AbstractFactory");
