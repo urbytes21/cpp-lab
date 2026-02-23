@@ -131,7 +131,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class FactoryMethodExample : public IExample {
  public:

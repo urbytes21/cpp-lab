@@ -83,7 +83,6 @@ void run() {
 }  // namespace RvalueReference
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CReferences : public IExample {
  public:

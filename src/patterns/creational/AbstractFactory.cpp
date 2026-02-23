@@ -164,7 +164,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class AbstractFactoryExample : public IExample {
  public:

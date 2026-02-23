@@ -145,7 +145,6 @@ void typeDeduction() {
 }
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CTypeConversion : public IExample {
  public:

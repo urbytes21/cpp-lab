@@ -46,10 +46,10 @@ void run() {
 
 class Stack : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/container"; }
   std::string name() const override { return "Stack"; }
   std::string description() const override { return "std::stack Example"; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Stack, "core", "Stack");
+REGISTER_EXAMPLE(Stack, "core/container", "Stack");

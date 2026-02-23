@@ -118,7 +118,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class PrototypeExample : public IExample {
  public:

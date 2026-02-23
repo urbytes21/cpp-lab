@@ -162,7 +162,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class BuilderExample : public IExample {
  public:

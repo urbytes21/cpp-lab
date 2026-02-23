@@ -104,7 +104,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class TemplateMethodExample : public IExample {
  public:

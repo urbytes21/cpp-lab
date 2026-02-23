@@ -38,7 +38,6 @@ void unionDemo() {
 
 // --- Auto-run struct ---
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CUnion : public IExample {
  public:

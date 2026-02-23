@@ -25,7 +25,6 @@ void run() {
 }  // namespace InlineWay
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Sharing : public IExample {
  public:

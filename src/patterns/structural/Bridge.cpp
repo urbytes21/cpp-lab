@@ -14,7 +14,6 @@
 #include <iostream>
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 namespace {
 namespace Problem {

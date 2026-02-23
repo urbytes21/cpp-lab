@@ -192,7 +192,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CString : public IExample {
  public:

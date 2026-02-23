@@ -51,7 +51,6 @@ void primative() {
 }
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Fundamental : public IExample {
  public:

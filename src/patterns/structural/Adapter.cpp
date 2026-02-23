@@ -142,7 +142,6 @@ void run() {
 }  // namespace CaseStudy
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class AdapterExample : public IExample {
  public:

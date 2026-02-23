@@ -210,7 +210,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class FacadeExample : public IExample {
  public:

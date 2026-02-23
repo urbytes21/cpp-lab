@@ -35,11 +35,10 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class ThrowNoexcept : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/exception"; }
   std::string name() const override { return "ThrowNoexcept"; }
   std::string description() const override {
     return "Exception throw/noexcept Example";
@@ -47,4 +46,4 @@ class ThrowNoexcept : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(ThrowNoexcept, "core", "ThrowNoexcept");
+REGISTER_EXAMPLE(ThrowNoexcept, "core/exception", "ThrowNoexcept");

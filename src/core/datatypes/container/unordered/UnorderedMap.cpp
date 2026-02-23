@@ -70,14 +70,13 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class UnorderedMap : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/container"; }
   std::string name() const override { return "UnorderedMap"; }
   std::string description() const override { return ""; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(UnorderedMap, "core", "UnorderedMap");
+REGISTER_EXAMPLE(UnorderedMap, "core/container", "UnorderedMap");

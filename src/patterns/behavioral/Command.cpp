@@ -126,7 +126,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CommandExample : public IExample {
  public:

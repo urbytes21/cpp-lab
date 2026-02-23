@@ -47,7 +47,6 @@ void run() {
  * wp.lock() != nullptr  // same condition
  */
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Weak : public IExample {
  public:

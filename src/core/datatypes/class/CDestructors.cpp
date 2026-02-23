@@ -58,7 +58,6 @@ void destructers() {
 }  // namespace Virtual
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CDestructors : public IExample {
  public:

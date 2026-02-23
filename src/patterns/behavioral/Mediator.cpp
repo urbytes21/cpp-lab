@@ -163,7 +163,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class MediatorExample : public IExample {
  public:

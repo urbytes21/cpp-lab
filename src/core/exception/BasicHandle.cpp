@@ -24,11 +24,10 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class BasicHandle : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/exception"; }
   std::string name() const override { return "BasicHandle"; }
   std::string description() const override {
     return "Basic Expception Handle Example";
@@ -36,4 +35,4 @@ class BasicHandle : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(BasicHandle, "core", "BasicHandle");
+REGISTER_EXAMPLE(BasicHandle, "core/exception", "BasicHandle");

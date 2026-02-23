@@ -135,7 +135,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class ChainOfResponsibilityExample : public IExample {
  public:

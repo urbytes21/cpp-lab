@@ -2,7 +2,6 @@
 using namespace std;
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 void arithmeticOperator();
 void logicalOperator();

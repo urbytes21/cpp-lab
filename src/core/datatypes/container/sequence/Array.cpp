@@ -75,14 +75,13 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Array : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/container"; }
   std::string name() const override { return "Array"; }
   std::string description() const override { return ""; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Array, "core", "Array");
+REGISTER_EXAMPLE(Array, "core/container", "Array");

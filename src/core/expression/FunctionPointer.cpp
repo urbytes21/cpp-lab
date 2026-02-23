@@ -50,11 +50,10 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class FunctionPointer : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/expression"; }
   std::string name() const override { return "FunctionPointer"; }
   std::string description() const override {
     return "Function Pointer Example";
@@ -62,4 +61,4 @@ class FunctionPointer : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(FunctionPointer, "core", "FunctionPointer");
+REGISTER_EXAMPLE(FunctionPointer, "core/expression", "FunctionPointer");
