@@ -180,7 +180,7 @@ void run() {
 
 class ObserverExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/behavioral"; }
   std::string name() const override { return "Observer"; }
   std::string description() const override {
     return "Observer Pattern Example";
@@ -188,4 +188,4 @@ class ObserverExample : public IExample {
   void execute() override { Observer::run(); }
 };
 
-REGISTER_EXAMPLE(ObserverExample, "patterns", "Observer");
+REGISTER_EXAMPLE(ObserverExample, "patterns/behavioral", "Observer");

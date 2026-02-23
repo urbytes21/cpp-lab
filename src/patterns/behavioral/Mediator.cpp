@@ -167,7 +167,7 @@ void run() {
 
 class MediatorExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/behavioral"; }
   std::string name() const override { return "Mediator"; }
   std::string description() const override {
     return "Mediator Pattern Example";
@@ -175,4 +175,4 @@ class MediatorExample : public IExample {
   void execute() override { Mediator::run(); }
 };
 
-REGISTER_EXAMPLE(MediatorExample, "patterns", "Mediator");
+REGISTER_EXAMPLE(MediatorExample, "patterns/behavioral", "Mediator");

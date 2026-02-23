@@ -201,7 +201,7 @@ void run() {
 
 class IteratorExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/behavioral"; }
   std::string name() const override { return "Iterator"; }
   std::string description() const override {
     return "Iterator Pattern Example";
@@ -209,4 +209,4 @@ class IteratorExample : public IExample {
   void execute() override { Iterator::run(); }
 };
 
-REGISTER_EXAMPLE(IteratorExample, "patterns", "Iterator");
+REGISTER_EXAMPLE(IteratorExample, "patterns/behavioral", "Iterator");

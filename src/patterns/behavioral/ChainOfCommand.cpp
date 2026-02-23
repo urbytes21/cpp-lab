@@ -139,11 +139,11 @@ void run() {
 
 class ChainOfResponsibilityExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/behavioral"; }
   std::string name() const override { return "ChainOfResponsibility"; }
   std::string description() const override { return "CoR Pattern Example"; }
   void execute() override { CoR::run(); }
 };
 
-REGISTER_EXAMPLE(ChainOfResponsibilityExample, "patterns",
+REGISTER_EXAMPLE(ChainOfResponsibilityExample, "patterns/behavioral",
                  "ChainOfResponsibility");
