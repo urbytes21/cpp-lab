@@ -45,7 +45,7 @@ void runMenu() {
     for (const auto& group : groups) {
       std::cout << gIndex++ << ". " << group << "\n";
     }
-    std::cout << "0. Exit\n";
+    std::cout << gIndex << ". Exit\n";
     std::cout << "----------------------------------------\n";
     std::cout << "Enter choice: ";
 
@@ -72,7 +72,7 @@ void runMenu() {
         std::cout << eIndex++ << ". " << name << "\n";
         names.push_back(name);
       }
-      std::cout << "0. Back\n";
+      std::cout << eIndex << ". Back\n";
       std::cout << "----------------------------------------\n";
       std::cout << "Enter choice: ";
 
