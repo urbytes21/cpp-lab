@@ -71,11 +71,10 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class SingletonExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/creational"; }
   std::string name() const override { return "Singleton"; }
   std::string description() const override {
     return "Singleton Pattern Example";
@@ -83,4 +82,4 @@ class SingletonExample : public IExample {
   void execute() override { SingletonPattern::run(); }
 };
 
-REGISTER_EXAMPLE(SingletonExample, "patterns", "Singleton");
+REGISTER_EXAMPLE(SingletonExample, "patterns/creational", "Singleton");

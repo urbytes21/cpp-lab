@@ -66,7 +66,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Shared : public IExample {
  public:

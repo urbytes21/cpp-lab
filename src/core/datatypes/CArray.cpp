@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 void arrayExamples() {
   std::cout << "\n--- Array Examples ---\n";

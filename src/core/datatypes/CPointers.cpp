@@ -104,7 +104,6 @@ void pointers() {
 }
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CPointers : public IExample {
  public:

@@ -3,7 +3,6 @@
 #include <string>
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 namespace {
 void runStringStreamExample() {
@@ -40,10 +39,10 @@ void runStringStreamExample() {
 
 class StringStream : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/filehandle"; }
   std::string name() const override { return "StringStream"; }
   std::string description() const override { return ""; }
   void execute() override { runStringStreamExample(); }
 };
 
-REGISTER_EXAMPLE(StringStream, "core", "StringStream");
+REGISTER_EXAMPLE(StringStream, "core/filehandle", "StringStream");

@@ -39,7 +39,6 @@ void run() {
 }  // namespace External
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Linkage : public IExample {
  public:

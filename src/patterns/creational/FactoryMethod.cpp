@@ -131,11 +131,10 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class FactoryMethodExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/creational"; }
   std::string name() const override { return "FactoryMethod"; }
   std::string description() const override {
     return "FactoryMethod Pattern Example";
@@ -143,4 +142,4 @@ class FactoryMethodExample : public IExample {
   void execute() override { FactoryMethod::run(); }
 };
 
-REGISTER_EXAMPLE(FactoryMethodExample, "patterns", "FactoryMethod");
+REGISTER_EXAMPLE(FactoryMethodExample, "patterns/creational", "FactoryMethod");

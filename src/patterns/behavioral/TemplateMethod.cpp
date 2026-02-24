@@ -104,11 +104,10 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class TemplateMethodExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/behavioral"; }
   std::string name() const override { return "TemplateMethod"; }
   std::string description() const override {
     return "TemplateMethod Pattern Example";
@@ -116,4 +115,4 @@ class TemplateMethodExample : public IExample {
   void execute() override { TemplateMethod::run(); }
 };
 
-REGISTER_EXAMPLE(TemplateMethodExample, "patterns", "TemplateMethod");
+REGISTER_EXAMPLE(TemplateMethodExample, "patterns/behavioral", "TemplateMethod");

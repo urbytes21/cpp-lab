@@ -133,14 +133,13 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class StateExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/behavioral"; }
   std::string name() const override { return "State"; }
   std::string description() const override { return "State Pattern Example"; }
   void execute() override { State::run(); }
 };
 
-REGISTER_EXAMPLE(StateExample, "patterns", "State");
+REGISTER_EXAMPLE(StateExample, "patterns/behavioral", "State");

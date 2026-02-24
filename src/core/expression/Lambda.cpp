@@ -37,11 +37,10 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Lambda : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/expression"; }
   std::string name() const override { return "Lambda"; }
   std::string description() const override {
     return "Lambda Expression Example";
@@ -49,4 +48,4 @@ class Lambda : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Lambda, "core", "Lambda");
+REGISTER_EXAMPLE(Lambda, "core/expression", "Lambda");

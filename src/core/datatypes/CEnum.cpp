@@ -40,7 +40,6 @@ void enums() {
 }
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CEnum : public IExample {
  public:

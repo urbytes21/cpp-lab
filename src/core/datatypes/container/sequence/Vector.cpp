@@ -48,14 +48,13 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Vector : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/container"; }
   std::string name() const override { return "Vector"; }
   std::string description() const override { return ""; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Vector, "core", "Vector");
+REGISTER_EXAMPLE(Vector, "core/container", "Vector");

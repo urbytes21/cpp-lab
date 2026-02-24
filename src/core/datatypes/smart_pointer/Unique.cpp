@@ -54,7 +54,6 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class Unique : public IExample {
  public:

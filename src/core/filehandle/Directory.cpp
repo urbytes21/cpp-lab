@@ -3,7 +3,6 @@
 #include <string>
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 namespace {
 void run() {
@@ -44,10 +43,10 @@ void run() {
 
 class Directory : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/filehandle"; }
   std::string name() const override { return "Directory"; }
   std::string description() const override { return ""; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Directory, "core", "Directory");
+REGISTER_EXAMPLE(Directory, "core/filehandle", "Directory");

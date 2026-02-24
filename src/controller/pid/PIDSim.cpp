@@ -2,7 +2,6 @@
 #include "pid.h"
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 namespace {
 void run() {

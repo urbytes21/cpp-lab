@@ -17,7 +17,6 @@
 #include <iostream>
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 namespace {
 namespace Problem {
@@ -222,7 +221,7 @@ void run() {
 
 class ProxyExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/structural"; }
   std::string name() const override { return "Proxy"; }
   std::string description() const override { return "Proxy Pattern Example"; }
   void execute() override {
@@ -231,5 +230,5 @@ class ProxyExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(ProxyExample, "patterns", "Proxy");
+REGISTER_EXAMPLE(ProxyExample, "patterns/structural", "Proxy");
 }  // namespace

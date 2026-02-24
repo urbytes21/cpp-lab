@@ -303,7 +303,6 @@ void constructers() {
 }  // namespace Move
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CConstructors : public IExample {
  public:

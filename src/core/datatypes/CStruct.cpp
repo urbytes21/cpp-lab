@@ -62,7 +62,6 @@ void structs() {
 }
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class CStruct : public IExample {
  public:

@@ -37,16 +37,21 @@ void runMenu() {
     std::vector<std::string> groups;
 
     for (const auto& [group, _] : data) {
-      std::cout << gIndex++ << ". " << group << "\n";
       groups.push_back(group);
     }
-    std::cout << "0. quit\n";
+
+    // sort
+    std::sort(groups.begin(), groups.end());
+    for (const auto& group : groups) {
+      std::cout << gIndex++ << ". " << group << "\n";
+    }
+    std::cout << "0. Exit\n";
     std::cout << "----------------------------------------\n";
     std::cout << "Enter choice: ";
 
     int gChoice = readChoice();
     if (gChoice == 0) {
-      std::cout << "End\n";
+      std::cout << "\n--- Exit ---\n";
       break;
     }
 
@@ -67,7 +72,7 @@ void runMenu() {
         std::cout << eIndex++ << ". " << name << "\n";
         names.push_back(name);
       }
-      std::cout << "0. back\n";
+      std::cout << "0. Back\n";
       std::cout << "----------------------------------------\n";
       std::cout << "Enter choice: ";
 

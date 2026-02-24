@@ -107,14 +107,13 @@ void run() {
 }  // namespace
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 class FileIO : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/filehandle"; }
   std::string name() const override { return "FileIO"; }
   std::string description() const override { return ""; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(FileIO, "core", "FileIO");
+REGISTER_EXAMPLE(FileIO, "core/filehandle", "FileIO");

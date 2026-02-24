@@ -14,7 +14,6 @@
 #include <iostream>
 
 #include "ExampleRegistry.h"
-#include "IExample.h"
 
 namespace {
 namespace Problem {
@@ -172,7 +171,7 @@ void run() {
 
 class BridgeExample : public IExample {
  public:
-  std::string group() const override { return "patterns"; }
+  std::string group() const override { return "patterns/structural"; }
   std::string name() const override { return "Bridge"; }
   std::string description() const override { return "Bridge Pattern Example"; }
   void execute() override {
@@ -181,5 +180,5 @@ class BridgeExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(BridgeExample, "patterns", "Bridge");
+REGISTER_EXAMPLE(BridgeExample, "patterns/structural", "Bridge");
 }  // namespace
