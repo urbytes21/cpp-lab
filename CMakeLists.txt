@@ -93,6 +93,8 @@ set(APP_SOURCES
     "src/core/datatypes/CStruct.cpp"
     "src/core/datatypes/CUnion.cpp"
     "src/core/datatypes/TypeConVersions.cpp"
+    ## Class
+    "src/core/datatypes/class/Friend.cpp"
     "src/core/datatypes/class/CConstructors.cpp"
     "src/core/datatypes/class/CDestructors.cpp"
     "src/core/datatypes/class/SallowDeepCopying.cpp"
