@@ -50,7 +50,7 @@ void runMenu() {
     std::cout << "Enter choice: ";
 
     int gChoice = readChoice();
-    if (gChoice == 0) {
+    if (gChoice == gIndex) {
       std::cout << "\n--- Exit ---\n";
       break;
     }
@@ -77,11 +77,11 @@ void runMenu() {
       std::cout << "Enter choice: ";
 
       int eChoice = readChoice();
-      if (eChoice == 0) {
+      if (eChoice == eIndex) {
         continue;
       }
 
-      if (eChoice < 1 || eChoice > names.size()) {
+      if (eChoice < 1 || eChoice > eIndex) {
         std::cout << "Invalid example choice\n";
         continue;
       }
