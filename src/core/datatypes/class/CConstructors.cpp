@@ -1,7 +1,12 @@
+// cppcheck-suppress-file [unusedVariable,unreadVariable]
 #include <iostream>
 using namespace std;
 
-// *1. Members initializer list constructor
+// NOTE: We can throw an exception in a constructor to signal an error,
+// and then catch that error using a standard try-catch block
+// where the object is being instantiated.
+
+// **1. Members initializer list constructor**
 namespace InitializerList {
 class CConstructors {
  private:
@@ -49,11 +54,10 @@ void constructers() {
 }
 }  // namespace InitializerList
 
-// *2. Default constructor:
-// It is a constructor that accepts no arguments.
-// Generated if no constructors are declared
-// Initializes members: basic types uninitialized, class types call their
-// default constructor
+// **2. Default constructor**
+// - It is a constructor that accepts no arguments.
+// - Generated if no constructors are declared
+// - Initializes members: basic types uninitialized, class types call their default constructor
 namespace Default {
 class UConstructors {
  public:
@@ -71,7 +75,7 @@ class EConstructors {
  public:
   // we already create the constructor ourselves
   //  EConstructors(int a)
-  explicit EConstructors(float a)  // explicit ->         [[maybe_unused]]
+  explicit EConstructors(float a)  // explicit ->
                                    // EConstructors obj2 = 1; [ERROR]
 
   {
@@ -85,8 +89,8 @@ class EConstructors {
 
 void constructers() {
   cout << "\n--- Default Constructer Examples ---\n";
-  [[maybe_unused]] UConstructors obj1;
-  // [[maybe_unused]] UConstructors obj2(); // wrong, this is function declare
+  UConstructors obj1;
+  //   UConstructors obj2(); // wrong, this is function declare
   // FYI:
   // void outer()
   // {
@@ -94,20 +98,20 @@ void constructers() {
   //     helper(); // defined later in the same file
   // }
 
-  [[maybe_unused]] UConstructors obj3{};
+  UConstructors obj3{};
 
-  [[maybe_unused]] IConstructors obj4;
-  [[maybe_unused]] IConstructors obj6{};
+  IConstructors obj4;
+  IConstructors obj6{};
 
-  [[maybe_unused]] EConstructors obj7;
-  [[maybe_unused]] EConstructors obj9{};
+  EConstructors obj7;
+  EConstructors obj9{};
 
-  [[maybe_unused]] EConstructors obj10(1.2);
-  [[maybe_unused]] EConstructors obj11{2};
+  EConstructors obj10(1.2);
+  EConstructors obj11{2};
 }
 }  // namespace Default
 
-// *3. Delegate constructor: allow to delegate initialization to another
+// **3. Delegate constructor: allow to delegate initialization to another**
 // constructor Never generated automatically
 namespace Delegate {
 class CConstructor {
@@ -138,9 +142,9 @@ void constructors() {
 }
 }  // namespace Delegate
 
-// *4.  Copy constructor:  initialize an copy object with an existing object
-// Generated if no copy/move constructor or `destructor` is declared
-// Performs memberwise (shallow) copy
+// **4.  Copy constructor:  initialize an copy object with an existing object**
+// - Generated if no copy/move constructor or `destructor` is declared
+// - Performs memberwise (shallow) copy
 //  * Copy constructor
 // Object obj1 = obj2
 // Object obj1(obj2)
@@ -232,11 +236,11 @@ void constructors() {
 }
 }  // namespace Copy
 
-// *4. Move Constructor:
-// Move constructor and move assignment transfer resource ownership
-// from one object to another. This is usually cheaper than copying.
-// A move constructor is implicitly generated only if no user-declared
-// copy constructor, move constructor, or destructor exists.
+// **4. Move Constructor**
+// - Move constructor and move assignment transfer resource ownership
+// - from one object to another. This is usually cheaper than copying.
+// - A move constructor is implicitly generated only if no user-declared
+//   copy constructor, move constructor, or destructor exists.
 namespace Move {
 class Model  // C++ will create a public implicit copy constructor for us if we
              // do not provide a one.
@@ -306,7 +310,7 @@ void constructers() {
 
 class CConstructors : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/class"; }
   std::string name() const override { return "CConstructors"; }
   std::string description() const override { return ""; }
   void execute() override {
@@ -318,4 +322,4 @@ class CConstructors : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(CConstructors, "core", "CConstructors");
+REGISTER_EXAMPLE(CConstructors, "core/class", "CConstructors");
