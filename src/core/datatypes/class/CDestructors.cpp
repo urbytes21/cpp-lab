@@ -1,10 +1,10 @@
 #include <iostream>
 using namespace std;
 
-// *1. Basic Destructor
-// Generated if no destructor is declared
-// Calls destructors of members automatically
-// Does not free dynamically allocated memory unless you write it
+// ** 1. Basic Destructor**
+// - Generated if no destructor is declared
+// - Calls destructors of members automatically
+// - Does not free dynamically allocated memory unless you write it
 namespace Basic {
 class CDestructors {
  public:
@@ -25,7 +25,7 @@ void destructers() {
 }
 }  // namespace Basic
 
-// *2. Virtual Destructor
+// **2. Virtual Destructor**
 namespace Virtual {
 class CDestructorsBase  // final => cannot inherit
 {
@@ -61,7 +61,7 @@ void destructers() {
 
 class CDestructors : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/class"; }
   std::string name() const override { return "CDestructors"; }
   std::string description() const override { return ""; }
   void execute() override {
@@ -70,4 +70,4 @@ class CDestructors : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(CDestructors, "core", "CDestructors");
+REGISTER_EXAMPLE(CDestructors, "core/class", "CDestructors");

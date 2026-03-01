@@ -45,12 +45,12 @@ void runMenu() {
     for (const auto& group : groups) {
       std::cout << gIndex++ << ". " << group << "\n";
     }
-    std::cout << "0. Exit\n";
+    std::cout << gIndex << ". Exit\n";
     std::cout << "----------------------------------------\n";
     std::cout << "Enter choice: ";
 
     int gChoice = readChoice();
-    if (gChoice == 0) {
+    if (gChoice == gIndex) {
       std::cout << "\n--- Exit ---\n";
       break;
     }
@@ -72,16 +72,16 @@ void runMenu() {
         std::cout << eIndex++ << ". " << name << "\n";
         names.push_back(name);
       }
-      std::cout << "0. Back\n";
+      std::cout << eIndex << ". Back\n";
       std::cout << "----------------------------------------\n";
       std::cout << "Enter choice: ";
 
       int eChoice = readChoice();
-      if (eChoice == 0) {
+      if (eChoice == eIndex) {
         continue;
       }
 
-      if (eChoice < 1 || eChoice > names.size()) {
+      if (eChoice < 1 || eChoice > eIndex) {
         std::cout << "Invalid example choice\n";
         continue;
       }

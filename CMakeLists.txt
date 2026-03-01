@@ -93,6 +93,8 @@ set(APP_SOURCES
     "src/core/datatypes/CStruct.cpp"
     "src/core/datatypes/CUnion.cpp"
     "src/core/datatypes/TypeConVersions.cpp"
+    ## Class
+    "src/core/datatypes/class/Friend.cpp"
     "src/core/datatypes/class/CConstructors.cpp"
     "src/core/datatypes/class/CDestructors.cpp"
     "src/core/datatypes/class/SallowDeepCopying.cpp"
@@ -152,6 +154,18 @@ set(APP_SOURCES
     "src/core/datatypes/smart_pointer/Unique.cpp"
     "src/core/datatypes/smart_pointer/Shared.cpp"
     "src/core/datatypes/smart_pointer/Weak.cpp"
+    ## Overloading
+    "src/core/overloading/ArithmeticOperator.cpp"
+    "src/core/overloading/IOOperator.cpp"
+    "src/core/overloading/UnaryOperator.cpp"
+    "src/core/overloading/ComparisonOperator.cpp"
+    "src/core/overloading/InDecOperator.cpp"
+    "src/core/overloading/SubscriptOperator.cpp"
+    "src/core/overloading/ParenthesisOperator.cpp"
+    "src/core/overloading/TypeCast.cpp"
+    "src/core/overloading/AssignmentOperator.cpp"
+    "src/core/overloading/ClassMemberAccessOperator.cpp"
+    "src/core/overloading/AllocationOperator.cpp"
 )
 
 # Test files
