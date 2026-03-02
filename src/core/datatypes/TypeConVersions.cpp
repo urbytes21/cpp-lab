@@ -1,3 +1,4 @@
+// cppcheck-suppress-file [unreadVariable]
 #include <iostream>
 using namespace std;
 
@@ -10,6 +11,11 @@ class Base {
 class Derived : public Base {
  public:
   void show() override { cout << "Derived class\n"; }
+};
+
+class DerivedX : public Base {
+ public:
+  void show() override { cout << "DerivedX class\n"; }
 };
 
 void implicitConversion() {
@@ -39,48 +45,59 @@ void explicitConversion() {
 
   double pi = 3.14159;
 
-  // *1. C-style cast
+  // *1. C-style cast - not safe
   int pi_c = (int)pi;
   cout << "C-style cast: " << pi_c << "\n";
 
-  // *2. static_cast - compile-time type checking
+  // **2. static_cast - type-safe relationship + compile-time type checking**
   int pi_static = static_cast<int>(pi);
   cout << "static_cast: " << pi_static << "\n";
 
-  // object -> object
+  //    object -> object
   Derived derived{};
-  [[maybe_unused]] Base baseObj = static_cast<Derived>(derived);
-  // object -> reference
+  Base baseObj = static_cast<Derived>(derived);
+  // DerivedX derivedx =static_cast<Derived>(derived); // ERROR
+
+  //    object -> reference
   const Base& baseRef = static_cast<Derived&>(derived);
   // object -> ptr
-  [[maybe_unused]] const Base* base_ptr = static_cast<Derived*>(&derived);
+  const Base* base_ptr = static_cast<Derived*>(&derived);
 
-  // *3. const_cast: const_cast adds or removes the const qualifier
+  // **3. const_cast: const_cast adds or removes the const qualifier**
   const double c_pi = 2.71828;
   const double* pConst = &c_pi;
   const double* pNonConst = const_cast<double*>(pConst);  // remove const
   cout << "const_cast: " << *pNonConst << " (removed const)\n";
 
-  // *4. reinterpret_cast: reinterpret memory (unsafe)
+  // **4. reinterpret_cast: reinterpret memory (unsafe)**
+  // It is used to convert a pointer of some data type into a pointer of another data type,
+  // even if the data types before and after conversion are different. (#static,dynamic)
+  // It does not check if the pointer type and data pointed by the pointer is same or not.
   const void* pVoid = reinterpret_cast<const void*>(&pi);
   cout << "reinterpret_cast: address of pi = " << pVoid << "\n";
 
-  // ** Use case: Memory-Mapped I/O **
-  // C
+  // ******************** Use case: Memory-Mapped I/O ******************************
+  // C ===============================================
   // #define REG_ADDR 0x000fff01
   //   volatile uint8_t* reg = reinterpret_cast<volatile uint8_t*>(REG_ADDR);
   //   *reg = 0xF;
   //   *reg = 0x1;
 
-  // C++
+  // C++ ===============================================
   // #include <cstdint>
   // constexpr std::uintptr_t REG_ADDR = 0x000fff02;
   // auto* const reg = reinterpret_cast<volatile uint8_t*>(REG_ADDR);
   // *reg = 0xF;
-
   // *reg = 0x1;
+  // ********************************************************************************
 
-  // *5. dynamic_cast: safe cast between related classes (runtime checked)
+  // **5. dynamic_cast: safe cast between related classes - type-safe relationship + run-time type checking**
+  // RTTI (RunTime Type Information) check
+  // #include <typeinfor>
+  // if(typeid(*basePtr) == typeid(Derived)){
+  // Derived* derivedPtr = dynamic_cast<Derived*>(basePtr)
+  // }
+
   Base* basePtr = new Derived();
   const Derived* derivedPtr = dynamic_cast<Derived*>(basePtr);
   if (derivedPtr)
@@ -102,11 +119,11 @@ void typeAliases() {
 
   // *1. using - preferred
   using MyDouble = double;
-  [[maybe_unused]] const MyDouble a = 3.14;
+  const MyDouble a = 3.14;
 
   // *2. typedef - old style
   typedef double OldDouble;
-  [[maybe_unused]] OldDouble b = 2.718;
+  OldDouble b = 2.718;
 
   // *3. Function pointer alias
   using FuncType = int (*)(double, char);
