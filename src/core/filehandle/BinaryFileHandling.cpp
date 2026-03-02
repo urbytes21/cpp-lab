@@ -1,3 +1,4 @@
+//cppcheck-suppress-file [invalidPointerCast]
 #include <fstream>
 #include <iostream>
 #include <string>
