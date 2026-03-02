@@ -99,7 +99,7 @@ https://www.learncpp.com/cpp-tutorial/stream-states-and-input-validation/
 
 static void fileOutput() {
   std::ofstream outfile{"grs_bytes.csv"};
-  if (!outfile || !outfile.is_open()) {
+  if (!outfile || !outfile.is_open()) { // !error || !open
     std::cerr << "[E] Cannot create the output file";
     return;
   }
@@ -198,3 +198,125 @@ On Unix, a newline is represented as a LF (line feed) character (thus taking 1 b
 > // assume iofile is an object of type fstream
 iofile.seekg(iofile.tellg(), std::ios::beg); // seek to current file position
 <br>
+
+## 1.8 Binary File
+- e.g.
+```cpp
+#include <string>
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+/*
+ * Class Account
+ * Represent a bank account with:
+ *  - code    : account ID
+ *  - name    : account holder name
+ *  - balance : current balance
+ */
+class Account
+{
+    // Allow operator<< to access private members
+    friend ostream& operator<<(ostream&, const Account&);
+
+private:
+    int code;        // Account ID
+    string name;     // Account holder name
+    double balance;  // Account balance
+
+public:
+    // Constructor with default values
+    Account(int c = 0, const string& n = "", double b = 0)
+        : code(c), name(n), balance(b) {}
+
+    // Getter for account code
+    int getCode() const { return code; }
+
+    // Write object to binary file
+    ostream& write(ostream&) const;
+
+    // Read object from binary file
+    istream& read(istream&);
+};
+
+/*
+ * Write entire object to binary stream
+ * WARNING:
+ * This method is unsafe because std::string contains dynamic memory.
+ * Writing raw memory of the object is not portable and not recommended
+ * for real-world applications.
+ */
+ostream& Account::write(ostream& os) const
+{
+    os.write(reinterpret_cast<const char*>(this), sizeof(Account));
+    return os;
+}
+
+/*
+ * Read entire object from binary stream
+ */
+istream& Account::read(istream& is)
+{
+    is.read(reinterpret_cast<char*>(this), sizeof(Account));
+    return is;
+}
+
+/*
+ * Overload << operator to print Account info
+ */
+ostream& operator<<(ostream& os, const Account& acc)
+{
+    os << "Code   : " << acc.code << endl;
+    os << "Name   : " << acc.name << endl;
+    os << "Balance: " << acc.balance << endl;
+    return os;
+}
+
+int main()
+{
+
+    // Create two accounts dynamically
+    Account* accounts[] = {
+        new Account(1, "Whitney Elizabeth Houston", 2500),
+        new Account(2, "Michael Jackson", 5000)
+    };
+
+     // Open binary file for append
+    fstream outf("data.bin", ios::out | ios::app | ios::binary);
+
+    // Write both accounts to file
+    for (int i = 0; i < 2; ++i)
+    {
+        if (!accounts[i]->write(outf))
+            cerr << "Error in writing!" << endl;
+    }
+
+    outf.close();
+
+    cout << "Account #2" << endl;
+
+
+    // Read account with code = 2
+    Account temp(2);
+
+    fstream inf("data.bin", ios::in | ios::binary);
+
+    // Move read pointer to correct position
+    // (code - 1) * sizeof(Account)
+    inf.seekg((temp.getCode() - 1) * sizeof(Account));
+
+    if (!temp.read(inf))
+        cerr << "Error in reading!" << endl;
+    else
+        cout << temp << endl;
+
+    inf.close();
+
+    // Free allocated memory
+    delete accounts[0];
+    delete accounts[1];
+
+    return 0;
+}
+```

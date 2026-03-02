@@ -134,6 +134,7 @@ set(APP_SOURCES
     "src/core/filehandle/FileIO.cpp"
     "src/core/filehandle/Directory.cpp"
     "src/core/filehandle/OutputFormatting.cpp"
+    "src/core/filehandle/BinaryFileHandling.cpp"
     ## Container
     "src/core/datatypes/container/sequence/Array.cpp"
     "src/core/datatypes/container/sequence/Vector.cpp"
