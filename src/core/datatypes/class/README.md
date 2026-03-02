@@ -265,3 +265,47 @@ public:
     };
 };
 ```
+
+## Type Cast
+- C-style cast is unsafe, so we should use dynamic_cast or static_cast instead. For example:
+```cpp
+#include <iostream>
+using namespace std;
+
+class Car {
+public:
+	virtual ~Car() {}
+};
+
+class PassCar : public Car {
+private:
+	int passengers = 5;
+public:
+	void display() {
+		cout << passengers << endl;
+	}
+};
+
+class Truck : public Car {
+private:
+	int a =1;
+public:
+	void setAxle1s() {
+		cout << "Truck axles set1\n";
+	}
+	void setAxles() {
+		cout << "Truck axles set\n";
+	}
+};
+
+int main() {
+	Car* car = new Truck();  
+
+	// -style cast 
+	PassCar* p = (PassCar*)car;
+
+	p->display();
+
+	delete car;
+}
+```

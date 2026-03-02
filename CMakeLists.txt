@@ -124,6 +124,7 @@ set(APP_SOURCES
     "src/patterns/creational/Prototype.cpp"
     "src/core/datatypes/class/Relationship.cpp"
     "src/core/datatypes/class/VirtualBase.cpp"
+    "src/core/datatypes/class/Binding.cpp"
     ## Exceptions
     "src/core/exception/BasicHandle.cpp"
     "src/core/exception/ThrowNoexcept.cpp"
