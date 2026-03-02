@@ -1,16 +1,13 @@
 # 1. Core C Basics for Embedded Systems
 
-```
-Your Foundation for Embedded Programming
-```
 **Topics Covered:**
 
-- Variables & Data Types
-- Operators & Control Flow
-- Functions
-- Arrays & Strings
-- Basic Input/Output
-- Practice Problems
+- 1.1 Variables & Data Types
+- 1.2 Operators & Control Flow
+- 1.3 Functions
+- 1.4 Arrays & Strings
+- 1.5 Basic Input/Output
+- 1.6 Practice Problems
 
 ## 1.1 Variables & Data Types
 
@@ -268,10 +265,12 @@ printf("Hello %s, you are %d years old!\n", name, age);
 
 **Common Format Specifiers**
 
-| Specifier      | Data Type       | Example                      |
+| Specifier      | Data Type       | Example                    |
 |---------------|----------------|------------------------------|
 | %d or %i      | int            | printf("%d", 42);            |
+| %ld           | long           | printf("%lu", 255);          |
 | %u            | unsigned int   | printf("%u", 255);           |
+| %lu           | uint32_t       | printf("%lu", 255);           |
 | %f            | float/double   | printf("%.2f", 3.14);        |
 | %c            | char           | printf("%c", 'A');           |
 | %s            | string         | printf("%s", "Hello");       |
@@ -280,9 +279,6 @@ printf("Hello %s, you are %d years old!\n", name, age);
 
 
 ## 1.6. Practice Problems
-
-Here are some hands-on exercises to solidify your understanding. Try to solve these
-without looking at solutions first!
 
 **Problem 1: Temperature Converter**
 
