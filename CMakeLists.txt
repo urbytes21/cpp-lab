@@ -122,6 +122,7 @@ set(APP_SOURCES
     "src/patterns/creational/AbstractFactory.cpp"
     "src/patterns/creational/Builder.cpp"
     "src/patterns/creational/Prototype.cpp"
+    "src/core/datatypes/class/Relationship.cpp"
     ## Exceptions
     "src/core/exception/BasicHandle.cpp"
     "src/core/exception/ThrowNoexcept.cpp"
