@@ -50,10 +50,15 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         $ ./cpp_lab_project
         $ ./cpp_lab_project_test
         ```
-    * (Optional) Run static analysis
+    * (Optional) Run static analysis - cppcheck
         ```
         $ sudo apt-get install cppcheck
         $ cppcheck "folder" / "file"
+        ```
+    * (Optional) Run static analysis - clang-tidy
+        ```
+        $ sudo apt-get install -y clang-tidy
+        $ clang-tidy -p build -header-filter='^src/.*' $(find src -name "*.cpp")
         ```
 - **Docker**
     * Update `Dockerfile`
