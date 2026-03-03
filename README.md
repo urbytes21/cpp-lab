@@ -50,6 +50,11 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         $ ./cpp_lab_project
         $ ./cpp_lab_project_test
         ```
+    * Detect Memory Leak Using [valgrind](https://valgrind.org/)
+        ```
+        $ sudo apt install valgrind
+        $ valgrind --leak-check=full -v ./cpp-lab 
+        ```
     * (Optional) Run static analysis - cppcheck
         ```
         $ sudo apt-get install cppcheck
