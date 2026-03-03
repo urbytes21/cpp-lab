@@ -27,6 +27,7 @@ set(PROJECT_NAME_TEST ${PROJECT_NAME}_unit_test) # name for the unit-test execut
 # Require at least C++17 for GoogleTest and modern C++ features
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Enable output of compile commands for clang-tidy
 
 # Optionally enforce warnings (good for learning/debugging)
 add_compile_options(-Wall -Wextra -Wpedantic)
@@ -123,6 +124,8 @@ set(APP_SOURCES
     "src/patterns/creational/Builder.cpp"
     "src/patterns/creational/Prototype.cpp"
     "src/core/datatypes/class/Relationship.cpp"
+    "src/core/datatypes/class/VirtualBase.cpp"
+    "src/core/datatypes/class/Binding.cpp"
     ## Exceptions
     "src/core/exception/BasicHandle.cpp"
     "src/core/exception/ThrowNoexcept.cpp"
@@ -131,6 +134,8 @@ set(APP_SOURCES
     "src/core/filehandle/StringStream.cpp"
     "src/core/filehandle/FileIO.cpp"
     "src/core/filehandle/Directory.cpp"
+    "src/core/filehandle/OutputFormatting.cpp"
+    "src/core/filehandle/BinaryFileHandling.cpp"
     ## Container
     "src/core/datatypes/container/sequence/Array.cpp"
     "src/core/datatypes/container/sequence/Vector.cpp"

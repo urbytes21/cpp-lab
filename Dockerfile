@@ -14,6 +14,8 @@ RUN \
     apt-get install -y gcc g++  && \
     # install cppcheck
     apt-get install -y cppcheck && \
+    # install clang tidy
+    apt-get install -y clang-tidy && \
     # install lcov
     apt-get install -y lcov
 
