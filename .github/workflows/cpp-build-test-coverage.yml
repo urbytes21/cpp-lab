@@ -65,12 +65,17 @@ jobs:
       # - Add `--warnings-as-errors=*` to exit code 1
       # -------------------------------------------------------
       - name: Run clang-tidy
+        # run: |
+        #   echo "Running clang-tidy..."
+        #   clang-tidy \
+        #     -checks='clang-analyzer-*,modernize-*,performance-*,readability-*' \
+        #     -p build \
+        #     $(find ./src -name '*.cpp')
         run: |
-          echo "Running clang-tidy..."
-          clang-tidy \
-            -checks='clang-analyzer-*,modernize-*,performance-*,readability-*' \
-            -p build \
-            $(find ./src -name '*.cpp')
+            echo "Running clang-tidy using .clang-tidy options"
+            clang-tidy \
+              -p build \
+              -header-filter='^src/.*' $(find src -name "*.cpp")
       
       # -------------------------------------------------------
       # Step 3: Configure and build the project
