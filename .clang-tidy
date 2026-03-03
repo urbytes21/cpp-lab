@@ -40,7 +40,7 @@ CheckOptions:
     value: lower_case
 
   - key: readability-identifier-naming.MemberCase
-    value: lower_case_
+    value: lower_case
 
   - key: modernize-use-nullptr.NullMacros
     value: 'NULL'
