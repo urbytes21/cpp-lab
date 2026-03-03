@@ -105,6 +105,21 @@ docker image ls
 docker push DOCKER_USERNAME/cpp-lab
 ```
 
-## 6. TROUBLESHOOTING
+## 6. TroubleShooting
 1. `push access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed`
 => docker login / Docker Desktop login
+
+## 7. Evaluate Executable
+- List all sections:
+```bash
+$ size ./build/cpp-lab
+```
+- The expected output should be the following:
+```bash
+   text    data     bss     dec     hex filename
+  14791     792     280   15863    ./build/cpp-lab
+```
+
+- `.text`: Text Segment - the executable code size, including: complied function, inline, template, constants, string literals
+- `.data`: Initialized Data Segment - the memory for the global, static variables, has init value.
+- `.bss`: Uninitialized Data Segment - global and static variables that are not initialized
