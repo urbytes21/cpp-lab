@@ -1,4 +1,9 @@
 ## 1. Overview
+**TL;DR**
+```bash
+./r
+```
+
 **Project Structure**
 ```
 includes/   → Header files (.h, .hpp)  
