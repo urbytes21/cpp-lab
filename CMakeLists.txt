@@ -172,6 +172,8 @@ set(APP_SOURCES
     "src/core/overloading/AssignmentOperator.cpp"
     "src/core/overloading/ClassMemberAccessOperator.cpp"
     "src/core/overloading/AllocationOperator.cpp"
+    ## Date and Time
+    "src/core/datetime/CTime.cpp"
 )
 
 # Test files
