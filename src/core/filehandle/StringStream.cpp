@@ -10,7 +10,7 @@ void runStringStreamExample() {
 
   std::stringstream os{};
 
-  // input
+  // input:   std::istringstream iss;
   os << "0xF";
   std::cout << os.str();
 
@@ -19,7 +19,7 @@ void runStringStreamExample() {
   os.clear();
   std::cout << os.str();
 
-  // output
+  // output: std::ostringstream oss;
   std::string bytesStr = os.str();
   std::cout << bytesStr;
 
