@@ -18,7 +18,6 @@ configure_file(
     ${CMAKE_BINARY_DIR}/generated/version.h
 )
 
-
 set(PROJECT_NAME_TEST ${PROJECT_NAME}_unit_test) # name for the unit-test executable
 
 # ----------------------------------------------------------------------------------------
@@ -46,7 +45,6 @@ if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     add_link_options(--coverage)
 endif()
 
-
 # ----------------------------------------------------------------------------------------
 # Dependencies - GoogleTest
 # ----------------------------------------------------------------------------------------
@@ -69,9 +67,9 @@ enable_testing()
 # Project directories and files
 # ----------------------------------------------------------------------------------------
 # Header files directory
-set(APP_HEADERS 
+set(APP_HEADERS
     "include"
-    "${CMAKE_BINARY_DIR}/generated"   # cmake generated headers
+    "${CMAKE_BINARY_DIR}/generated" # cmake generated headers
 )
 
 # Core source files
@@ -94,7 +92,8 @@ set(APP_SOURCES
     "src/core/datatypes/CStruct.cpp"
     "src/core/datatypes/CUnion.cpp"
     "src/core/datatypes/TypeConVersions.cpp"
-    ## Class
+
+    # # Class
     "src/core/datatypes/class/Friend.cpp"
     "src/core/datatypes/class/CConstructors.cpp"
     "src/core/datatypes/class/CDestructors.cpp"
@@ -126,17 +125,20 @@ set(APP_SOURCES
     "src/core/datatypes/class/Relationship.cpp"
     "src/core/datatypes/class/VirtualBase.cpp"
     "src/core/datatypes/class/Binding.cpp"
-    ## Exceptions
+
+    # # Exceptions
     "src/core/exception/BasicHandle.cpp"
     "src/core/exception/ThrowNoexcept.cpp"
-    ## Streams
+
+    # # Streams
     "src/core/filehandle/IOStream.cpp"
     "src/core/filehandle/StringStream.cpp"
     "src/core/filehandle/FileIO.cpp"
     "src/core/filehandle/Directory.cpp"
     "src/core/filehandle/OutputFormatting.cpp"
     "src/core/filehandle/BinaryFileHandling.cpp"
-    ## Container
+
+    # # Container
     "src/core/datatypes/container/sequence/Array.cpp"
     "src/core/datatypes/container/sequence/Vector.cpp"
     "src/core/datatypes/container/unordered/UnorderedMap.cpp"
@@ -146,21 +148,25 @@ set(APP_SOURCES
     "src/core/datatypes/container/adapter/Stack.cpp"
     "src/core/datatypes/container/sequence/Deque.cpp"
     "src/core/datatypes/container/associative/Set.cpp"
-    ## LC
+
+    # # LC
     "src/leetcode/arrays/two_sum/TwoSum.cpp"
     "src/leetcode/arrays/median_two_arrays/MedianTwoSortedArrays.cpp"
     "src/leetcode/arrays/container_with_most_water/ContainerWithMostWater.cpp"
     "src/leetcode/arrays/longest_common_prefix/Solution.cpp"
     "src/leetcode/arrays/3sum/Solution.cpp"
     "src/leetcode/arrays/4sum/Solution.cpp"
-    ## Controller
+
+    # # Controller
     "src/controller/pid/pid.cpp"
     "src/controller/pid/PIDSim.cpp"
-    ## Smart Pointers
+
+    # # Smart Pointers
     "src/core/datatypes/smart_pointer/Unique.cpp"
     "src/core/datatypes/smart_pointer/Shared.cpp"
     "src/core/datatypes/smart_pointer/Weak.cpp"
-    ## Overloading
+
+    # # Overloading
     "src/core/overloading/ArithmeticOperator.cpp"
     "src/core/overloading/IOOperator.cpp"
     "src/core/overloading/UnaryOperator.cpp"
@@ -172,8 +178,13 @@ set(APP_SOURCES
     "src/core/overloading/AssignmentOperator.cpp"
     "src/core/overloading/ClassMemberAccessOperator.cpp"
     "src/core/overloading/AllocationOperator.cpp"
-    ## Date and Time
+
+    # # Date and Time
     "src/core/datetime/CTime.cpp"
+
+    # # Socket
+    "src/socket/simple_tcp/TCPServer.cpp"
+    "src/socket/simple_tcp/SimpleTCPServer.cpp"
 )
 
 # Test files
