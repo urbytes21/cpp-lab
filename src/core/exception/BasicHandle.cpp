@@ -12,7 +12,7 @@ void run() {
       errorFnc();
     } catch (std::exception& e) {
       std::cout << e.what();
-      throw std::runtime_error("[M] Middle error \n");
+      throw std::runtime_error("[M] Middle error \n");  // use as custom exception
       //   throw;   // rethrow
     }
   } catch (std::exception& e) {

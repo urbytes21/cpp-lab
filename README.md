@@ -1,4 +1,9 @@
 ## 1. Overview
+**TL;DR**
+```bash
+./r
+```
+
 **Project Structure**
 ```
 includes/   → Header files (.h, .hpp)  
@@ -50,6 +55,11 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         $ ./cpp_lab_project
         $ ./cpp_lab_project_test
         ```
+    * Detect Memory Leak Using [valgrind](https://valgrind.org/)
+        ```
+        $ sudo apt install valgrind
+        $ valgrind --leak-check=full -v ./cpp-lab 
+        ```
     * (Optional) Run static analysis - cppcheck
         ```
         $ sudo apt-get install cppcheck
@@ -100,6 +110,21 @@ docker image ls
 docker push DOCKER_USERNAME/cpp-lab
 ```
 
-## 6. TROUBLESHOOTING
+## 6. TroubleShooting
 1. `push access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed`
 => docker login / Docker Desktop login
+
+## 7. Evaluate Executable
+- List all sections:
+```bash
+$ size ./build/cpp-lab
+```
+- The expected output should be the following:
+```bash
+   text    data     bss     dec     hex filename
+  14791     792     280   15863    ./build/cpp-lab
+```
+
+- `.text`: Text Segment - the executable code size, including: complied function, inline, template, constants, string literals
+- `.data`: Initialized Data Segment - the memory for the global, static variables, has init value.
+- `.bss`: Uninitialized Data Segment - global and static variables that are not initialized
