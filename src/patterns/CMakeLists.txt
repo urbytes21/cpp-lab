@@ -1,32 +1,32 @@
 set(DS_SOURCES
 
     # Structural Patterns
-    structural/Adapter.cpp
-    structural/Bridge.cpp
-    structural/Proxy.cpp
-    structural/Composite.cpp
-    structural/Flyweight.cpp
-    structural/Facade.cpp
-    structural/Decorator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/structural/Adapter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/structural/Bridge.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/structural/Proxy.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/structural/Composite.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/structural/Flyweight.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/structural/Facade.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/structural/Decorator.cpp
 
     # Behavioral Patterns
-    behavioral/ChainOfCommand.cpp
-    behavioral/Command.cpp
-    behavioral/Iterator.cpp
-    behavioral/Mediator.cpp
-    behavioral/Memento.cpp
-    behavioral/Visitor.cpp
-    behavioral/TemplateMethod.cpp
-    behavioral/Strategy.cpp
-    behavioral/State.cpp
-    behavioral/Observer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/ChainOfCommand.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/Command.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/Iterator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/Mediator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/Memento.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/Visitor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/TemplateMethod.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/Strategy.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/State.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/behavioral/Observer.cpp
 
     # Creational Patterns
-    creational/Singleton.cpp
-    creational/FactoryMethod.cpp
-    creational/AbstractFactory.cpp
-    creational/Builder.cpp
-    creational/Prototype.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/creational/Singleton.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/creational/FactoryMethod.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/creational/AbstractFactory.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/creational/Builder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/creational/Prototype.cpp
 )
 
 set(DS_SOURCES ${DS_SOURCES} PARENT_SCOPE)

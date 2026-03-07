@@ -88,47 +88,63 @@ void TCPServer::acceptLoop() {
       handleClient(client_fd);
     } catch (const std::exception& e) {
       std::cerr << "[TCPServer] client error: " << e.what() << "\n";
+      close(client_fd);
     }
+  }
+}
 
-    // close connection after the client session end
-    close(client_fd);
+void TCPServer::sendAll(int fd, const char* data, size_t len) {
+  size_t total = 0;
+  while (total < len) {
+    ssize_t sent = send(fd, data + total, len - total, 0);
+    if (sent <= 0) {
+      throw std::runtime_error("send failed");
+    }
+    total += sent;
   }
 }
 
 void TCPServer::handleClient(int client_fd) {
+  char buffer[1024];
+
   // send a notify to the client
-  std::string welcome =
-      "Connected to the TCP Server on port" + std::to_string(port_) + "\n";
-  if (send(client_fd, welcome.c_str(), welcome.size(), 0) < 0) {
-    throw std::runtime_error("send failed");
-  }
+  std::string welcome = "Connected to the TCP Server on port " +
+                        std::to_string(port_) +
+                        "\nType 'Q' to stop the connection.\n";
+
+  sendAll(client_fd, welcome.c_str(), welcome.size());
 
   while (true) {
-    char buffer[1024];
-    std::string prompt =
-        "Type 'Q' to stop the connection. Enter your messages: ";
-    if (send(client_fd, prompt.c_str(), prompt.size(), 0) < 0) {
-      throw std::runtime_error("send failed");
-    }
-
     // receive data from the client
     int bytes = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
-    if (bytes <= 0) {
-      // bytes == 0 : client closed connection
-      // bytes < 0  : error
+
+    if (bytes == 0) {  // : client closed connection
+      std::cout << "[TCPServer] client closed connection\n";
+      break;
+    }
+
+    if (bytes < 0) {  // : error
       throw std::runtime_error("recv failed");
     }
 
     buffer[bytes] = '\0';
 
-    std::cout << "[TCPServer] Received: " << buffer << "\n";
+    // print out
+    std::cout << "client: " << buffer;
+
+    sendAll(client_fd, buffer, bytes);
 
     // stop connection if client sends 'Q'
-    if (buffer[0] == 'Q') {
-      std::cout << "[TCPServer] Client disconnected\n";
+    std::string line(buffer, bytes);
+    line.erase(line.find_last_not_of("\r\n") + 1);  // remove \r\n
+    if (line == "Q") {
+      std::cout << "[TCPServer] client disconnected\n";
       break;
     }
   }
+
+  // close connection after the client session end
+  close(client_fd);
 }
 
 void TCPServer::start() noexcept(false) {
