@@ -1,0 +1,39 @@
+# ----------------------------------------------------------------------------------------
+# Main application target
+# ----------------------------------------------------------------------------------------
+
+# Add project submodules
+add_subdirectory(core)
+add_subdirectory(controller)
+add_subdirectory(patterns)
+add_subdirectory(socket)
+
+
+# main application executable does NOT link to this library.
+add_subdirectory(leetcode)
+
+# Header files directory
+set(APP_HEADERS
+    ${PROJECT_SOURCE_DIR}/include
+    ${CMAKE_BINARY_DIR}/generated # cmake generated headers
+)
+
+# Define the main application executable
+add_executable(${PROJECT_NAME}
+    main.cpp
+    ${CORE_SOURCES}
+    ${SOCKET_SOURCES}
+)
+
+# Add header include paths
+# PRIVATE   -> this target only
+# PUBLIC    -> this target + dependent targets
+# INTERFACE -> dependent targets only
+target_include_directories(${PROJECT_NAME}
+    PRIVATE ${APP_HEADERS}
+)
+
+# Optional: add project-specific compiler options
+target_compile_options(${PROJECT_NAME}
+    PRIVATE -Wall -Wextra -Wpedantic
+)

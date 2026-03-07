@@ -6,8 +6,22 @@
 
 set -e  # Exit immediately if a command fails
 
-PROJECT_EXEC="./build/cpp_lab_project"
+PROJECT_EXEC="./build/bin/cpp_lab_project"
 BUILD_DIR="./build"
+
+if [ ! -d "build" ]; then
+echo "Build directory not found. Creating build directory..."
+
+rm -rf build
+mkdir build
+cd build || exit
+
+cmake ..
+cd ..
+
+else
+echo "Build directory already exists."
+fi
 
 clear
 echo "=============================="

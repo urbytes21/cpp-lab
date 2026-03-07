@@ -4,45 +4,44 @@
 namespace {
 
 namespace InitializeString {
+
+// Memory layout (addresses are illustrative):
+// Stack (modifiable array)
+// 0x7fffc000: str2[0] = 'H'
+// 0x7fffc001: str2[1] = 'e'
+// 0x7fffc002: str2[2] = 'l'
+// 0x7fffc003: str2[3] = 'l'
+// 0x7fffc004: str2[4] = 'o'
+// 0x7fffc005: str2[5] = '\0'
+// (str2 starts at 0x7fffc000)
+
+// Data / Read-only segment (string literal)
+// 0x00403000: 'H'
+// 0x00403001: 'e'
+// 0x00403002: 'l'
+// 0x00403003: 'l'
+// 0x00403004: 'o'
+// 0x00403005: '\0'
+// (str1 -> points to 0x00403000)
+
+// Pointer variable
+// 0x7fffbff0: str1 = 0x00403000   // str1 holds address of string literal
 void run() {
-  // Memory layout (addresses are illustrative):
-
-  // Stack (modifiable array)
-  // 0x7fffc000: str2[0] = 'H'
-  // 0x7fffc001: str2[1] = 'e'
-  // 0x7fffc002: str2[2] = 'l'
-  // 0x7fffc003: str2[3] = 'l'
-  // 0x7fffc004: str2[4] = 'o'
-  // 0x7fffc005: str2[5] = '\0'
-  // (str2 starts at 0x7fffc000)
-
-  // Data / Read-only segment (string literal)
-  // 0x00403000: 'H'
-  // 0x00403001: 'e'
-  // 0x00403002: 'l'
-  // 0x00403003: 'l'
-  // 0x00403004: 'o'
-  // 0x00403005: '\0'
-  // (str1 -> points to 0x00403000)
-
-  // Pointer variable
-  // 0x7fffbff0: str1 = 0x00403000   // str1 holds address of string literal
-
-  // 1. As a character array (modifiable)
+  // **1. As a character array (modifiable)**
   char strArray[] = "this is a strArray literal";
   std::cout << strArray << " - size " << sizeof(strArray) << " - length "
             << strlen(strArray) << "\n";
   strArray[0] ^= ' ';
   std::cout << strArray << "\n";
 
-  // 2. As a a pointer to a string literal const (read-only)
+  // **2. As a a pointer to a string literal const (read-only)**
   // Literal is const char*
   char* strPtr = "this is a strPtr literal";
   std::cout << strPtr << " - size " << sizeof(strPtr) << " - length "
             << strlen(strPtr) << "\n";
   //   strPtr[0] ^= ' '; // ERROR
 
-  // 3. Using sprintf / snprintf (string formatting)
+  // **3. Using sprintf / snprintf (string formatting)**
   char strFormatted[50];
   int numVar = 21;
 
@@ -64,13 +63,13 @@ void run() {
   const char src[] = "CopyStr";
   char dst[50];
 
-  // 1. Copy full string
+  // **1. Copy full string**
   strcpy(dst, src);
 
   std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
             << "\n";
 
-  // 2. Copy the number of charactor
+  // **2. Copy the number of charactor**
   strncpy(dst, "Hello123", 5);
   dst[5] = '\0';  // ensure null-termination
 
@@ -85,14 +84,14 @@ void run() {
   const char part2[] = "World";
   char dst[50] = "";
 
-  // 1. Append full str
+  // **1. Append full str**
   strcat(dst, part1);
   strcat(dst, part2);
   strcat(dst, " !!");
   std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
             << "\n";
 
-  // 2. Append the number of charactors
+  // **2. Append the number of charactors**
   strncat(dst, "1234", 3);
   std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
             << "\n";
@@ -103,18 +102,18 @@ namespace CompareString {
 void run() {
   const char str1[] = "abc";
   const char str2[] = "abcde";
-  // 0. Compare memory
+  // **0. Compare memory**
   // int memcmp ( const void * ptr1, const void * ptr2, size_t num );
   int result0 = memcmp(str1, str2, sizeof(str1));
   std::cout << "strcmp(str1, \"abcde\") = " << result0 << "\n";
 
-  // 1. Compare full str
+  // **1. Compare full str**
   int result1 = strcmp(str1, "abc");
   int result2 = strcmp(str1, str2);
   std::cout << "strcmp(str1, \"abc\") = " << result1 << "\n";
   std::cout << "strcmp(str1, str2) = " << result2 << "\n";
 
-  // 2. Compare first N characters
+  // **2. Compare first N characters**
   int result3 = strncmp(str1, str2, 3);
   std::cout << "strncmp(str1, str2, 3) = " << result3 << "\n";
 }
@@ -125,7 +124,7 @@ void run() {
   char str[] = "A,B,C,D,";  // OK
                             //   char* str = "A,B,C,D,"; // ERROR - const
 
-  // 1. Splitting a string by some delimiter
+  // **1. Splitting a string by some delimiter**
   // 1.1. strtok - not safe
   char* delimiter = ",";
   const char* token = strtok(str, delimiter);
@@ -161,7 +160,7 @@ void run() {
     token2 = strtok_r(NULL, delimiter, &saveptr);
   }
 
-  // 2. strcspn: find first occurrence of any chars in reject set
+  // **2. strcspn: find first occurrence of any chars in reject set**
   const char sample[] = "hello123world";
   size_t pos = strcspn(sample, "0123456789");  // pos = 5
 
@@ -174,12 +173,12 @@ void run() {
 
 namespace NumberConversion {
 void run() {
-  // 1. string to integer
+  // **1. string to integer**
   const char strNum[] = "100";
   int num = atoi(strNum);
   std::cout << num << "\n";
 
-  // 2. string to double
+  // **2. string to double**
   const char strNumD[] = "100.1234__123";
   double numD = atof(strNumD);
   std::cout << numD << "\n";
@@ -193,11 +192,11 @@ void run() {
 
 #include "ExampleRegistry.h"
 
-class CString : public IExample {
+class BasicString : public IExample {
  public:
-  std::string group() const override { return "core"; }
-  std::string name() const override { return "CString"; }
-  std::string description() const override { return "C String Example"; }
+  std::string group() const override { return "core/string"; }
+  std::string name() const override { return "BasicString"; }
+  std::string description() const override { return "String Example"; }
   void execute() override {
     InitializeString::run();
     CopyString::run();
@@ -209,4 +208,4 @@ class CString : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(CString, "core", "CString");
+REGISTER_EXAMPLE(BasicString, "core/string", "BasicString");
