@@ -71,7 +71,6 @@ jobs:
 
       # -------------------------------------------------------
       # Step 4: Run unit tests
-      # TODO: need to update, I think we should not hard-code the executable name here
       # -------------------------------------------------------
       - name: Run tests
         run: |
