@@ -76,8 +76,7 @@ jobs:
       - name: Run tests
         run: |
           cd build
-          ls -l
-          ./cpp_lab_project_unit_test
+          ctest --output-on-failure
 
       # -------------------------------------------------------
       # Step 5: Generate code coverage report
