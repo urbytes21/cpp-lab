@@ -44,6 +44,13 @@ target_link_libraries(${PROJECT_NAME_TEST}
     GTest::gmock_main
 )
 
+# Register the unit test executable with CTest
+# `ctest --output-on-failure`
+add_test(
+    NAME unit_tests
+    COMMAND ${PROJECT_NAME_TEST}
+)
+
 # Automatically register tests with CTest
 include(GoogleTest)
 gtest_discover_tests(${PROJECT_NAME_TEST})
