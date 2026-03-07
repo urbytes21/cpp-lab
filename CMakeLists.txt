@@ -1,3 +1,19 @@
+#                   ROOT CMAKE
+#                        │
+#      ┌─────────────────┴─────────────────┐
+#      │                                   │
+# src module                         tests module
+#      │                                   │
+# ┌────┴────┐                              │
+# │         │                              │
+# core    socket                           │
+# │         │                              │
+# └──────┬──┘                              │
+#        │                                 │
+#        ▼                                 ▼
+# cpp_lab_project                 cpp_lab_project_unit_test
+# (main executable)               (GoogleTest executable)
+
 cmake_minimum_required(VERSION 3.14)
 
 # ----------------------------------------------------------------------------------------
@@ -9,16 +25,15 @@ project(cpp_lab_project # ${PROJECT_NAME}
     LANGUAGES CXX
 )
 
-# Build timestamp
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/include)
-string(TIMESTAMP BUILD_TIME "%Y-%m-%d %H:%M:%S")
-
-configure_file(
-    ${CMAKE_SOURCE_DIR}/include/version.h.in
-    ${CMAKE_BINARY_DIR}/generated/version.h
-)
-
-set(PROJECT_NAME_TEST ${PROJECT_NAME}_unit_test) # name for the unit-test executable
+# ----------------------------------------------------------------------------------------
+# Output directories to build/bin
+# ----------------------------------------------------------------------------------------
+# Executables
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# Shared libraries
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+# Static libraries
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # ----------------------------------------------------------------------------------------
 # Compiler and language configuration
@@ -26,17 +41,43 @@ set(PROJECT_NAME_TEST ${PROJECT_NAME}_unit_test) # name for the unit-test execut
 # Require at least C++17 for GoogleTest and modern C++ features
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON) # Enable output of compile commands for clang-tidy
 
-# Optionally enforce warnings (good for learning/debugging)
+# Export compile_commands.json (useful for clang-tidy, clangd, IDEs)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# ----------------------------------------------------------------------------------------
+# Build metadata
+# ----------------------------------------------------------------------------------------
+# Ensure directory exists for generated headers
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/generated)
+
+# Generate build timestamp
+string(TIMESTAMP BUILD_TIME "%Y-%m-%d %H:%M:%S")
+
+# Generate version header from template
+configure_file(
+    ${CMAKE_SOURCE_DIR}/include/version.h.in
+    ${CMAKE_BINARY_DIR}/generated/version.h
+)
+
+# ----------------------------------------------------------------------------------------
+# External dependencies (GoogleTest,...)
+# ----------------------------------------------------------------------------------------
+include(cmake/Dependencies.cmake)
+
+# ----------------------------------------------------------------------------------------
+# Compiler warnings (useful for learning/debugging)
+# ----------------------------------------------------------------------------------------
 add_compile_options(-Wall -Wextra -Wpedantic)
 
-message("C Compiler: ${CMAKE_C_COMPILER}")
-message("C++ Compiler: ${CMAKE_CXX_COMPILER}")
-message("C++ Compiler ID: ${CMAKE_CXX_COMPILER_ID}")
-message("C++ Compiler Version: ${CMAKE_CXX_COMPILER_VERSION}")
+message(STATUS "C Compiler: ${CMAKE_C_COMPILER}")
+message(STATUS "C++ Compiler: ${CMAKE_CXX_COMPILER}")
+message(STATUS "C++ Compiler ID: ${CMAKE_CXX_COMPILER_ID}")
+message(STATUS "C++ Compiler Version: ${CMAKE_CXX_COMPILER_VERSION}")
 
-# Option to enable coverage
+# ----------------------------------------------------------------------------------------
+# Code coverage configuration
+# ----------------------------------------------------------------------------------------
 option(ENABLE_COVERAGE "Enable coverage reporting" OFF)
 
 if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -46,197 +87,12 @@ if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif()
 
 # ----------------------------------------------------------------------------------------
-# Dependencies - GoogleTest
+# Enable CTest framework (used by GoogleTest)
 # ----------------------------------------------------------------------------------------
-# FetchContent allows downloading dependencies at configure time
-include(FetchContent)
-
-# Declare GoogleTest dependency
-FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-)
-
-# Make GoogleTest available
-FetchContent_MakeAvailable(googletest)
-
-# Enable CTest framework to run tests with `ctest`
 enable_testing()
 
 # ----------------------------------------------------------------------------------------
-# Project directories and files
+# Add project modules
 # ----------------------------------------------------------------------------------------
-# Header files directory
-set(APP_HEADERS
-    "include"
-    "${CMAKE_BINARY_DIR}/generated" # cmake generated headers
-)
-
-# Core source files
-set(APP_SOURCES
-    "src/DeleteMe.cpp"
-    "src/core/basics/InitializeVariable.cpp"
-    "src/core/basics/Operations.cpp"
-    "src/core/basics/TypeQualifier.cpp"
-    "src/core/basics/ControlFlow.cpp"
-    "src/core/linkage/Internal.cpp"
-    "src/core/linkage/Linkage.cpp"
-    "src/core/linkage/External.cpp"
-    "src/core/linkage/sharing/Sharing.cpp"
-    "src/core/linkage/sharing/external/constants.cpp"
-    "src/core/datatypes/Fundamental.cpp"
-    "src/core/datatypes/CArray.cpp"
-    "src/core/datatypes/CReferences.cpp"
-    "src/core/datatypes/CPointers.cpp"
-    "src/core/datatypes/CEnum.cpp"
-    "src/core/datatypes/CStruct.cpp"
-    "src/core/datatypes/CUnion.cpp"
-    "src/core/datatypes/TypeConVersions.cpp"
-
-    # # Class
-    "src/core/datatypes/class/Friend.cpp"
-    "src/core/datatypes/class/CConstructors.cpp"
-    "src/core/datatypes/class/CDestructors.cpp"
-    "src/core/datatypes/class/SallowDeepCopying.cpp"
-    "src/core/datatypes/class/RoleOfThreeFiveZero.cpp"
-
-    # # String
-    "src/core/string/StringFormatting.cpp"
-    "src/core/string/BasicString.cpp"
-    "src/patterns/structural/Adapter.cpp"
-    "src/patterns/structural/Bridge.cpp"
-    "src/patterns/structural/Proxy.cpp"
-    "src/patterns/structural/Composite.cpp"
-    "src/patterns/structural/Flyweight.cpp"
-    "src/patterns/structural/Facade.cpp"
-    "src/patterns/structural/Decorator.cpp"
-    "src/patterns/behavioral/ChainOfCommand.cpp"
-    "src/patterns/behavioral/Command.cpp"
-    "src/patterns/behavioral/Iterator.cpp"
-    "src/patterns/behavioral/Mediator.cpp"
-    "src/patterns/behavioral/Memento.cpp"
-    "src/patterns/behavioral/Visitor.cpp"
-    "src/patterns/behavioral/TemplateMethod.cpp"
-    "src/patterns/behavioral/Strategy.cpp"
-    "src/patterns/behavioral/State.cpp"
-    "src/patterns/behavioral/Observer.cpp"
-    "src/patterns/creational/Singleton.cpp"
-    "src/patterns/creational/FactoryMethod.cpp"
-    "src/patterns/creational/AbstractFactory.cpp"
-    "src/patterns/creational/Builder.cpp"
-    "src/patterns/creational/Prototype.cpp"
-    "src/core/datatypes/class/Relationship.cpp"
-    "src/core/datatypes/class/VirtualBase.cpp"
-    "src/core/datatypes/class/Binding.cpp"
-
-    # # Exceptions
-    "src/core/exception/BasicHandle.cpp"
-    "src/core/exception/ThrowNoexcept.cpp"
-
-    # # Streams
-    "src/core/filehandle/IOStream.cpp"
-    "src/core/filehandle/StringStream.cpp"
-    "src/core/filehandle/FileIO.cpp"
-    "src/core/filehandle/Directory.cpp"
-    "src/core/filehandle/OutputFormatting.cpp"
-    "src/core/filehandle/BinaryFileHandling.cpp"
-
-    # # Container
-    "src/core/datatypes/container/sequence/Array.cpp"
-    "src/core/datatypes/container/sequence/Vector.cpp"
-    "src/core/datatypes/container/unordered/UnorderedMap.cpp"
-    "src/core/expression/Lambda.cpp"
-    "src/core/expression/FunctionPointer.cpp"
-    "src/core/datatypes/container/adapter/Queue.cpp"
-    "src/core/datatypes/container/adapter/Stack.cpp"
-    "src/core/datatypes/container/sequence/Deque.cpp"
-    "src/core/datatypes/container/associative/Set.cpp"
-
-    # # LC
-    "src/leetcode/arrays/two_sum/TwoSum.cpp"
-    "src/leetcode/arrays/median_two_arrays/MedianTwoSortedArrays.cpp"
-    "src/leetcode/arrays/container_with_most_water/ContainerWithMostWater.cpp"
-    "src/leetcode/arrays/longest_common_prefix/Solution.cpp"
-    "src/leetcode/arrays/3sum/Solution.cpp"
-    "src/leetcode/arrays/4sum/Solution.cpp"
-
-    # # Controller
-    "src/controller/pid/pid.cpp"
-    "src/controller/pid/PIDSim.cpp"
-
-    # # Smart Pointers
-    "src/core/datatypes/smart_pointer/Unique.cpp"
-    "src/core/datatypes/smart_pointer/Shared.cpp"
-    "src/core/datatypes/smart_pointer/Weak.cpp"
-
-    # # Overloading
-    "src/core/overloading/ArithmeticOperator.cpp"
-    "src/core/overloading/IOOperator.cpp"
-    "src/core/overloading/UnaryOperator.cpp"
-    "src/core/overloading/ComparisonOperator.cpp"
-    "src/core/overloading/InDecOperator.cpp"
-    "src/core/overloading/SubscriptOperator.cpp"
-    "src/core/overloading/ParenthesisOperator.cpp"
-    "src/core/overloading/TypeCast.cpp"
-    "src/core/overloading/AssignmentOperator.cpp"
-    "src/core/overloading/ClassMemberAccessOperator.cpp"
-    "src/core/overloading/AllocationOperator.cpp"
-
-    # # Date and Time
-    "src/core/datetime/CTime.cpp"
-
-    # # Socket
-    "src/socket/simple_tcp/TCPServer.cpp"
-    "src/socket/simple_tcp/SimpleTCPServer.cpp"
-)
-
-# Test files
-set(APP_TESTS
-    "tests/DeleteMeTest.cpp"
-    "tests/two_sum_ut.cpp"
-    "tests/median_two_sorted_arrays_ut.cpp"
-    "tests/container_with_most_water_ut.cpp"
-    "tests/longest_common_prefix_ut.cpp"
-    "tests/three_sum_ut.cpp"
-    "tests/four_sum_ut.cpp"
-)
-
-# ----------------------------------------------------------------------------------------
-# Main application target
-# ----------------------------------------------------------------------------------------
-add_executable(${PROJECT_NAME}
-    ${APP_SOURCES}
-    "src/main.cpp"
-)
-
-# Add header include path
-target_include_directories(${PROJECT_NAME}
-    PRIVATE ${APP_HEADERS}
-)
-
-# Optional: add project-specific compiler options
-target_compile_options(${PROJECT_NAME}
-    PRIVATE -Wall -Wextra -Wpedantic
-)
-
-# ----------------------------------------------------------------------------------------
-# Unit testing target
-# ----------------------------------------------------------------------------------------
-add_executable(${PROJECT_NAME_TEST}
-    ${APP_SOURCES}
-    ${APP_TESTS}
-)
-
-target_include_directories(${PROJECT_NAME_TEST}
-    PRIVATE ${APP_HEADERS} # PRIVATE for internal use within a target,
-)
-
-# Link GoogleTest, GoogleMock to the test executable
-target_link_libraries(${PROJECT_NAME_TEST}
-    GTest::gtest_main
-    GTest::gmock_main
-)
-
-# Register tests with CTest
-include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME_TEST})
+add_subdirectory(src)
+add_subdirectory(tests)

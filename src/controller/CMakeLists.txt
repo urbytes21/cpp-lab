@@ -1,0 +1,8 @@
+set(CONTROLLER_SOURCES
+
+    # PID
+    pid/pid.cpp
+    pid/PIDSim.cpp
+)
+
+set(CONTROLLER_SOURCES ${CONTROLLER_SOURCES} PARENT_SCOPE)
