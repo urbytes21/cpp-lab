@@ -43,6 +43,8 @@ class TCPServer {
    */
   void handleClient(int client_fd);
 
+  static void sendAll(int fd, const char* data, size_t len);
+
  private:
   uint16_t port_;      // TCP ports are in 0 - 65535
   int server_fd_{-1};  // socket descriptor

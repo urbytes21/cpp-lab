@@ -23,6 +23,8 @@ add_executable(${PROJECT_NAME}
     main.cpp
     ${CORE_SOURCES}
     ${SOCKET_SOURCES}
+    ${CONTROLLER_SOURCES}
+    ${DS_SOURCES}
 )
 
 # Add header include paths
