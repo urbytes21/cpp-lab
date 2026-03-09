@@ -11,6 +11,8 @@ class TCPClient {
   void send(const std::string& msg);
   std::string receive();
 
+  const std::string& getHost() const;
+  uint16_t getPort() const; 
  private:
   std::string host_;
   uint16_t port_;

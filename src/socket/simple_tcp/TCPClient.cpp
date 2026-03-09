@@ -75,3 +75,11 @@ void TCPClient::close() {
     client_fd_ = -1;
   }
 }
+
+const std::string& TCPClient::getHost() const {
+  return host_;
+}
+
+uint16_t TCPClient::getPort() const {
+  return port_;
+}
