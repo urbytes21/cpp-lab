@@ -1,4 +1,4 @@
-#include <string.h>
+#include <string.h> // C-String
 #include <iostream>
 
 namespace {
