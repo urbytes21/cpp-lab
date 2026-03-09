@@ -9,19 +9,19 @@ set -e  # Exit immediately if a command fails
 PROJECT_EXEC="./build/bin/cpp_lab_project"
 BUILD_DIR="./build"
 
-if [ ! -d "build" ]; then
-echo "Build directory not found. Creating build directory..."
+# if [ ! -d "build" ]; then
+# echo "Build directory not found. Creating build directory..."
 
-rm -rf build
-mkdir build
-cd build || exit
+# rm -rf build
+# mkdir build
+# cd build || exit
 
-cmake ..
-cd ..
+# cmake ..
+# cd ..
 
-else
-echo "Build directory already exists."
-fi
+# else
+# echo "Build directory already exists."
+# fi
 
 clear
 echo "=============================="
@@ -38,6 +38,7 @@ done
 
 echo ""
 echo "===========>> Building project..."
+cmake -G "Unix Makefiles" -B "$BUILD_DIR"
 cmake --build "$BUILD_DIR"
 
 echo ""
