@@ -42,6 +42,7 @@ set(CORE_SOURCES
     # String handling
     ${CMAKE_CURRENT_SOURCE_DIR}/string/StringFormatting.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/string/BasicString.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/string/StdString.cpp
 
     # Exception handling
     ${CMAKE_CURRENT_SOURCE_DIR}/exception/BasicHandle.cpp
