@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "ExampleRegistry.h"
 #include "TCPClient.h"
 
@@ -12,15 +13,26 @@ void run() {
       std::cout << "connect failed\n";
       return;
     }
-
-    client.send("Hello server\n");
-
+    std::cout << "connected to " << "host: " << client.getHost()
+              << " port:" << client.getPort() << "\n";
     std::string response = client.receive();
+    std::cout << response << std::endl;
+    std::string msg;
+    while (true) {
+      if (!std::getline(std::cin, msg)) {
+        std::cout << "get line failed" << std::endl;
+        break;
+      };
 
-    std::cout << "server: " << response << std::endl;
+      // TODO: why we need \n here
+      client.send(msg + "\n");
+      response = client.receive();
+      std::cout << response;
+    }
 
     client.close();
   } catch (const std::exception& e) {
+    // Connection closed by foreign host
     std::cout << "error: " << e.what() << std::endl;
   }
 }
