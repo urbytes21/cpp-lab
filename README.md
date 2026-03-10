@@ -1,7 +1,7 @@
 ## 1. Overview
 **TL;DR**
 ```bash
-./r
+./run.sh
 ```
 
 **Project Structure**
@@ -94,6 +94,87 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         * `-t`: allocate a terminal (TTY)
         * `cpp-lab:latest`: the image you built earlier.
         * `/bin/bash`: the command to execute inside the container (opens a Bash shell).
+
+### 3.2 Configure C/C++ debugging
+```json
+// launch.json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/debug/cpp_lab_project", // path to the executable
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",    // working directory
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "preLaunchTask": "CMake Debug Build",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ],
+        },
+    ]
+}
+
+// tasks.json
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "CMake Debug Configure",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-S",
+                ".",
+                "-B",
+                "build/debug",
+                "-DCMAKE_BUILD_TYPE=Debug"
+            ]
+        },
+        {
+            "label": "CMake Debug Build",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "--build",
+                "build/debug"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always"
+            },
+            "dependsOn": "CMake Debug Configure"
+        }
+    ]
+}
+```
+- 1. Open project using VSCode
+- 2. Install `The C/C++ Extension Pack`
+- 3. Install gdb
+```bash
+$ sudo apt update
+$ sudo apt install gdb
+```
+- 4. `F5`: Start Debug
+- 5. `Ctrl + F5`: Run without debug
+- 6. `Ctrl + Shift + B`: Build project (optional)
 
 ## 5. Update Docker Image
 ```bash
