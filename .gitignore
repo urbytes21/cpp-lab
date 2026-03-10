@@ -3,3 +3,5 @@
 *.vscode
 *Identifier
 *Testing*
+coverage_gcovr
+coverage_lcov

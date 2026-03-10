@@ -4,12 +4,13 @@
 ./run.sh
 ```
 
-**Project Structure**
+**Project Hierarchy**
 ```
 includes/   → Header files (.h, .hpp)  
 src/        → Source files (.cpp)  
 tests/      → GoogleTest test cases  
 ```
+
 ## 2. Dependencies
 Make sure the following tools are installed before building the project:
 - **g++ / gcc**
@@ -36,38 +37,42 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
 ### 3.1. Setup the Local Test Environment
 - **Ubuntu system**
     * Install `gcc`, `cmake`, `git`, and `pthread` (Skip this step if you already install)
-        ```
+        ```bash
         $ sudo apt-get update
         $ sudo apt-get install g++
         $ sudo apt-get install lcov
         $ sudo apt-get install cmake
         $ sudo apt-get install git
+        $ sudo apt install valgrind
         $ sudo apt-get install cppcheck
+        $ sudo apt-get install -y clang-tidy
+        $ sudo apt install python3-gcovr
         ```
     * Build the application and the tests
-        ```
+        ```bash
         $ cd build
         $ cmake ..
         $ cmake --build .
         ```
     * Run the application and the test
-        ```
+        ```bash
         $ ./cpp_lab_project
         $ ./cpp_lab_project_test
         ```
     * Detect Memory Leak Using [valgrind](https://valgrind.org/)
-        ```
-        $ sudo apt install valgrind
+        ```bash
         $ valgrind --leak-check=full -v ./cpp-lab 
         ```
     * (Optional) Run static analysis - cppcheck
-        ```
-        $ sudo apt-get install cppcheck
+        ```bash
         $ cppcheck "folder" / "file"
         ```
     * (Optional) Run static analysis - clang-tidy
+        ```bash
+        $ clang-tidy -p build -header-filter='^src/.*' $(find src -name "*.cpp")
         ```
-        $ sudo apt-get install -y clang-tidy
+    * (Optional) Run coverage - clang-tidy
+        ```bash
         $ clang-tidy -p build -header-filter='^src/.*' $(find src -name "*.cpp")
         ```
 - **Docker**
@@ -175,6 +180,10 @@ $ sudo apt install gdb
 - 4. `F5`: Start Debug
 - 5. `Ctrl + F5`: Run without debug
 - 6. `Ctrl + Shift + B`: Build project (optional)
+
+
+### 3.3 Documentation with `doxygen`
+TBD - Refer to this [Documentation with doxygen](https://www.labri.fr/perso/fleury/posts/programming/using-cmake-googletests-and-gcovr-in-a-c-project.html#:~:text=of%20the%C2%A0project.-,Documentation%20with%20doxygen,-Code%20embedded%20documentation)
 
 ## 5. Update Docker Image
 ```bash
