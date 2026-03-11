@@ -1,7 +1,7 @@
 ## 1. Overview
 **TL;DR**
 ```bash
-./run.sh
+./scripts/run.sh
 ```
 
 **Project Hierarchy**
@@ -56,8 +56,8 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         ```
     * Run the application and the test
         ```bash
-        $ ./cpp_lab_project
-        $ ./cpp_lab_project_test
+        $ ./bin/cpp_lab_project
+        $ ./bin/cpp_lab_project_test
         ```
     * Detect Memory Leak Using [valgrind](https://valgrind.org/)
         ```bash
@@ -71,9 +71,9 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         ```bash
         $ clang-tidy -p build -header-filter='^src/.*' $(find src -name "*.cpp")
         ```
-    * (Optional) Run coverage - clang-tidy
+    * (Optional) Run coverage - lcov
         ```bash
-        $ clang-tidy -p build -header-filter='^src/.*' $(find src -name "*.cpp")
+        $ ./scripts/gen_coverage_lcov.sh
         ```
 - **Docker**
     * Update `Dockerfile`
