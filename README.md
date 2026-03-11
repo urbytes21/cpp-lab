@@ -100,9 +100,39 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         * `cpp-lab:latest`: the image you built earlier.
         * `/bin/bash`: the command to execute inside the container (opens a Bash shell).
 
-### 3.2 Configure C/C++ debugging
+### 3.2 Config C/C++ Debugging (VS Code)
+
+#### 3.2.1. Launch Configuration
+
+To debug C/C++ projects in VS Code, you must create a *launch configuration* that specifies:
+
+- The application entry point (executable)
+- How to attach to a running process
+- Environment variables needed
+- Saved debugging setup details
+
+All launch configs are stored in `.vscode/launch.json` within your workspace.
+##### a. Create `launch.json`
+- Go to `Run` → `Add Configuration...` or
+- Use VS Code chat command:
+    ```
+    /startDebugging
+    ```
+    to auto-generate a debug configuration.
+
+##### b. Start Debugging
+
+You can start a debug session in several ways:
+- **F5**
+- **Ctrl + Shift + D**: Open Debug panel, select a config, press Start
+- **Ctrl + Shift + P** → select `Debug: Select and Start Debugging`
+
+#### 3.2.2. Debug Configuration Example
+
+The most important field is the executable that will run:
+
 ```json
-// launch.json
+// .vscode/launch.json
 {
     "version": "0.2.0",
     "configurations": [
@@ -110,31 +140,37 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/debug/cpp_lab_project", // path to the executable
+            "program": "${workspaceFolder}/build/debug/bin/cpp_lab_project",
             "args": [],
             "stopAtEntry": true,
-            "cwd": "${workspaceFolder}",    // working directory
+            "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
             "preLaunchTask": "CMake Debug Build",
             "setupCommands": [
                 {
-                    "description": "Enable pretty-printing for gdb",
+                    "description": "Enable pretty printing for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 },
                 {
-                    "description": "Set Disassembly Flavor to Intel",
+                    "description": "Set disassembly flavor to Intel",
                     "text": "-gdb-set disassembly-flavor intel",
                     "ignoreFailures": true
                 }
-            ],
-        },
+            ]
+        }
     ]
 }
+```
 
-// tasks.json
+#### 3.2.3. Build Tasks (CMake)
+
+An example `tasks.json` for CMake builds:
+
+```json
+// .vscode/tasks.json
 {
     "version": "2.0.0",
     "tasks": [
@@ -170,17 +206,30 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
     ]
 }
 ```
-- 1. Open project using VSCode
-- 2. Install `The C/C++ Extension Pack`
-- 3. Install gdb
-```bash
-$ sudo apt update
-$ sudo apt install gdb
-```
-- 4. `F5`: Start Debug
-- 5. `Ctrl + F5`: Run without debug
-- 6. `Ctrl + Shift + B`: Build project (optional)
+#### 3.2.4. Run Steps
 
+1. **Open** your project in VS Code
+2. **Install Extension:**  
+   - *C/C++ Extension Pack*
+3. **Install GDB:**
+   ```bash
+   sudo apt update
+   sudo apt install gdb
+   ```
+4. **Start Debugging:**  
+   Press `F5`
+5. **Run Without Debugging:**  
+   Press `Ctrl + F5`
+6. **Build Project (Optional):**  
+   Press `Ctrl + Shift + B`
+
+Notes:
+| Shortcut        | Action                 |
+|-----------------|-----------------------|
+| F5              | Start debugging        |
+| Ctrl + F5       | Run without debugging  |
+| Ctrl + Shift + D| Open Debug panel       |
+| Ctrl + Shift + B| Build project          |
 
 ### 3.3 Documentation with `doxygen`
 TBD - Refer to this [Documentation with doxygen](https://www.labri.fr/perso/fleury/posts/programming/using-cmake-googletests-and-gcovr-in-a-c-project.html#:~:text=of%20the%C2%A0project.-,Documentation%20with%20doxygen,-Code%20embedded%20documentation)
