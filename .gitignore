@@ -1,5 +1,10 @@
 *build
 *private*
-*.vscode
+.vscode/
 *Identifier
 *Testing*
+coverage_gcovr
+coverage_lcov
+!.vscode/launch.json
+!.vscode/tasks.json
+.cache

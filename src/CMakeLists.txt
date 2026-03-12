@@ -7,7 +7,7 @@ add_subdirectory(core)
 add_subdirectory(controller)
 add_subdirectory(patterns)
 add_subdirectory(socket)
-
+add_subdirectory(excercise)
 
 # main application executable does NOT link to this library.
 add_subdirectory(leetcode)
@@ -25,6 +25,7 @@ add_executable(${PROJECT_NAME}
     ${SOCKET_SOURCES}
     ${CONTROLLER_SOURCES}
     ${DS_SOURCES}
+    ${EXCERCISE_SOURCES}
 )
 
 # Add header include paths
@@ -38,4 +39,10 @@ target_include_directories(${PROJECT_NAME}
 # Optional: add project-specific compiler options
 target_compile_options(${PROJECT_NAME}
     PRIVATE -Wall -Wextra -Wpedantic
+)
+
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+        ex_account
+        ex_student_manager
 )
