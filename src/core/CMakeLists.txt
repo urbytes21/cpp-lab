@@ -87,6 +87,9 @@ set(CORE_SOURCES
 
     # Date and time
     ${CMAKE_CURRENT_SOURCE_DIR}/datetime/CTime.cpp
+
+    # Concurrency
+    ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/ThreadManagement.cpp
 )
 
 # Export CORE_SOURCES to the parent CMakeLists.txt

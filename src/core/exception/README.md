@@ -9,5 +9,5 @@
  - Low/ middle layers: catch and rethrow an exception  if they do not have enough context to handle.  This way, the exceptions will propagate up the call stack.
  - Highest layers: let an unhandled exception terminate a program. (`exit(-1)`)
 
-- Resource Acquisition Is Initialization (RAII) 
+- Resource Acquisition Is Initialization (RAII) (resource lifetime = object lifetime)
 
