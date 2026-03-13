@@ -90,6 +90,8 @@ set(CORE_SOURCES
 
     # Concurrency
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/ThreadManagement.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/SharingData.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/RaceCondition.cpp
 )
 
 # Export CORE_SOURCES to the parent CMakeLists.txt

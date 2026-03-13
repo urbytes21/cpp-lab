@@ -104,15 +104,23 @@ void callable() {
 }
 
 void run() {
+  unsigned int threadsNum = std::thread::hardware_concurrency();
+  std::cout << "The number of hardware thread contexts: " << threadsNum << '\n';
+
   std::cout << "\n---Join Ex---\n";
+  // create a thread object
   std::thread user_thread(callable);
+
   for (size_t i = 0; i < 10; ++i) {
     std::cout << "run " << i << '\n';
     std::this_thread::sleep_for(std::chrono::milliseconds(5));  // sleep for 5ms
   }
+
   checkJoinable(user_thread);
-  user_thread
-      .join();  // sync point, block the execution of the caller until the thread executation(callable) finished
+
+  // sync point, block the execution of the caller until the thread executation(callable) finished
+  user_thread.join();
+
   checkJoinable(user_thread);
 
   std::cout << "\nrun finished\n";
