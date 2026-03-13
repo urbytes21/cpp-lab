@@ -94,13 +94,13 @@ void run() {
 
 class RaceCondition : public IExample {
 
-  std::string group() const { return "core/concurrency"; }
-  std::string name() const { return "RaceCondition"; }
-  std::string description() const {
+  std::string group() const override { return "core/concurrency"; }
+  std::string name() const override { return "RaceCondition"; }
+  std::string description() const override {
     return "The examples for <thread> race condition";
   }
 
-  void execute() {
+  void execute() override {
     Problem::run();
     Atomic::run();
     Mutex::run();

@@ -50,13 +50,13 @@ void run() {
 
 class ConditionVariable : public IExample {
 
-  std::string group() const { return "core/concurrency"; }
-  std::string name() const { return "ConditionVariable"; }
-  std::string description() const {
+  std::string group() const override { return "core/concurrency"; }
+  std::string name() const override { return "ConditionVariable"; }
+  std::string description() const override {
     return "The examples for <thread> condition variable";
   }
 
-  void execute() { run(); }
+  void execute() override { run(); }
 };
 
 REGISTER_EXAMPLE(ConditionVariable, "core/concurrency", "ConditionVariable");

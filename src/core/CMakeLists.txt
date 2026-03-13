@@ -93,6 +93,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/SharingData.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/RaceCondition.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/ConditionVariable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/FuturePromise.cpp
 )
 
 # Export CORE_SOURCES to the parent CMakeLists.txt

@@ -6,22 +6,23 @@
 
 - `<chrono>` is a C++ header that provide `a collection of types and functions` to work with time.
 
-### 1.1. Thread <thread>
+## 2. Thread <thread>
 - Threads are `the basic unit of` multitasking.
 - There are many errors and risks associated with concurrency, including:
  - `Deadlocks`: `refers to the situation where` two or more threads are blocked, `waiting for each other indefinitely`.
  - `Race condition`: `refers to the situation where` two or more threads access `shared data` concurrently, leading to the `undefined behavior`.
  - `Starvation`: `refer to the situation where` a thread `is unable to gain` regular access to the shared resources.
 => We can avoid these problems by `proper synchronization` between the threads.
+- Use threads if we need to run long-lived and complex tasks. 
 
-### 1.2. Thead Synchronization
+### 2.2. Thead Synchronization
 - The synchronization can be done by using the following components:
  - `Mutex/Lock`: <mutex> they are used to protect the shared resouces, ensure that only one thread can access `the critical sections` at a time.
  - `Semaphore`: 
  - `Futures and Promises`: <future>, <promise> are used for the asynchronous task execution.
  - `Condition variable`: <condition_variable>
 
-### 1.3. Thread Management
+### 2.3. Thread Management
 - `thread`: an `OS thread` `managed by` the kernel.
 - Each `thread` has it own `call stack`, but all `threads` share the heap.
 - `thread object`: refers to a C++ instance `that associated with` an `active thread` of execution in hardware level.
@@ -34,12 +35,12 @@ is throw before `join`, `std::terminate` might be called, and will kill the enti
 - Use `return` to kill a thread.
 
 
-### 1.4. Sharing Data
+### 2.4. Sharing Data
 - `Global/Static Variable`: can be accessed by all threads.
 - `Pass By Reference`: we need to explicitly wrap the args in `std::ref` to pass by reference and is the only way to properly get data out of a thread
 - `thread_local` to create a static variable per thread.
 
-### 1.5. Atomic <std::atomic>
+### 2.5. Atomic <std::atomic>
 - An atomic type is a type that implements atomic operations. It's used to guarantee no race conditions will occur.
 - e.g.
 `std::atomic<bool>` - `std::atomic_bool`
@@ -77,7 +78,7 @@ int main()
 }
 ```
 
-### 1.6. Mutex/Locks
+### 2.6. Mutex/Locks
 - Mutexs are mutual exclusion objects, are owned by the thread that takes it.
 - e.g.
 ```cpp
@@ -107,7 +108,7 @@ thread_function()
     - `std::lock_guard`<mutex>, `std::scoped_lock`<mutex,mutex>
     - `std::unique_lock`, `shared_lock`
 
-### 1.7. Condition Variable for event handling - <condition_variable>
+### 2.7. Condition Variable for event handling - <condition_variable>
 - `std::condition_variable` is a synchronization primitive used with a `std::mutex` to block one or more threads until another thread both modifies a `shared variable` (the condition) and `notifies` the `std::condition_variable`.
 - `wait` will releases the lock and blocks the thread until the condition is fullfilled.
 - e.g.
@@ -172,4 +173,56 @@ main() signals data ready for processing
 Worker thread is processing data
 Worker thread signals data processing completed
 Back in main(), data = Example data after processing
+```
+
+## 3. Task
+- A `task` is a unit of asynchronous work that can be scheduled for execution.
+- It is a higher-level abstraction than a thread.
+- `It's generally considered` faster to work with tasks `as opposed to` threads, because the runtime can reuse threads and manage scheduling more efficiently.
+- We use `task` if we want fairly simple code and don't care for managing threads, and are running shorts tasks.
+
+### 3.1. Promises and Futures <future>
+- `std::future` is a class template that stores a value that will be assigned in the future, and provide a way to access that value.
+    - It will also block if its value is accessed before the value is assigned.
+    - `Futures` are the objects that are returned by async operations (`std::async, std::promise, std::packaged_task`)
+- `std::shared_future`: works the same way as `std::future`, except it is copytable, so multiple threads are allowed to wait for the same shared state.
+- `std::promise` provides a way to store a value or an exception that will be retrieved asynchronously via a `std::future`.
+    - It is commonly used to pass results between threads.
+    - It creates a `std::future` using `get_future()`.
+    - The `std::promise` and the `std::future` share a common shared state.
+    - The `std::promise` sets the value of the shared state using `set_value()`.
+    - The associated `std::future` retrieves the value using `get()`.
+
+
+### 3.2. Async
+- `Async` is a function template allows we to spawn threads to do work async, then collect the results from them via the `future` mechanism.
+- A call to `std::async` returns a `std::future` object.
+- The future can later be used to retrieve the result of the asynchronous computation.
+    ```cpp
+    auto future = std::async(some_function, arg_1, arg_2);
+    ```
+- `std::async` may run the function in a `new thread` or `defer execution` until the result is requested.
+    - `std::launch::async`: launch in a separated thread
+    - `std::launch::deferred`: only be called on `get()`
+    - default: defer to system 
+    ```cpp
+    auto future = std::async(std::launch::async,some_function, arg_1, arg_2);
+    ```
+- e.g.
+```cpp
+// Pass in function pointer
+auto future = std::async(std::launch::async, some_function, arg_1, arg_2);
+
+// Pass in function reference
+auto future = std::async(std::launch::async, &some_function, arg_1, arg_2);
+
+// Pass in function object
+struct SomeFunctionObject
+{
+	void operator() (int arg_1){}
+};
+auto future = std::async(std::launch::async, SomeFunctionObject(), arg_1);
+
+// Lambda function
+auto future = std::async(std::launch::async, [](){});
 ```
