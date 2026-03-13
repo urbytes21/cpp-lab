@@ -130,7 +130,7 @@ void TCPServer::handleClient(int client_fd) {
     buffer[bytes] = '\0';
 
     // print out
-    std::cout << "client: " << buffer;
+    std::cout << "client " << client_fd << ": " << buffer;
 
     sendAll(client_fd, buffer, bytes);
 
@@ -174,4 +174,16 @@ void TCPServer::setPort(uint16_t port) {
   if (!running_) {
     port_ = port;
   }
+}
+
+bool TCPServer::isRunning() const {
+  return running_;
+}
+
+int TCPServer::getServerFD() const {
+  return server_fd_;
+}
+
+void TCPServer::setServerFD(int fd) {
+  server_fd_ = fd;
 }

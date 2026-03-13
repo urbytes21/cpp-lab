@@ -6,7 +6,7 @@
 class TCPServer {
  public:
   explicit TCPServer(uint16_t port = 80);
-  ~TCPServer();
+  virtual ~TCPServer();
 
   void start() noexcept(false);
   void stop();
@@ -30,11 +30,9 @@ class TCPServer {
    */
   void listenSocket();
 
-  /**
-   * @brief Loop waiting for client connections
-   */
-  void acceptLoop();
+  static void sendAll(int fd, const char* data, size_t len);
 
+ protected:
   /**
    * @brief Handle communication with a single client
    * 
@@ -43,10 +41,17 @@ class TCPServer {
    */
   void handleClient(int client_fd);
 
-  static void sendAll(int fd, const char* data, size_t len);
+  /**
+   * @brief Loop waiting for client connections
+   */
+  virtual void acceptLoop();
+
+  bool isRunning() const;
+  int getServerFD() const;
+  void setServerFD(int fd);
 
  private:
   uint16_t port_;      // TCP ports are in 0 - 65535
   int server_fd_{-1};  // socket descriptor
-  bool running_{false};
+  volatile bool running_{false};
 };
