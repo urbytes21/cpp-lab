@@ -9,9 +9,10 @@ FROM ubuntu:24.04
 RUN \
     # updates the package lists for upgrades for packages that need upgrading,
     apt-get update && \     
-    # install cmake, gcc, g++
+    # install cmake, gcc, g++, git
     apt-get install -y cmake && \  
     apt-get install -y gcc g++  && \
+    apt-get install -y git && \
     # install cppcheck
     apt-get install -y cppcheck && \
     # install clang tidy

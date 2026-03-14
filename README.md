@@ -6,15 +6,18 @@
 
 **Project Hierarchy**
 ```
-includes/   → Header files (.h, .hpp)  
+include/    → Header files (.h, .hpp)  
 src/        → Source files (.cpp)  
 tests/      → GoogleTest test cases  
+scripts/    → Build and coverage helper scripts  
+cmake/      → CMake dependency modules  
+docs/       → Documentation and UML diagrams  
 ```
 
 ## 2. Dependencies
 Make sure the following tools are installed before building the project:
 - **g++ / gcc**
-- **CMake**
+- **CMake** (>= 3.14)
 - **Git**
 - **lcov** (for code coverage)
 - **cppcheck** (for static analysis)
@@ -36,7 +39,7 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
 ## 3. Setup
 ### 3.1. Setup the Local Test Environment
 - **Ubuntu system**
-    * Install `gcc`, `cmake`, `git`, and `pthread` (Skip this step if you already install)
+    * Install `gcc`, `cmake`, `git`, and other tools (skip if already installed)
         ```bash
         $ sudo apt-get update
         $ sudo apt-get install g++
@@ -50,18 +53,17 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         ```
     * Build the application and the tests
         ```bash
-        $ cd build
-        $ cmake ..
-        $ cmake --build .
+        $ cmake -S . -B build
+        $ cmake --build build
         ```
     * Run the application and the test
         ```bash
-        $ ./bin/cpp_lab_project
-        $ ./bin/cpp_lab_project_test
+        $ ./build/bin/cpp_lab_project
+        $ ./build/bin/cpp_lab_project_unit_test
         ```
     * Detect Memory Leak Using [valgrind](https://valgrind.org/)
         ```bash
-        $ valgrind --leak-check=full -v ./cpp-lab 
+        $ valgrind --leak-check=full -v ./build/bin/cpp_lab_project
         ```
     * (Optional) Run static analysis - cppcheck
         ```bash
@@ -75,11 +77,14 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         ```bash
         $ ./scripts/gen_coverage_lcov.sh
         ```
+    * (Optional) Run coverage - gcovr
+        ```bash
+        $ ./scripts/gen_coverage_gcovr.sh
+        ```
 - **Docker**
     * Update `Dockerfile`
     * Build the Docker image
         ```
-        $ cd build
         $ docker build --tag cpp-lab .
         ```
     * Run an interactive container
@@ -234,7 +239,7 @@ Notes:
 ### 3.3 Documentation with `doxygen`
 TBD - Refer to this [Documentation with doxygen](https://www.labri.fr/perso/fleury/posts/programming/using-cmake-googletests-and-gcovr-in-a-c-project.html#:~:text=of%20the%C2%A0project.-,Documentation%20with%20doxygen,-Code%20embedded%20documentation)
 
-## 5. Update Docker Image
+## 4. Update Docker Image
 ```bash
 # Navigate to the project that contain your Dockerfile
 cd cpp-lab
@@ -249,19 +254,19 @@ docker image ls
 docker push DOCKER_USERNAME/cpp-lab
 ```
 
-## 6. TroubleShooting
+## 5. TroubleShooting
 1. `push access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed`
 => docker login / Docker Desktop login
 
-## 7. Evaluate Executable
+## 6. Evaluate Executable
 - List all sections:
 ```bash
-$ size ./build/cpp-lab
+$ size ./build/bin/cpp_lab_project
 ```
 - The expected output should be the following:
 ```bash
    text    data     bss     dec     hex filename
-  14791     792     280   15863    ./build/cpp-lab
+  14791     792     280   15863    3df7 ./build/bin/cpp_lab_project
 ```
 
 - `.text`: Text Segment - the executable code size, including: complied function, inline, template, constants, string literals

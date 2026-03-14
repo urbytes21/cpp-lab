@@ -1,27 +1,13 @@
+#!/usr/bin/env bash
 ## NOTE:
 ## This file was initially generated with the assistance of AI.
 ## The code has been reviewed and may have been modified by the developer
 ## to ensure correctness, readability, and compliance with project requirements.
-#!/usr/bin/env bash
 
 set -e  # Exit immediately if a command fails
 
 PROJECT_EXEC="./build/bin/cpp_lab_project"
 BUILD_DIR="./build"
-
-# if [ ! -d "build" ]; then
-# echo "Build directory not found. Creating build directory..."
-
-# rm -rf build
-# mkdir build
-# cd build || exit
-
-# cmake ..
-# cd ..
-
-# else
-# echo "Build directory already exists."
-# fi
 
 clear
 echo "=============================="
@@ -29,8 +15,8 @@ echo "   Starting build pipeline... "
 echo "=============================="
 
 # Check required tools
-for tool in cmake cppcheck python3; do
-    if ! command -v $tool &> /dev/null; then
+for tool in cmake cppcheck; do
+    if ! command -v "$tool" &> /dev/null; then
         echo "[ERR]: $tool is not installed."
         exit 1
     fi
@@ -52,10 +38,6 @@ cppcheck \
     ./src ./include
 
 echo "[OK] Static analysis passed"
-
-echo ""
-echo "===========>> Generating commit id..."
-python3 ./private/genid.py
 
 echo ""
 echo "===========>> Running program..."

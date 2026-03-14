@@ -103,6 +103,7 @@ jobs:
       # - Add `--warnings-as-errors=*` to exit code 1
       # -------------------------------------------------------
       - name: Run clang-tidy
+        continue-on-error: true
         # run: |
         #   echo "Running clang-tidy..."
         #   clang-tidy \

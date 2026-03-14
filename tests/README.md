@@ -1,7 +1,7 @@
 # GoogleTest
 - GoogleTest helps you write better C++ tests.
 ## 1. Basic Concepts
-- **assertions:** the statememts that check whether a condition is true. The result can be:
+- **assertions:** the statements that check whether a condition is true. The result can be:
    - success
    - nonfatal failure
    - fatal failure

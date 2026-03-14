@@ -16,7 +16,7 @@ fi
 if [ ! -d build ]; then
   cmake -S . -B build \
     -DCMAKE_BUILD_TYPE=Debug \
-    -DCMAKE_CXX_FLAGS="--coverage -O0 -g"
+    -DENABLE_COVERAGE=ON
 fi
 
 # -----------------------------------------------------------------------------
@@ -41,6 +41,10 @@ gcovr -r . build \
   -o coverage_gcovr/index.html
 
 # -----------------------------------------------------------------------------
-# Open coverage report
+# Open coverage report (skip in headless environments)
 # -----------------------------------------------------------------------------
-xdg-open coverage_gcovr/index.html
+if command -v xdg-open >/dev/null 2>&1; then
+  xdg-open coverage_gcovr/index.html
+else
+  echo "Coverage report generated at: coverage_gcovr/index.html"
+fi
