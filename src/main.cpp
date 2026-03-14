@@ -55,7 +55,7 @@ void runMenu() {
       break;
     }
 
-    if (gChoice < 1 || gChoice > groups.size()) {
+    if (gChoice < 1 || static_cast<std::size_t>(gChoice) > groups.size()) {
       std::cout << "Invalid group choice\n";
       continue;
     }
@@ -102,7 +102,7 @@ void runMenu() {
   }
 }
 
-int main(int argc, char* argv[]) {
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
   std::cout << std::endl;
   if (__cplusplus == 202302L)
     std::cout << "C++23";

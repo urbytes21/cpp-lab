@@ -20,14 +20,13 @@ Student::Student(const Student& other)
 void Student::setCode() {
   // get name code XXX
   std::string nameCode = name_;
-
-  name_.append(3, ' ');  // so, name code at least 3 charactor
+  nameCode.append(3, ' ');  // pad nameCode to at least 3 characters
   nameCode.resize(3);
   std::replace(nameCode.begin(), nameCode.end(), ' ', 'X');
   std::transform(nameCode.begin(), nameCode.end(), nameCode.begin(), ::toupper);
 
   // get time code XXXX
-  time_t now = time(NULL);
+  time_t now = time(nullptr);
   std::string timeCode = std::to_string(now);
   timeCode = timeCode.substr(timeCode.size() - 3, timeCode.size());
   code_ = nameCode + timeCode;

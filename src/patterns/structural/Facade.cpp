@@ -136,10 +136,10 @@ class RequestFacade {
                          const ValidatorSubSystem* s2 = nullptr,
                          const LoggerSubSystem* s3 = nullptr,
                          const BackendSubSystem* s4 = nullptr) {
-    this->auth_ = s1 ?: new AuthSubSystem;
-    this->validator_ = s2 ?: new ValidatorSubSystem;
-    this->logger_ = s3 ?: new LoggerSubSystem;
-    this->backend_ = s4 ?: new BackendSubSystem;
+    this->auth_ = s1 ? s1 : new AuthSubSystem;
+    this->validator_ = s2 ? s2 : new ValidatorSubSystem;
+    this->logger_ = s3 ? s3 : new LoggerSubSystem;
+    this->backend_ = s4 ? s4 : new BackendSubSystem;
   }
 
   ~RequestFacade() {

@@ -1,10 +1,9 @@
 #pragma once
+#include <memory>
 #include <vector>
 #include "Student.h"
 class Manager {
  public:
-  ~Manager(); 
-
   void add();
   void update();
   void remove();
@@ -19,5 +18,5 @@ class Manager {
   friend std::ostream& operator<<(std::ostream& os, const Manager& manager);
 
  private:
-  std::vector<Student*> students_;
+  std::vector<std::unique_ptr<Student>> students_;
 };

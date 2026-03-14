@@ -20,8 +20,8 @@
  * THE SOFTWARE.
  */
 
-#ifndef _PID_H_
-#define _PID_H_
+#pragma once
+#include <memory>
 
 class PIDImpl;
 class PID {
@@ -43,7 +43,5 @@ class PID {
     PID& operator=(const PID& other) = delete;
 
  private:
-  PIDImpl* pimpl;
+  std::unique_ptr<PIDImpl> pimpl_;
 };
-
-#endif

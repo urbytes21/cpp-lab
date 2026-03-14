@@ -1,4 +1,5 @@
 #pragma once
+#include <atomic>
 #include <stdint.h>
 #include <stdexcept>
 #include <string>
@@ -51,7 +52,7 @@ class TCPServer {
   void setServerFD(int fd);
 
  private:
-  uint16_t port_;      // TCP ports are in 0 - 65535
-  int server_fd_{-1};  // socket descriptor
-  volatile bool running_{false};
+  uint16_t port_;           // TCP ports are in 0 - 65535
+  int server_fd_{-1};       // socket descriptor
+  std::atomic<bool> running_{false};
 };

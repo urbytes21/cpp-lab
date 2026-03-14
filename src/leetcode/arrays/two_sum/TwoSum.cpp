@@ -6,17 +6,17 @@
  * Space complexity: O(1)
  */
 std::vector<int> Solution::twoSum(const std::vector<int>& nums, int target) {
-  for (int i = 0; i < nums.size(); ++i) {
-    int diff = target - nums.at(i);
-    for (int j = i + 1; j < nums.size(); ++j) {
-      if (diff == nums.at(j)) {
-        return std::vector<int>{i, j};
+  for (std::size_t i = 0; i < nums.size(); ++i) {
+    int diff = target - nums[i];
+    for (std::size_t j = i + 1; j < nums.size(); ++j) {
+      if (diff == nums[j]) {
+        return {static_cast<int>(i), static_cast<int>(j)};
       }
     }
   }
 
   // no solution
-  return std::vector<int>{-1, -1};
+  return {-1, -1};
 }
 
 // #include <unordered_map>

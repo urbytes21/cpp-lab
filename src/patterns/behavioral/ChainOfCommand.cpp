@@ -20,6 +20,7 @@ namespace CoR {
  */
 class IHandler {
  public:
+  virtual ~IHandler() = default;
   virtual void setNextHandler(IHandler* handler) = 0;
   virtual IHandler* setNext(IHandler* handler) = 0;
   virtual void handle(const std::string& request) = 0;

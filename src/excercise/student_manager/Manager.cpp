@@ -3,38 +3,26 @@
 #include <sstream>
 #include <stdexcept>
 
-Manager::~Manager() {
-  for (auto it : students_) {
-    delete it;
-  }
-}
-
 void Manager::add() {
   std::string name = inputStr("Name?", "Invalid");
   std::string address = inputStr("Address?", "Invalid");
-  Student* s = new Student(name, address);
-  students_.push_back(s);
+  students_.push_back(std::make_unique<Student>(name, address));
   sortByName();
   std::cout << "Add successful!\n";
 }
 
 void Manager::remove() {
   std::string code = inputStr("Code?", "Invalid");
-  // for (auto it = students_.begin(); it != students_.end(); ++it) {
-  //   if ((*it)->getCode().substr(0, code.size()) == code) {
-  //     delete *it;
-  //     students_.erase(it);
-  //     std::cout << "Remove successfull!\n";
-  //     break;
-  //   }
-  // }
   auto it = std::find_if(
       students_.begin(), students_.end(),
-      [&code](const Student* s) { return s && s->getCode().find(code) == 0; });
+      [&code](const std::unique_ptr<Student>& s) {
+        return s && s->getCode().find(code) == 0;
+      });
 
   if (it != students_.end()) {
     students_.erase(it);
-    std::cout << "Remove successfull!\n";
+    std::cout << "Remove successful!\n";
+    return;
   }
 
   std::cout << "Student not found!\n";
@@ -67,25 +55,21 @@ void Manager::update() {
 }
 
 std::ostream& operator<<(std::ostream& os, const Manager& manager) {
-  for (const auto* const s : manager.students_) {
+  for (const auto& s : manager.students_) {
     os << *s << "\n";
   }
   return os;
 }
 
 Student* Manager::findByCode(const std::string& cod) {
-  // for (auto it : students_) {
-  //   // if (it->getCode().substr(0, cod.size()) == cod) // partial match
-  //   if (it->getCode() == cod) {
-  //     return it;
-  //   }
-  // }
   const auto it = std::find_if(
       students_.begin(), students_.end(),
-      [&cod](const Student* s) { return s && s->getCode() == cod; });
+      [&cod](const std::unique_ptr<Student>& s) {
+        return s && s->getCode() == cod;
+      });
 
   if (it != students_.end()) {
-    return *it;
+    return it->get();
   }
 
   std::cout << "Student not found !!\n";
@@ -94,7 +78,8 @@ Student* Manager::findByCode(const std::string& cod) {
 
 void Manager::sortByName() {
   std::sort(students_.begin(), students_.end(),
-            [](const Student* a, const Student* b) { return *a < *b; });
+            [](const std::unique_ptr<Student>& a,
+               const std::unique_ptr<Student>& b) { return *a < *b; });
 }
 
 std::string Manager::trim(const std::string& str) {
@@ -111,17 +96,11 @@ std::string Manager::trim(const std::string& str) {
 std::vector<Student*> Manager::findByName() {
   std::string name = inputStr("Name?", "Invalid Name?");
   std::vector<Student*> result;
-  // for (auto it : students_) {
-  //   // contain
-  //   if (it->getName().find(name) != std::string::npos) {
-  //     result.push_back(it);
-  //   }
-  // }
-  std::copy_if(students_.begin(), students_.end(), std::back_inserter(result),
-               [&name](const Student* const s) {
-                 return s && s->getName().find(name) != std::string::npos;
-               });
-
+  for (const auto& s : students_) {
+    if (s && s->getName().find(name) != std::string::npos) {
+      result.push_back(s.get());
+    }
+  }
   return result;
 }
 

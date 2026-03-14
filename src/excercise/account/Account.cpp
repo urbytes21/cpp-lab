@@ -21,7 +21,7 @@ void Account::credit(double amount) {
   balance_ += amount;
 
   std::ostringstream oss;
-  std::time_t now = time(NULL);
+  std::time_t now = time(nullptr);
   oss << std::fixed << std::setprecision(4) << "[credit] " << amount << " at "
       << time2Str(now);
   log_.push_back(oss.str());
@@ -36,7 +36,7 @@ void Account::debit(double amount) {
   balance_ -= debit_amount;
 
   std::ostringstream oss;
-  std::time_t now = time(NULL);
+  std::time_t now = time(nullptr);
   oss << std::fixed << std::setprecision(4) << "[debit] " << debit_amount
       << " at " << time2Str(now);
   log_.push_back(oss.str());

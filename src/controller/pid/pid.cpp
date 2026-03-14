@@ -20,14 +20,10 @@
  * THE SOFTWARE.
  */
 
-#ifndef _PID_SOURCE_
-#define _PID_SOURCE_
-
-#include <iostream>
 #include <cmath>
+#include <iostream>
+#include <memory>
 #include "pid.h"
-
-using namespace std;
 
 class PIDImpl
 {
@@ -49,17 +45,14 @@ class PIDImpl
 
 
 PID::PID( double dt, double max, double min, double Kp, double Kd, double Ki )
+    : pimpl_(std::make_unique<PIDImpl>(dt, max, min, Kp, Kd, Ki))
 {
-    pimpl = new PIDImpl(dt,max,min,Kp,Kd,Ki);
 }
 double PID::calculate( double setpoint, double pv )
 {
-    return pimpl->calculate(setpoint,pv);
+    return pimpl_->calculate(setpoint,pv);
 }
-PID::~PID() 
-{
-    delete pimpl;
-}
+PID::~PID() = default;
 
 /**
  * Implementation
@@ -111,5 +104,3 @@ double PIDImpl::calculate( double setpoint, double pv )
 PIDImpl::~PIDImpl()
 {
 }
-
-#endif
