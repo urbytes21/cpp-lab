@@ -208,6 +208,8 @@ Back in main(), data = Example data after processing
     ```cpp
     auto future = std::async(std::launch::async,some_function, arg_1, arg_2);
     ```
+![future](../../../docs/image/future_promis.png)
+![future_flow](../../../docs/image/future_promis_flow.png)
 - e.g.
 ```cpp
 // Pass in function pointer
