@@ -107,7 +107,7 @@ void run() {
 
 class TemplateMethodExample : public IExample {
  public:
-  std::string group() const override { return "ds/behavioral"; }
+  std::string group() const override { return "dp/behavioral"; }
   std::string name() const override { return "TemplateMethod"; }
   std::string description() const override {
     return "TemplateMethod Pattern Example";
@@ -115,4 +115,4 @@ class TemplateMethodExample : public IExample {
   void execute() override { TemplateMethod::run(); }
 };
 
-REGISTER_EXAMPLE(TemplateMethodExample, "ds/behavioral", "TemplateMethod");
+REGISTER_EXAMPLE(TemplateMethodExample, "dp/behavioral", "TemplateMethod");

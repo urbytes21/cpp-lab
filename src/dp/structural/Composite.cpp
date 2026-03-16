@@ -429,7 +429,7 @@ void run() {
 
 class CompositeExample : public IExample {
  public:
-  std::string group() const override { return "ds/structural"; }
+  std::string group() const override { return "dp/structural"; }
   std::string name() const override { return "Composite"; }
   std::string description() const override {
     return "Composite Pattern Example";
@@ -440,4 +440,4 @@ class CompositeExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(CompositeExample, "ds/structural", "Composite");
+REGISTER_EXAMPLE(CompositeExample, "dp/structural", "Composite");

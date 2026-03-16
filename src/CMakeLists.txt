@@ -5,7 +5,7 @@
 # Add project submodules
 add_subdirectory(core)
 add_subdirectory(controller)
-add_subdirectory(ds)
+add_subdirectory(dp)
 add_subdirectory(socket)
 add_subdirectory(excercise)
 
@@ -24,7 +24,7 @@ add_executable(${PROJECT_NAME}
     ${CORE_SOURCES}
     ${SOCKET_SOURCES}
     ${CONTROLLER_SOURCES}
-    ${DS_SOURCES}
+    ${DP_SOURCES}
     ${EXCERCISE_SOURCES}
 )
 

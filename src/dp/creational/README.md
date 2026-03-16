@@ -5,7 +5,7 @@ Creational design patterns provide various object creation mechanisms, which inc
 ---
 
 ## 1. Factory Method
-![Diagram](../../../docs/uml/ds/creational_factorymethod.drawio.svg)
+![Diagram](../../../docs/uml/dp/creational_factorymethod.drawio.svg)
 **Factory Method**  
 Provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.
 
@@ -15,7 +15,7 @@ A ride-hailing app can create different types of rides: economy, premium, or SUV
 ---
 
 ## 2. Abstract Factory
-![Diagram](../../../docs/uml/ds/creational_abstractfactory.drawio.svg)
+![Diagram](../../../docs/uml/dp/creational_abstractfactory.drawio.svg)
 **Abstract Factory**  
 Lets you produce families of related objects without specifying their concrete classes.
 
@@ -25,7 +25,7 @@ A furniture store app that sells sets of furniture. If a customer chooses a "Mod
 ---
 
 ## 3. Builder
-![Diagram](../../../docs/uml/ds/creational_builder.drawio.svg)
+![Diagram](../../../docs/uml/dp/creational_builder.drawio.svg)
 **Builder**  
 Lets you construct complex objects step by step. The pattern allows you to produce different types and representations of an object using the same construction code.
 
@@ -35,7 +35,7 @@ Ordering a custom pizza online. You can choose the dough, sauce, toppings, and s
 ---
 
 ## 4. Prototype
-![Diagram](../../../docs/uml/ds/creational_prototype.drawio.svg)
+![Diagram](../../../docs/uml/dp/creational_prototype.drawio.svg)
 **Prototype**  
 Lets you copy existing objects without making your code dependent on their classes.
 
@@ -45,7 +45,7 @@ Copying a template for a new document in Google Docs. Instead of creating a docu
 ---
 
 ## 5. Singleton
-![Diagram](../../../docs/uml/ds/creational_singleton.drawio.svg)
+![Diagram](../../../docs/uml/dp/creational_singleton.drawio.svg)
 **Singleton**  
 Lets you ensure that a class has only one instance, while providing a global access point to this instance.
 

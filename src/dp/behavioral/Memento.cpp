@@ -195,7 +195,7 @@ void run() {
 
 class MementoExample : public IExample {
  public:
-  std::string group() const override { return "ds/behavioral"; }
+  std::string group() const override { return "dp/behavioral"; }
   std::string name() const override { return "Memento"; }
   std::string description() const override {
     return "Memento Pattern Example ";
@@ -203,4 +203,4 @@ class MementoExample : public IExample {
   void execute() override { Memento::run(); }
 };
 
-REGISTER_EXAMPLE(MementoExample, "ds/behavioral", "Memento");
+REGISTER_EXAMPLE(MementoExample, "dp/behavioral", "Memento");

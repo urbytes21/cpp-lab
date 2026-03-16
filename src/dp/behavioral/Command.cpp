@@ -129,10 +129,10 @@ void run() {
 
 class CommandExample : public IExample {
  public:
-  std::string group() const override { return "ds/behavioral"; }
+  std::string group() const override { return "dp/behavioral"; }
   std::string name() const override { return "Command"; }
   std::string description() const override { return "Command Pattern Example"; }
   void execute() override { Command::run(); }
 };
 
-REGISTER_EXAMPLE(CommandExample, "ds/behavioral", "Command");
+REGISTER_EXAMPLE(CommandExample, "dp/behavioral", "Command");

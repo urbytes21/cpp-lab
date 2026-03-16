@@ -1,4 +1,4 @@
-set(DS_SOURCES
+set(DP_SOURCES
 
     # Structural Patterns
     ${CMAKE_CURRENT_SOURCE_DIR}/structural/Adapter.cpp
@@ -29,4 +29,4 @@ set(DS_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/creational/Prototype.cpp
 )
 
-set(DS_SOURCES ${DS_SOURCES} PARENT_SCOPE)
+set(DP_SOURCES ${DP_SOURCES} PARENT_SCOPE)
