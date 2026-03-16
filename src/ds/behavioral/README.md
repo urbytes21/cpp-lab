@@ -4,8 +4,8 @@ Behavioral design patterns are concerned with algorithms and the assignment of r
 
 ---
 
-## Chain of Responsibility
-
+## 1. Chain of Responsibility
+![Diagram](../../../docs/uml/ds/behavioral_CoR.drawio.svg)
 **Chain of Responsibility**  
 Lets you pass requests along a chain of handlers. Upon receiving a request, each handler decides either to process the request or to pass it to the next handler in the chain.
 
@@ -14,8 +14,8 @@ Customer support tickets in a company. Simple requests go to the first-level sup
 
 ---
 
-## Command
-
+## 2. Command
+![Diagram](../../../docs/uml/ds/behavioral_command.drawio.svg)
 **Command**  
 Turns a request into a stand-alone object that contains all information about the request. This lets you pass requests as arguments, delay or queue execution, and support undo operations.
 
@@ -24,8 +24,8 @@ Using a remote control for smart home devices. Each button press represents a co
 
 ---
 
-## Iterator
-
+## 3. Iterator
+![Diagram](../../../docs/uml/ds/behavioral_iterator.drawio.svg)
 **Iterator**  
 Lets you traverse elements of a collection without exposing its underlying representation (list, stack, tree, etc.).
 
@@ -34,8 +34,8 @@ Browsing a photo gallery app. You can swipe left or right to view photos without
 
 ---
 
-## Mediator
-
+## 4. Mediator
+![Diagram](../../../docs/uml/ds/behavioral_mediator.drawio.svg)
 **Mediator**  
 Reduces chaotic dependencies between objects by forcing them to communicate through a mediator.
 
@@ -44,8 +44,8 @@ An air traffic control tower. Planes don’t communicate directly with each othe
 
 ---
 
-## Memento
-
+## 5. Memento
+![Diagram](../../../docs/uml/ds/behavioral_memento.drawio.svg)
 **Memento**  
 Lets you save and restore the previous state of an object without revealing its implementation details.
 
@@ -54,8 +54,8 @@ The “Undo” feature in a text editor. You can revert to a previous version of
 
 ---
 
-## Observer
-
+## 6. Observer
+![Diagram](../../../docs/uml/ds/behavioral_observer.drawio.svg)
 **Observer**  
 Defines a subscription mechanism to notify multiple objects about events happening to the object they’re observing.
 
@@ -64,8 +64,8 @@ Social media notifications. When someone posts a new photo, all their followers 
 
 ---
 
-## State
-
+## 7. State
+![Diagram](../../../docs/uml/ds/behavioral_state.drawio.svg)
 **State**  
 Lets an object alter its behavior when its internal state changes, making it appear as if the object changed its class.
 
@@ -74,8 +74,8 @@ A traffic light. Its behavior (red, yellow, green) changes automatically dependi
 
 ---
 
-## Strategy
-
+## 8. Strategy
+![Diagram](../../../docs/uml/ds/behavioral_strategy.drawio.svg)
 **Strategy**  
 Defines a family of algorithms, puts each into a separate class, and makes them interchangeable.
 
@@ -84,8 +84,8 @@ A navigation app lets you choose between driving, walking, or cycling routes. Ea
 
 ---
 
-## Template Method
-
+## 9. Template Method
+![Diagram](../../../docs/uml/ds/behavioral_templatemethod.drawio.svg)
 **Template Method**  
 Defines the skeleton of an algorithm in the superclass but lets subclasses override specific steps without changing its structure.
 
@@ -94,8 +94,8 @@ Making coffee or tea in a café. The steps (boil water, pour, serve) are the sam
 
 ---
 
-## Visitor
-
+## 10. Visitor
+![Diagram](../../../docs/uml/ds/behavioral_visitor.drawio.svg)
 **Visitor**  
 Lets you separate algorithms from the objects on which they operate.
 

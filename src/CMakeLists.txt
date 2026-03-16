@@ -5,7 +5,7 @@
 # Add project submodules
 add_subdirectory(core)
 add_subdirectory(controller)
-add_subdirectory(patterns)
+add_subdirectory(ds)
 add_subdirectory(socket)
 add_subdirectory(excercise)
 
