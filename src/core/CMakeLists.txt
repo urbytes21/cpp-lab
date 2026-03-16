@@ -38,6 +38,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/class/Relationship.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/class/VirtualBase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/class/Binding.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/Encapsulation.cpp
 
     # String handling
     ${CMAKE_CURRENT_SOURCE_DIR}/string/StringFormatting.cpp
@@ -95,6 +96,9 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/RaceCondition.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/ConditionVariable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/FuturePromise.cpp
+
+    # Utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/StdAlgorithm.cpp
 )
 
 # Export CORE_SOURCES to the parent CMakeLists.txt
