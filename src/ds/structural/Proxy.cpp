@@ -221,7 +221,7 @@ void run() {
 
 class ProxyExample : public IExample {
  public:
-  std::string group() const override { return "patterns/structural"; }
+  std::string group() const override { return "ds/structural"; }
   std::string name() const override { return "Proxy"; }
   std::string description() const override { return "Proxy Pattern Example"; }
   void execute() override {
@@ -230,5 +230,5 @@ class ProxyExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(ProxyExample, "patterns/structural", "Proxy");
+REGISTER_EXAMPLE(ProxyExample, "ds/structural", "Proxy");
 }  // namespace

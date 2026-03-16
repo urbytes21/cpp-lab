@@ -136,10 +136,10 @@ void run() {
 
 class StateExample : public IExample {
  public:
-  std::string group() const override { return "patterns/behavioral"; }
+  std::string group() const override { return "ds/behavioral"; }
   std::string name() const override { return "State"; }
   std::string description() const override { return "State Pattern Example"; }
   void execute() override { State::run(); }
 };
 
-REGISTER_EXAMPLE(StateExample, "patterns/behavioral", "State");
+REGISTER_EXAMPLE(StateExample, "ds/behavioral", "State");

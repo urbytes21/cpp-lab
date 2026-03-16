@@ -189,7 +189,7 @@ void run() {
 
 class DecoratorExample : public IExample {
  public:
-  std::string group() const override { return "patterns/structural"; }
+  std::string group() const override { return "ds/structural"; }
   std::string name() const override { return "Decorator"; }
   std::string description() const override {
     return "Decorator Pattern Example";
@@ -200,4 +200,4 @@ class DecoratorExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(DecoratorExample, "patterns/structural", "Decorator");
+REGISTER_EXAMPLE(DecoratorExample, "ds/structural", "Decorator");

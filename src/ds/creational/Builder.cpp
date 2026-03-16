@@ -165,10 +165,10 @@ void run() {
 
 class BuilderExample : public IExample {
  public:
-  std::string group() const override { return "patterns/creational"; }
+  std::string group() const override { return "ds/creational"; }
   std::string name() const override { return "Builder"; }
   std::string description() const override { return "Builder Pattern Example"; }
   void execute() override { BuilderPattern::run(); }
 };
 
-REGISTER_EXAMPLE(BuilderExample, "patterns/creational", "Builder");
+REGISTER_EXAMPLE(BuilderExample, "ds/creational", "Builder");

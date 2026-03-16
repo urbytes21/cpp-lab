@@ -105,7 +105,7 @@ void run() {
 
 class StrategyExample : public IExample {
  public:
-  std::string group() const override { return "patterns/behavioral"; }
+  std::string group() const override { return "ds/behavioral"; }
   std::string name() const override { return "Strategy"; }
   std::string description() const override {
     return "Strategy Pattern Example";
@@ -113,4 +113,4 @@ class StrategyExample : public IExample {
   void execute() override { Strategy::run(); }
 };
 
-REGISTER_EXAMPLE(StrategyExample, "patterns/behavioral", "Strategy");
+REGISTER_EXAMPLE(StrategyExample, "ds/behavioral", "Strategy");

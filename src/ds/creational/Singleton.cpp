@@ -74,7 +74,7 @@ void run() {
 
 class SingletonExample : public IExample {
  public:
-  std::string group() const override { return "patterns/creational"; }
+  std::string group() const override { return "ds/creational"; }
   std::string name() const override { return "Singleton"; }
   std::string description() const override {
     return "Singleton Pattern Example";
@@ -82,4 +82,4 @@ class SingletonExample : public IExample {
   void execute() override { SingletonPattern::run(); }
 };
 
-REGISTER_EXAMPLE(SingletonExample, "patterns/creational", "Singleton");
+REGISTER_EXAMPLE(SingletonExample, "ds/creational", "Singleton");
