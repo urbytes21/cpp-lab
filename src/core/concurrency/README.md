@@ -9,18 +9,18 @@
 ## 2. Thread <thread>
 - Threads are `the basic unit of` multitasking.
 - There are many errors and risks associated with concurrency, including:
- - `Deadlocks`: `refers to the situation where` two or more threads are blocked, `waiting for each other indefinitely`.
- - `Race condition`: `refers to the situation where` two or more threads access `shared data` concurrently, leading to the `undefined behavior`.
- - `Starvation`: `refer to the situation where` a thread `is unable to gain` regular access to the shared resources.
+    - `Deadlocks`: `refers to the situation where` two or more threads are blocked, `waiting for each other indefinitely`.
+    - `Race condition`: `refers to the situation where` two or more threads access `shared data` concurrently, leading to the `undefined behavior`.
+    - `Starvation`: `refer to the situation where` a thread `is unable to gain` regular access to the shared resources.
 => We can avoid these problems by `proper synchronization` between the threads.
 - Use threads if we need to run long-lived and complex tasks. 
 
 ### 2.2. Thead Synchronization
 - The synchronization can be done by using the following components:
- - `Mutex/Lock`: <mutex> they are used to protect the shared resouces, ensure that only one thread can access `the critical sections` at a time.
- - `Semaphore`: 
- - `Futures and Promises`: <future>, <promise> are used for the asynchronous task execution.
- - `Condition variable`: <condition_variable>
+    - `Mutex/Lock`: `<mutex>` they are used to protect the shared resouces, ensure that only one thread can access `the critical sections` at a time.
+    - `Semaphore`: 
+    - `Futures and Promises`: `<future>`, `<promise>` are used for the asynchronous task execution.
+    - `Condition variable`: `<condition_variable>`
 
 ### 2.3. Thread Management
 - `thread`: an `OS thread` `managed by` the kernel.
