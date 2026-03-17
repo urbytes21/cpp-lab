@@ -30,14 +30,15 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/TypeConVersions.cpp
 
     # Classes and object lifecycle
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/class/Friend.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/class/CConstructors.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/class/CDestructors.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/class/SallowDeepCopying.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/class/RoleOfThreeFiveZero.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/class/Relationship.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/class/VirtualBase.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/class/Binding.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/Friend.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/CConstructors.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/CDestructors.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/SallowDeepCopying.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/RoleOfThreeFiveZero.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/Relationship.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/VirtualBase.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/Binding.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/Encapsulation.cpp
 
     # String handling
     ${CMAKE_CURRENT_SOURCE_DIR}/string/StringFormatting.cpp
@@ -57,20 +58,21 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/BinaryFileHandling.cpp
 
     # STL containers and expressions
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/container/sequence/Array.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/container/sequence/Vector.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/container/unordered/UnorderedMap.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/container/sequence/Array.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/container/sequence/Vector.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/container/unordered/UnorderedMap.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/container/adapter/Queue.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/container/adapter/Stack.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/container/sequence/Deque.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/container/associative/Set.cpp
+
     ${CMAKE_CURRENT_SOURCE_DIR}/expression/Lambda.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/expression/FunctionPointer.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/container/adapter/Queue.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/container/adapter/Stack.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/container/sequence/Deque.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/container/associative/Set.cpp
 
     # Smart pointers
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/smart_pointer/Unique.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/smart_pointer/Shared.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/smart_pointer/Weak.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/smart_pointer/Unique.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/smart_pointer/Shared.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/smart_pointer/Weak.cpp
 
     # Operator overloading
     ${CMAKE_CURRENT_SOURCE_DIR}/overloading/ArithmeticOperator.cpp
@@ -94,6 +96,9 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/RaceCondition.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/ConditionVariable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/FuturePromise.cpp
+
+    # Utils
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/StdAlgorithm.cpp
 )
 
 # Export CORE_SOURCES to the parent CMakeLists.txt
