@@ -1,0 +1,29 @@
+#include "DisplayWidget.h"
+
+DisplayWidget::DisplayWidget(const std::string& title, const std::string& color,
+                             const std::string& startData)
+    : Gtk::Box(Gtk::Orientation::VERTICAL),
+      color_(color),
+      innerBox_(Gtk::Orientation::VERTICAL) {
+  frame_.set_label(title);
+  frame_.set_margin(10);
+
+  updateLabel(startData);
+
+  innerBox_.append(labelData_);
+  innerBox_.set_margin(20);
+
+  frame_.set_child(innerBox_);
+  this->append(frame_);
+}
+
+void DisplayWidget::updateLabel(const std::string& text) {
+  // Use HTML markup to change text color
+  std::string markup = "<span foreground='" + color_ +
+                       "' size='x-large' weight='bold'>" + text + "</span>";
+  labelData_.set_markup(markup);
+}
+
+void DisplayWidget::onDataChanged(const std::string& newData) {
+  updateLabel(newData);
+}

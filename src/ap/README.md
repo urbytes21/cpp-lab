@@ -25,7 +25,7 @@ View ↔ ViewModel ↔ Model    # view automatically update
 - **MVC (Model - View - Controller)** is an architectural pattern that separates the user interface (`View`) from the application logic and data (`Model`) using an intermediary component called the `Controller`.
 - **Components:**
     - **Model**: is responsible for managing and abstracting data sources (databases, APIs, etc.). The `Model` handles data retrieval, storage, and business logic.
-    - **View**: displays the data provided by the `Model` and represents the user interface. The `View` is responsible only for presentation and does not contain business logic.
+    - **View**: displays the data provided by the `Model` and represents the user interface. The `View` is responsible only for presentation and `does not contain business logic`.
     - **Controller**: acts as an intermediary between the `View` and the `Model`. It receives user input from the `View`, processes it, and interacts with the `Model` to update or retrieve data. The `Controller` then determines which `View` should display the result.
 
 - **Workflow:**
@@ -41,4 +41,16 @@ View → Controller → Model
             ↓
            View # view update manually
 ```
-### 3. Examples
+### 3. GTK4
+- [Refer](https://docs.gtk.org/gtk4/getting_started.html)
+
+### 4. Examples
+### 4.1. simple_ap
+- Cos:
+    - Quick, Simple
+- Pos:
+    - Dependency: e.g. what happen when we delete  Gtk::Label m_labelMonitorA;
+    - Scalability: 
+    - Reusability:
+
+### 4.2. mvc_ap
