@@ -17,7 +17,9 @@ RUN \
     # install clang tidy
     apt-get install -y clang-tidy && \
     # install lcov
-    apt-get install -y lcov
+    apt-get install -y lcov && \
+    # install gtk4
+    apt-get install -y libgtkmm-4.0-dev
 
 # Set the working directory inside the Docker image
 WORKDIR /cpp-lab
