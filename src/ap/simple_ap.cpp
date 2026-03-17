@@ -87,13 +87,16 @@ class MainWindow : public Gtk::Window {
       if (text.empty())
         return;
 
+      // Escape text to prevent Pango markup injection
+      auto escaped = Glib::Markup::escape_text(text);
+
       // Step 2: Update Monitor A (Hard-coded) directly
       m_labelMonitorA.set_markup("<span foreground='blue' size='x-large'>" +
-                                 text + "</span>");
+                                 escaped + "</span>");
 
       // Step 3: Update Monitor B (Hard-coded) directly
       m_labelMonitorB.set_markup("<span foreground='red' size='x-large'>" +
-                                 text + "</span>");
+                                 escaped + "</span>");
       std::cout << "Updated directly without Model!" << std::endl;
     });
   }

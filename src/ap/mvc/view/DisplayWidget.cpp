@@ -3,8 +3,8 @@
 DisplayWidget::DisplayWidget(const std::string& title, const std::string& color,
                              const std::string& startData)
     : Gtk::Box(Gtk::Orientation::VERTICAL),
-      color_(color),
-      innerBox_(Gtk::Orientation::VERTICAL) {
+      innerBox_(Gtk::Orientation::VERTICAL),
+      color_(color) {
   frame_.set_label(title);
   frame_.set_margin(10);
 
@@ -18,9 +18,10 @@ DisplayWidget::DisplayWidget(const std::string& title, const std::string& color,
 }
 
 void DisplayWidget::updateLabel(const std::string& text) {
-  // Use HTML markup to change text color
+  // Escape text to prevent Pango markup injection
+  auto escaped = Glib::Markup::escape_text(text);
   std::string markup = "<span foreground='" + color_ +
-                       "' size='x-large' weight='bold'>" + text + "</span>";
+                       "' size='x-large' weight='bold'>" + escaped + "</span>";
   labelData_.set_markup(markup);
 }
 

@@ -1,6 +1,7 @@
+#pragma once
 #include <gtkmm.h>
 #include "../IObserver.h"
-#include "../controller/Controller.h"
+
 class DisplayWidget : public Gtk::Box, public IObserver {
  public:
   DisplayWidget(const std::string& title, const std::string& color,

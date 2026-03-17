@@ -46,9 +46,9 @@ View → Controller → Model
 
 ### 4. Examples
 ### 4.1. simple_ap
-- Cos:
+- Pros:
     - Quick, Simple
-- Pos:
+- Cons:
     - Dependency: e.g. what happen when we delete  Gtk::Label m_labelMonitorA;
     - Scalability: 
     - Reusability:
