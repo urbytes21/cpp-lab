@@ -8,6 +8,7 @@ add_subdirectory(controller)
 add_subdirectory(dp)
 add_subdirectory(socket)
 add_subdirectory(excercise)
+add_subdirectory(ap)
 
 # main application executable does NOT link to this library.
 add_subdirectory(leetcode)
