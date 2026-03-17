@@ -22,6 +22,7 @@ View ↔ ViewModel ↔ Model    # view automatically update
        (data binding)
 ```
 ### 2. MVC
+![Diagram](../../docs/uml/ap/ap_mvc_example.drawio.svg)
 - **MVC (Model - View - Controller)** is an architectural pattern that separates the user interface (`View`) from the application logic and data (`Model`) using an intermediary component called the `Controller`.
 - **Components:**
     - **Model**: is responsible for managing and abstracting data sources (databases, APIs, etc.). The `Model` handles data retrieval, storage, and business logic.
