@@ -1,10 +1,10 @@
 #include "EditorWidget.h"
-#include <iostream>
+
 EditorWidget::EditorWidget(std::shared_ptr<Controller> c,
                            const std::string& initData)
     : Gtk::Box(Gtk::Orientation::VERTICAL),
-      controller_(c),
-      innerBox_(Gtk::Orientation::VERTICAL) {
+      innerBox_(Gtk::Orientation::VERTICAL),
+      controller_(c) {
   // Create a beautiful border
   frame_.set_label("ZONE 1: EDITOR (Input View)");
   frame_.set_margin(10);
@@ -22,13 +22,10 @@ EditorWidget::EditorWidget(std::shared_ptr<Controller> c,
 
   frame_.set_child(innerBox_);
   this->append(frame_);  // Add a frame to the main Box of this class
-  controller_ = c;
+
   // MVC logic to help the Controller receive update input from the View
-  button_.signal_clicked().connect([this]() {
-    std::cout << "1\n";
-    controller_->updateRequest(entry_.get_text());
-    std::cout << "2\n";
-  });
+  button_.signal_clicked().connect(
+      [this]() { controller_->updateRequest(entry_.get_text()); });
 }
 
 void EditorWidget::onDataChanged(const std::string& newData) {
