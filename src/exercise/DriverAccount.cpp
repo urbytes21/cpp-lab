@@ -67,11 +67,11 @@ void driver_test_account() {
 
 class DriverAccount : public IExample {
  public:
-  std::string group() const override { return "excercise"; };
+  std::string group() const override { return "exercise"; };
   std::string name() const override { return "DriverAccount"; }
   std::string description() const override { return "Test Account"; }
 
   void execute() override { driver_test_account(); }
 };
 
-REGISTER_EXAMPLE(DriverAccount, "excercise", "DriverAccount")
+REGISTER_EXAMPLE(DriverAccount, "exercise", "DriverAccount")
