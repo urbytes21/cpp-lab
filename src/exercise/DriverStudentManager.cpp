@@ -67,4 +67,4 @@ class DriverStudentManager : public IExample {
   void execute() override { driver_test_student_manager(); }
 };
 
-REGISTER_EXAMPLE(DriverStudentManager, "excercise", "DriverStudentManager")
+REGISTER_EXAMPLE(DriverStudentManager, "exercise", "DriverStudentManager")
