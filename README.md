@@ -47,6 +47,7 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         $ sudo apt-get install cppcheck
         $ sudo apt-get install -y clang-tidy
         $ sudo apt install python3-gcovr
+        $ sudo apt-get install -y libgtkmm-4.0-dev
         ```
     * Build the application and the tests
         ```bash
