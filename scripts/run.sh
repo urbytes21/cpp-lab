@@ -1,7 +1,3 @@
-## NOTE:
-## This file was initially generated with the assistance of AI.
-## The code has been reviewed and may have been modified by the developer
-## to ensure correctness, readability, and compliance with project requirements.
 #!/usr/bin/env bash
 
 set -e  # Exit immediately if a command fails

@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "ExampleRegistry.h"
+#include "Logger.h"
 #include "version.h"
 
 int readChoice() {
@@ -103,6 +104,7 @@ void runMenu() {
 }
 
 int main(int argc, char* argv[]) {
+  LOG("Logger has been integrated");
   std::cout << std::endl;
   if (__cplusplus == 202302L)
     std::cout << "C++23";
