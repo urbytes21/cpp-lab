@@ -99,6 +99,7 @@ set(CORE_SOURCES
 
     # Utils
     ${CMAKE_CURRENT_SOURCE_DIR}/utils/StdAlgorithm.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/TypeTrait.cpp
 )
 
 # Export CORE_SOURCES to the parent CMakeLists.txt
