@@ -5,6 +5,7 @@
 #include "view/DisplayWidget.h"
 #include "view/EditorWidget.h"
 
+namespace mvc {
 class ContainerWindow : public Gtk::Window {
  public:
   ContainerWindow();
@@ -67,8 +68,9 @@ ContainerWindow::ContainerWindow()
   mainLayout_.append(*editorView_);   // Add bottom row
   set_child(mainLayout_);
 }
+}  // namespace mvc
 
 int main(int argc, char* argv[]) {
   auto app = Gtk::Application::create("org.gtkmm.example.singlemvc");
-  return app->make_window_and_run<ContainerWindow>(argc, argv);
+  return app->make_window_and_run<mvc::ContainerWindow>(argc, argv);
 }

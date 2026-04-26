@@ -1,9 +1,9 @@
 #include "DisplayWidget.h"
 
-DisplayWidget::DisplayWidget(const std::string& title, const std::string& color,
-                             std::shared_ptr<SharedDataVM> vm)
+mvvm::DisplayWidget::DisplayWidget(const std::string& title, std::string color,
+                                   std::shared_ptr<SharedDataVM> vm)
     : Gtk::Box(Gtk::Orientation::VERTICAL),
-      color_(color),
+      color_(std::move(color)),
       innerBox_(Gtk::Orientation::VERTICAL),
       view_model_(std::move(vm)) {
   frame_.set_label(title);
@@ -22,12 +22,12 @@ DisplayWidget::DisplayWidget(const std::string& title, const std::string& color,
   view_model_->addObserver(this);
 }
 
-void DisplayWidget::updateLabel(const std::string& text) {
+void mvvm::DisplayWidget::updateLabel(const std::string& text) {
   std::string markup = "<span foreground='" + color_ +
                        "' size='x-large' weight='bold'>" + text + "</span>";
   labelData_.set_markup(markup);
 }
 
-void DisplayWidget::onDataChanged(const std::string& newData) {
+void mvvm::DisplayWidget::onDataChanged(const std::string& newData) {
   updateLabel(newData);
 }

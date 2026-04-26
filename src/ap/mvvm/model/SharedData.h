@@ -3,6 +3,7 @@
 #include <vector>
 #include "../IObserver.h"
 
+namespace mvvm {
 class SharedData {
  public:
   SharedData();
@@ -18,3 +19,4 @@ class SharedData {
   std::string data_;
   std::vector<IObserver*> observers_;
 };
+}  // namespace mvvm

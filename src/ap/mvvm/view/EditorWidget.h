@@ -4,6 +4,7 @@
 #include "../IObserver.h"
 #include "../viewmodel/SharedDataVM.h"
 
+namespace mvvm {
 class EditorWidget : public Gtk::Box, public IObserver {
  public:
   explicit EditorWidget(std::shared_ptr<SharedDataVM> vm);
@@ -19,3 +20,4 @@ class EditorWidget : public Gtk::Box, public IObserver {
 
   std::shared_ptr<SharedDataVM> view_model_;
 };
+}  // namespace mvvm

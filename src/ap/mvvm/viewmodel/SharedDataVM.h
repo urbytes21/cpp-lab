@@ -4,13 +4,14 @@
 #include "../IObserver.h"
 #include "../model/SharedData.h"
 
+namespace mvvm {
 /**
  * @brief The single mediator between the Model and all Views 
  *
  * Responsibilities:
  *  - Subscribes to the Model
  *  - Exposes a command that Views call on user actions
- *  - Maintains its own observer list so View subcribe to the ViewModel instead of the Model. View never touch Model
+ *  - Maintains its own observer list so View subscribe to the ViewModel instead of the Model. View never touch Model
  */
 class SharedDataVM : public IObserver {
  public:
@@ -29,3 +30,4 @@ class SharedDataVM : public IObserver {
   std::shared_ptr<SharedData> model_;       // SharedData model
   std::vector<IObserver*> view_observers_;  // Views
 };
+}  // namespace mvvm

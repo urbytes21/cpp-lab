@@ -2,7 +2,7 @@
 
 #include <utility>
 
-EditorWidget::EditorWidget(std::shared_ptr<SharedDataVM> vm)
+mvvm::EditorWidget::EditorWidget(std::shared_ptr<SharedDataVM> vm)
     : Gtk::Box(Gtk::Orientation::VERTICAL),
       innerBox_(Gtk::Orientation::VERTICAL),
       view_model_(std::move(vm)) {
@@ -30,7 +30,7 @@ EditorWidget::EditorWidget(std::shared_ptr<SharedDataVM> vm)
   view_model_->addObserver(this);
 }
 
-void EditorWidget::onDataChanged(const std::string& newData) {
+void mvvm::EditorWidget::onDataChanged(const std::string& newData) {
   if (entry_.get_text() != Glib::ustring(newData)) {
     entry_.set_text(newData);
   }

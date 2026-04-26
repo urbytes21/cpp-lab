@@ -3,9 +3,10 @@
 #include "../IObserver.h"
 #include "../viewmodel/SharedDataVM.h"
 
+namespace mvvm {
 class DisplayWidget : public Gtk::Box, public IObserver {
  public:
-  DisplayWidget(const std::string& title, const std::string& color,
+  DisplayWidget(const std::string& title, std::string color,
                 std::shared_ptr<SharedDataVM> vm);
 
   void onDataChanged(const std::string& newData) override;
@@ -20,3 +21,4 @@ class DisplayWidget : public Gtk::Box, public IObserver {
 
   std::shared_ptr<SharedDataVM> view_model_;
 };
+}  // namespace mvvm

@@ -5,12 +5,13 @@
 #include "view/EditorWidget.h"
 #include "viewmodel/SharedDataVM.h"
 
+namespace mvvm {
 /**
  * @brief ContainerWindow wires up the MVVM triad:
  * Key differences from MVC's ContainerWindow:
  *  1. No Controller is created.
  *  2. No manual addObserver() calls, each View self-registers with the ViewModel during construction.
- *  3. Views receive a shared_ptr<SharedDataViewModel>, never a Model pointer.
+ *  3. Views receive a shared_ptr<SharedDataVM>, never a Model pointer.
  */
 class ContainerWindow : public Gtk::Window {
  public:
@@ -35,7 +36,7 @@ class ContainerWindow : public Gtk::Window {
 ContainerWindow::ContainerWindow()
     : mainLayout_(Gtk::Orientation::VERTICAL),
       topRowLayout_(Gtk::Orientation::HORIZONTAL) {
-  set_title("MVC Integrated Demo");
+  set_title("MVVM Integrated Demo");
   set_default_size(600, 400);
 
   // Step 1 – construct the Model.
@@ -51,10 +52,6 @@ ContainerWindow::ContainerWindow()
   displayViewRight_ = std::make_unique<DisplayWidget>("ZONE 3: MONITOR B (Red)",
                                                       "red", viewModel_);
 
-  dataModel_->addObserver(editorView_.get());
-  dataModel_->addObserver(displayViewLeft_.get());
-  dataModel_->addObserver(displayViewRight_.get());
-
   // Layout, unchanged from MVC
   displayViewLeft_->set_hexpand(true);
   displayViewRight_->set_hexpand(true);
@@ -66,8 +63,9 @@ ContainerWindow::ContainerWindow()
   mainLayout_.append(*editorView_);
   set_child(mainLayout_);
 }
+}  // namespace mvvm
 
 int main(int argc, char* argv[]) {
   auto app = Gtk::Application::create("org.gtkmm.example.singlemvvm");
-  return app->make_window_and_run<ContainerWindow>(argc, argv);
+  return app->make_window_and_run<mvvm::ContainerWindow>(argc, argv);
 }
