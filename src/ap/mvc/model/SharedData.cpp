@@ -9,7 +9,7 @@ void SharedData::setData(const std::string& data) {
 }
 
 void SharedData::notifyObservers() {
-  for (auto o : observers_) {
+  for (auto* o : observers_) {
     o->onDataChanged(this->data_);
   }
 }

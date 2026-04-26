@@ -18,4 +18,4 @@ target_sources(ap
 target_link_libraries(ap PRIVATE gtk4-settings)
 
 add_subdirectory(mvc)
-# add_subdirectory(mvvm)
+add_subdirectory(mvvm)
