@@ -66,6 +66,6 @@ ContainerWindow::ContainerWindow()
 }
 
 int main(int argc, char* argv[]) {
-  auto app = Gtk::Application::create("org.gtkmm.example.singlenvvm");
+  auto app = Gtk::Application::create("org.gtkmm.example.singlemvvm");
   return app->make_window_and_run<ContainerWindow>(argc, argv);
 }
