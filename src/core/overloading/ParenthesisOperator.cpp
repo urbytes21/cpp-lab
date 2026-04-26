@@ -9,7 +9,7 @@ namespace {
 
 class Matrix {
  private:
-  double m_data[4][4]{};
+  double m_data_[4][4]{};
 
  public:
   double& operator()(int row, int col);
@@ -20,14 +20,14 @@ double& Matrix::operator()(int row, int col) {
   assert(row >= 0 && row < 4);
   assert(col >= 0 && col < 4);
 
-  return m_data[row][col];
+  return m_data_[row][col];
 }
 
 double Matrix::operator()(int row, int col) const {
   assert(row >= 0 && row < 4);
   assert(col >= 0 && col < 4);
 
-  return m_data[row][col];
+  return m_data_[row][col];
 }
 
 void run() {

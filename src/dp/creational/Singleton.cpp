@@ -13,7 +13,7 @@
 #include <iostream>
 
 namespace {
-namespace SingletonPattern {
+namespace singleton_pattern {
 
 /**
  * The Singleton class defines the `GetInstance` method that serves as an
@@ -22,8 +22,9 @@ namespace SingletonPattern {
  */
 class Singleton {
  private:
-  static inline Singleton* instance = nullptr;
-  static inline int num = 0;
+  static inline Singleton* instance_ = nullptr;
+  static inline int num_ = 0;
+  int dummy_{};
   /**
    * The Singleton's constructor should always be private to prevent direct
    * construction calls with the `new` operator.
@@ -38,36 +39,37 @@ class Singleton {
   Singleton& operator=(const Singleton& other) = delete;
 
   static Singleton* getInstance() {
-    if (instance == nullptr) {
-      instance = new Singleton();
-      num++;
+    if (instance_ == nullptr) {
+      instance_ = new Singleton();
+      num_++;
     }
 
-    return instance;
+    return instance_;
   }
 
-  void operation() const {
-    std::cout << "Singleton operating num:" << num << "\n";
+  void operation() {
+    std::cout << "Singleton operating num:" << num_ << "\n";
+    dummy_++;
   }
 };
 
-namespace Client {
-void clientCode(const Singleton* const s) {
+namespace client {
+void clientCode(Singleton* const s) {
   s->operation();
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
-  const Singleton* s1 = Singleton::getInstance();
-  Client::clientCode(s1);
+  Singleton* s1 = Singleton::getInstance();
+  client::clientCode(s1);
 
-  const Singleton* s2 = Singleton::getInstance();
-  Client::clientCode(s2);
+  Singleton* s2 = Singleton::getInstance();
+  client::clientCode(s2);
 
   // Singleton* s3 = new Singleton(); // ERROR
 }
 
-}  // namespace SingletonPattern
+}  // namespace singleton_pattern
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -79,7 +81,7 @@ class SingletonExample : public IExample {
   std::string description() const override {
     return "Singleton Pattern Example";
   }
-  void execute() override { SingletonPattern::run(); }
+  void execute() override { singleton_pattern::run(); }
 };
 
 REGISTER_EXAMPLE(SingletonExample, "dp/creational", "Singleton");

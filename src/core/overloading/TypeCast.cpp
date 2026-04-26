@@ -8,34 +8,34 @@
 namespace {
 class Cents {
  private:
-  int m_cents{};
+  int m_cents_{};
 
  public:
-  explicit Cents(int cents = 0) : m_cents{cents} {}
+  explicit Cents(int cents = 0) : m_cents_{cents} {}
 
   // note that there is a space between operator keyword and the type we are casting
   // overloading explicit cast operator
   explicit operator int() const {
     std::cout << "explicit operator int() const\n";
-    return m_cents;
+    return m_cents_;
   }
 
-  int getCents() const { return m_cents; }
-  void setCents(int cents) { m_cents = cents; }
+  int getCents() const { return m_cents_; }
+  void setCents(int cents) { m_cents_ = cents; }
 };
 
 class Dollars {
  private:
-  int m_dollars{};
+  int m_dollars_{};
 
  public:
   // overloading non-explicit cast operator
   operator Cents() const {
     std::cout << "operator Cents() const\n";
-    return Cents{m_dollars * 1000};
+    return Cents{m_dollars_ * 1000};
   }
 
-  explicit Dollars(int dollars = 0) : m_dollars{dollars} {}
+  explicit Dollars(int dollars = 0) : m_dollars_{dollars} {}
 };
 
 void printCents(Cents c) {

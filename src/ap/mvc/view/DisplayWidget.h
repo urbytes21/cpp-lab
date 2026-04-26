@@ -11,7 +11,6 @@ class DisplayWidget : public Gtk::Box, public IObserver {
  private:
   void updateLabel(const std::string& text);
 
- private:
   std::string color_;
   Gtk::Frame frame_;
   Gtk::Box innerBox_;

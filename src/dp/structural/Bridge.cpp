@@ -16,7 +16,7 @@
 #include "ExampleRegistry.h"
 
 namespace {
-namespace Problem {
+namespace problem {
 class Widget {
  public:
   virtual ~Widget() = default;
@@ -25,9 +25,6 @@ class Widget {
 
 /* Concrete variations for Button */
 class Button : public Widget {
- public:
-  virtual ~Button() = default;
-
  public:
   std::string clickOn() const override { return "Click on: Button\n"; }
 };
@@ -46,9 +43,6 @@ class ButtonLinux : public Button {
 
 /* Concrete variations for Label */
 class Label : public Widget {
- public:
-  virtual ~Label() = default;
-
  public:
   std::string clickOn() const override { return "Click on: Label\n"; }
 };
@@ -69,23 +63,23 @@ class LabelLinux : public Label {
  * macOS etc*/
 // [Problem 1] We have to write the Text/TextLinux ...
 
-namespace Client {
+namespace client {
 void clientCode(const Widget* widget) {
   if (widget != nullptr)
     std::cout << widget->clickOn();
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   // [Problem 2] : Use the Bridge if you need to be able to switch
   // implementations at runtime. how to exmaple for this still don't know
   Widget* button = new ButtonWindows();
-  Client::clientCode(button);
+  client::clientCode(button);
   delete button;
 }
-}  // namespace Problem
+}  // namespace problem
 
-namespace BridgePattern {
+namespace bridge_pattern {
 /**
  * The Implementation defines the interface for all implementation classes. It
  * doesn't have to match the Abstraction's interface. In fact, the two
@@ -116,11 +110,11 @@ class LinuxImplemetation : public OsImplemetation {
  */
 class WidgetAbstraction {
  protected:
-  OsImplemetation* _implementation;
+  OsImplemetation* implementation_;
 
  public:
   explicit WidgetAbstraction(OsImplemetation* implemetation)
-      : _implementation{implemetation} {}
+      : implementation_{implemetation} {}
   virtual ~WidgetAbstraction() = default;
 
   virtual std::string clickOn() const = 0;
@@ -134,7 +128,7 @@ class ButtonAbstraction : public WidgetAbstraction {
   explicit ButtonAbstraction(OsImplemetation* implemetation)
       : WidgetAbstraction{implemetation} {}
   std::string clickOn() const override {
-    return this->_implementation->clickOnImplement() + "Click on: Button\n";
+    return this->implementation_->clickOnImplement() + "Click on: Button\n";
   }
 };
 
@@ -143,31 +137,31 @@ class LabelAbstraction : public WidgetAbstraction {
   explicit LabelAbstraction(OsImplemetation* implemetation)
       : WidgetAbstraction{implemetation} {}
   std::string clickOn() const override {
-    return this->_implementation->clickOnImplement() + "Click on: Label\n";
+    return this->implementation_->clickOnImplement() + "Click on: Label\n";
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(const WidgetAbstraction* widget) {
   if (widget != nullptr)
     std::cout << widget->clickOn();
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
-  // TODO: check memory leak here
+  // TODO(phong-nguyen): check memory leak here
   OsImplemetation* os = new WindowsImplemetation();
   WidgetAbstraction* widget = new ButtonAbstraction(os);
-  Client::clientCode(widget);
+  client::clientCode(widget);
 
   os = new LinuxImplemetation();
   widget = new LabelAbstraction(os);
-  Client::clientCode(widget);
+  client::clientCode(widget);
 
   delete os;
   delete widget;
 }
-}  // namespace BridgePattern
+}  // namespace bridge_pattern
 
 class BridgeExample : public IExample {
  public:
@@ -175,8 +169,8 @@ class BridgeExample : public IExample {
   std::string name() const override { return "Bridge"; }
   std::string description() const override { return "Bridge Pattern Example"; }
   void execute() override {
-    Problem::run();
-    BridgePattern::run();
+    problem::run();
+    bridge_pattern::run();
   }
 };
 

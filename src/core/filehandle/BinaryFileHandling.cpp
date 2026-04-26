@@ -11,48 +11,48 @@ class Account {
   friend std::ostream& operator<<(std::ostream&, const Account&);
 
  private:
-  int code;
-  std::string name;
-  double balance;
+  int code_;
+  std::string name_;
+  double balance_;
 
  public:
-  explicit Account(int c = 0, const std::string& n = "", double b = 0.0)
-      : code(c), name(n), balance(b) {}
+  explicit Account(int c = 0, std::string n = "", double b = 0.0)
+      : code_(c), name_(std::move(n)), balance_(b) {}
 
-  int getCode() const { return code; }
+  int getCode() const { return code_; }
 
   std::ostream& write(std::ostream&) const;
   std::istream& read(std::istream&);
 };
 
 std::ostream& Account::write(std::ostream& os) const {
-  os.write(reinterpret_cast<const char*>(&code), sizeof(code));
-  os.write(reinterpret_cast<const char*>(&balance), sizeof(balance));
+  os.write(reinterpret_cast<const char*>(&code_), sizeof(code_));
+  os.write(reinterpret_cast<const char*>(&balance_), sizeof(balance_));
 
-  std::size_t length = name.size();
+  std::size_t length = name_.size();
   os.write(reinterpret_cast<const char*>(&length), sizeof(length));
-  os.write(name.data(), length);
+  os.write(name_.data(), length);
 
   return os;
 }
 
 std::istream& Account::read(std::istream& is) {
-  is.read(reinterpret_cast<char*>(&code), sizeof(code));
-  is.read(reinterpret_cast<char*>(&balance), sizeof(balance));
+  is.read(reinterpret_cast<char*>(&code_), sizeof(code_));
+  is.read(reinterpret_cast<char*>(&balance_), sizeof(balance_));
 
   std::size_t length = 0;
   is.read(reinterpret_cast<char*>(&length), sizeof(length));
 
-  name.resize(length);
-  is.read(&name[0], length);
+  name_.resize(length);
+  is.read(name_.data(), length);
 
   return is;
 }
 
 std::ostream& operator<<(std::ostream& os, const Account& acc) {
-  os << "Code   : " << acc.code << "\n";
-  os << "Name   : " << acc.name << "\n";
-  os << "Balance: " << acc.balance << "\n";
+  os << "Code   : " << acc.code_ << "\n";
+  os << "Name   : " << acc.name_ << "\n";
+  os << "Balance: " << acc.balance_ << "\n";
   return os;
 }
 
@@ -85,7 +85,7 @@ void run() {
     std::cerr << "Cannot open file for reading\n";
   } else {
 
-    Account* temp = new Account();
+    auto* temp = new Account();
 
     while (inf.peek() != EOF) {
       temp->read(inf);

@@ -7,11 +7,11 @@
 namespace {
 class Cents {
  private:
-  int m_cents{};
+  int m_cents_{};
 
  public:
-  explicit Cents(int cents) : m_cents{cents} {}
-  int getCents() const { return m_cents; }
+  explicit Cents(int cents) : m_cents_{cents} {}
+  int getCents() const { return m_cents_; }
 
   // pre: inc -> return new
   Cents& operator++();
@@ -24,11 +24,11 @@ class Cents {
 
 // pre ++x/--x
 Cents& Cents::operator++() {
-  ++m_cents;
+  ++m_cents_;
   return *this;
 }
 Cents& Cents::operator--() {
-  --m_cents;
+  --m_cents_;
   return *this;
 }
 

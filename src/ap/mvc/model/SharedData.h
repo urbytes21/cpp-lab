@@ -15,7 +15,6 @@ class SharedData {
  private:
   void notifyObservers();
 
- private:
   std::string data_;
   std::vector<IObserver*> observers_;
 };

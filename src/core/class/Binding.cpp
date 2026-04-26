@@ -1,31 +1,37 @@
 // cppcheck-suppress-file [functionStatic,duplInheritedMember]
+
 #include <iostream>
 #include "ExampleRegistry.h"
+
 namespace {
-namespace EarlyBinding {
-using namespace std;
+namespace early_binding {
 
 class Animal {
  public:
   virtual ~Animal() = default;
   void speak() {  // NOT virtual
-    cout << "Animal speaks\n";
+    std::cout << "Animal speaks\n";
+    dump_++;
   }
+
+ protected:
+  int dump_{0};
 };
 
 class Dog : public Animal {
  public:
   void speak() {  // Hides Animal::speak()
-    cout << "Dog barks\n";
+    std::cout << "Dog barks\n";
+    dump_++;
   }
 };
 
 void print(int x) {
-  cout << "int\n";
+  std::cout << "int: " << x << "\n";
 }
 
 void print(double x) {
-  cout << "double\n";
+  std::cout << "double: " << x << "\n";
 }
 
 void run() {
@@ -33,25 +39,24 @@ void run() {
   Animal* a = new Dog();
   a->speak();  // Early binding: Non-virtual member function
 
-  print(5);  // Early binding: int version chosen at compile time
+  print(5);     // Early binding: int version chosen at compile time
+  print(0.5F);  // Early binding: float version chosen at compile time
   delete a;
 }
-}  // namespace EarlyBinding
+}  // namespace early_binding
 
-namespace LateBinding {
-using namespace std;
-
+namespace late_binding {
 class Animal {
  public:
   virtual ~Animal() = default;
   virtual void speak() {  // Virtual!
-    cout << "Animal speaks\n";
+    std::cout << "Animal speaks\n";
   }
 };
 
 class Dog : public Animal {
  public:
-  void speak() override { cout << "Dog barks\n"; }
+  void speak() override { std::cout << "Dog barks\n"; }
 };
 
 void run() {
@@ -60,7 +65,7 @@ void run() {
   a->speak();  // Late binding
   delete a;
 }
-}  // namespace LateBinding
+}  // namespace late_binding
 }  // namespace
 
 class Binding : public IExample {
@@ -70,8 +75,8 @@ class Binding : public IExample {
   std::string description() const override { return "Binding examples"; };
 
   void execute() override {
-    EarlyBinding::run();
-    LateBinding::run();
+    early_binding::run();
+    late_binding::run();
   };
 };
 

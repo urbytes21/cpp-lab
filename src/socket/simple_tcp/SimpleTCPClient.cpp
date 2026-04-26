@@ -1,5 +1,4 @@
 #include <iostream>
-#include <limits>
 #include "ExampleRegistry.h"
 #include "TCPClient.h"
 
@@ -24,7 +23,7 @@ void run() {
         break;
       };
 
-      // TODO: why we need \n here
+      // TODO(phong-nguyen): why we need \n here
       client.send(msg + "\n");
       response = client.receive();
       std::cout << response;

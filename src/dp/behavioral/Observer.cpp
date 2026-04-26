@@ -17,24 +17,26 @@
 #include <string>
 
 namespace {
-namespace Observer {
+namespace observer {
 
 enum class Event {
-  CREATE = 0,
-  READ,
-  UPDATE,
-  DELETE,
+  kCreate = 0,
+  kRead,
+  kUpdate,
+  kDelete,
 };
 
-static inline const char* getEventName(const Event& e) {
+inline const char* getEventName(
+    const Event&
+        e) {  // 'getEventName' is a static definition in anonymous namespace
   switch (e) {
-    case Event::CREATE:
+    case Event::kCreate:
       return "CREATE";
-    case Event::READ:
+    case Event::kRead:
       return "READ";
-    case Event::UPDATE:
+    case Event::kUpdate:
       return "UPDATE";
-    case Event::DELETE:
+    case Event::kDelete:
       return "DELETE";
   }
   return "invalid_event";
@@ -52,7 +54,7 @@ class IListenerObserver {
   virtual ~IListenerObserver() = default;
 
   // update
-  virtual void update(const Event e) = 0;
+  virtual void update(const Event& e) = 0;
 };
 
 /**
@@ -66,7 +68,7 @@ class IListenerObserver {
  */
 class IWidgetSubject {
  public:
-  virtual ~IWidgetSubject(){};
+  virtual ~IWidgetSubject() = default;
   // addListener
   virtual void attach(IListenerObserver* observer) = 0;
   // removeLister
@@ -77,20 +79,20 @@ class IWidgetSubject {
 
 class ButtonConcreteSubject : public IWidgetSubject {
  private:
-  std::list<IListenerObserver*> m_listeners;
+  std::list<IListenerObserver*> listeners_;
 
  public:
   void attach(IListenerObserver* observer) override {
-    m_listeners.push_back(observer);
+    listeners_.push_back(observer);
   }
 
   void detach(IListenerObserver* observer) override {
-    m_listeners.remove(observer);
+    listeners_.remove(observer);
   }
 
   void notify(const Event& e) override {
     std::cout << "[Subject] notify event-" << getEventName(e) << "\n";
-    for (IListenerObserver* o : m_listeners) {
+    for (IListenerObserver* o : listeners_) {
       o->update(e);
     }
   }
@@ -98,16 +100,16 @@ class ButtonConcreteSubject : public IWidgetSubject {
 
 class AbstractListenerObserver : public IListenerObserver {
  private:
-  int m_num;
-  inline static int num_observers = 0;
+  int nu_;
+  inline static int nuobservers_ = 0;
 
  protected:
   void log(const Event& e) const {
-    std::cout << "\t-id:" << m_num << "-event:" << getEventName(e) << "\n";
+    std::cout << "\t-id:" << nu_ << "-event:" << getEventName(e) << "\n";
   }
 
  public:
-  explicit AbstractListenerObserver() { m_num = ++num_observers; }
+  explicit AbstractListenerObserver() { nu_ = ++nuobservers_; }
 };
 
 /**
@@ -117,22 +119,22 @@ class AbstractListenerObserver : public IListenerObserver {
  */
 class ConcreteListenerObserverA : public AbstractListenerObserver {
  private:
-  static const inline char* type = "A-type";
+  static const inline char* type_ = "A-type";
 
  public:
-  void update(const Event e) override {
-    std::cout << "\tListener: " << type;
+  void update(const Event& e) override {
+    std::cout << "\tListener: " << type_;
     log(e);
   }
 };
 
 class ConcreteListenerObserverB : public AbstractListenerObserver {
  private:
-  static const inline char* type = "B-type";
+  static const inline char* type_ = "B-type";
 
  public:
-  void update(const Event e) override {
-    std::cout << "\tListener: " << type;
+  void update(const Event& e) override {
+    std::cout << "\tListener: " << type_;
     log(e);
   }
 };
@@ -141,11 +143,11 @@ class ConcreteListenerObserverB : public AbstractListenerObserver {
  * The Client creates publisher and subscriber objects separately
  * and then registers subscribers for publisher updates.
  */
-namespace Client {
+namespace client {
 void clientCode(IWidgetSubject* const s) {
-  s->notify(Event::UPDATE);
+  s->notify(Event::kUpdate);
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   IWidgetSubject* btn = new ButtonConcreteSubject();
@@ -159,11 +161,11 @@ void run() {
   btn->attach(listener_2);
   btn->attach(listener_3);
   btn->attach(listener_4);
-  Client::clientCode(btn);
+  client::clientCode(btn);
 
   std::cout << "Remove listener2\n";
   btn->detach(listener_2);
-  Client::clientCode(btn);
+  client::clientCode(btn);
 
   delete btn;
   delete listener_1;
@@ -172,7 +174,7 @@ void run() {
   delete listener_4;
 }
 
-}  // namespace Observer
+}  // namespace observer
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -184,7 +186,7 @@ class ObserverExample : public IExample {
   std::string description() const override {
     return "Observer Pattern Example";
   }
-  void execute() override { Observer::run(); }
+  void execute() override { observer::run(); }
 };
 
 REGISTER_EXAMPLE(ObserverExample, "dp/behavioral", "Observer");

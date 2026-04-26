@@ -9,32 +9,32 @@ namespace {
 
 class IntCollection {
  private:
-  int m_data[3]{10, 20, 30};
+  int m_data_[3]{10, 20, 30};
 
  public:
   class Iterator {
    private:
-    int* m_ptr;
+    int* m_ptr_;
 
    public:
-    explicit Iterator(int* ptr) : m_ptr(ptr) {}
+    explicit Iterator(int* ptr) : m_ptr_(ptr) {}
 
-    int& operator*() { return *m_ptr; }
+    int& operator*() { return *m_ptr_; }
 
-    int* operator->() { return m_ptr; }
+    int* operator->() { return m_ptr_; }
 
     Iterator& operator++() {
-      ++m_ptr;
+      ++m_ptr_;
       return *this;
     }
 
     bool operator!=(const Iterator& other) const {
-      return m_ptr != other.m_ptr;
+      return m_ptr_ != other.m_ptr_;
     }
   };
 
-  Iterator begin() { return Iterator(m_data); }
-  Iterator end() { return Iterator(m_data + 3); }
+  Iterator begin() { return Iterator(m_data_); }
+  Iterator end() { return Iterator(m_data_ + 3); }
 
   // int* a = new int;
   void* operator new(size_t size) {
@@ -69,7 +69,7 @@ class IntCollection {
 };
 
 void run() {
-  IntCollection* col = new IntCollection;
+  auto* col = new IntCollection;
 
   for (auto it = col->begin(); it != col->end(); ++it) {
     std::cout << *it << '\n';
@@ -77,7 +77,7 @@ void run() {
 
   delete col;
 
-  IntCollection* cols = new IntCollection[10];
+  auto* cols = new IntCollection[10];
   for (int i = 0; i < 10; ++i) {
     for (auto it = cols[i].begin(); it != cols[i].end(); ++it) {
       std::cout << *it << '\n';

@@ -10,39 +10,61 @@
 
 #include <iostream>
 namespace {
-namespace Problem {
+namespace problem {
 
 class AuthSubSystem {
  public:
   virtual ~AuthSubSystem() = default;
-  void login() const { std::cout << "AuthSubSystem: login\n"; }
+  void login() {
+    std::cout << "AuthSubSystem: login\n";
+    dummy_++;
+  }
+
+ private:
+  int dummy_{};
 };
 
 class ValidatorSubSystem {
  public:
   virtual ~ValidatorSubSystem() = default;
-  virtual void check() const {
+  virtual void check() {
     std::cout << "ValidatorSubSystem: check input\n";
+    dummy_++;
   }
+
+ private:
+  int dummy_{};
 };
 
 class LoggerSubSystem {
  public:
   virtual ~LoggerSubSystem() = default;
-  void write() const { std::cout << "LoggerSubSystem: write log\n"; }
+  void write() {
+    std::cout << "LoggerSubSystem: write log\n";
+    dummy_++;
+  }
+
+ private:
+  int dummy_{};
 };
 
 class BackendSubSystem {
  public:
   virtual ~BackendSubSystem() = default;
-  void send() const { std::cout << "BackendSubSystem: send request\n"; }
+  void send() {
+    std::cout << "BackendSubSystem: send request\n";
+    dummy_++;
+  }
+
+ private:
+  int dummy_{};
 };
 
-namespace Client1 {
+namespace client1 {
 // The client must manually interact with each subsystem.
 // This creates unnecessary complexity.
-void clientCode(const ValidatorSubSystem& s1, const AuthSubSystem& s2,
-                const LoggerSubSystem& s3, const BackendSubSystem& s4) {
+void clientCode(ValidatorSubSystem& s1, AuthSubSystem& s2, LoggerSubSystem& s3,
+                BackendSubSystem& s4) {
   s1.check();
   s2.login();
   s3.write();
@@ -53,15 +75,15 @@ void clientCode(const ValidatorSubSystem& s1, const AuthSubSystem& s2,
   //   - combine subsystem operations
   //   - manage lifecycle and error handling
 }
-}  // namespace Client1
+}  // namespace client1
 
-namespace Client2 {
+namespace client2 {
 // The client must manually interact with each subsystem.
 // This creates unnecessary complexity.
-void clientCode(const ValidatorSubSystem& s1) {
+void clientCode(ValidatorSubSystem& s1) {
   s1.check();
 }
-}  // namespace Client2
+}  // namespace client2
 
 void run() {
   std::cout << "\n\nProblem\n";
@@ -71,29 +93,47 @@ void run() {
   LoggerSubSystem l;
   BackendSubSystem b;
 
-  Client1::clientCode(v, a, l, b);
-  Client2::clientCode(v);
+  client1::clientCode(v, a, l, b);
+  client2::clientCode(v);
 }
-}  // namespace Problem
+}  // namespace problem
 
-namespace Facade {
+namespace facade {
 
 class AuthSubSystem {
  public:
   virtual ~AuthSubSystem() = default;
-  void login() const { std::cout << "AuthSubSystem: login\n"; }
+  void login() {
+    std::cout << "AuthSubSystem: login\n";
+    dummy_++;
+  }
+
+ private:
+  int dummy_{};
 };
 
 class ValidatorSubSystem {
  public:
   virtual ~ValidatorSubSystem() = default;
-  void check() const { std::cout << "ValidatorSubSystem: check input\n"; }
+  void check() {
+    std::cout << "ValidatorSubSystem: check input\n";
+    dummy_++;
+  }
+
+ private:
+  int dummy_{};
 };
 
 class LoggerSubSystem {
  public:
   virtual ~LoggerSubSystem() = default;
-  void write() const { std::cout << "LoggerSubSystem: write log\n"; }
+  void write() {
+    std::cout << "LoggerSubSystem: write log\n";
+    dummy_++;
+  }
+
+ private:
+  int dummy_{};
 };
 
 class BackendSubSystem {
@@ -119,10 +159,10 @@ class MockBackendSubSystem : public BackendSubSystem {
  */
 class RequestFacade {
  protected:
-  const AuthSubSystem* auth_;
-  const ValidatorSubSystem* validator_;
-  const LoggerSubSystem* logger_;
-  const BackendSubSystem* backend_;
+  AuthSubSystem* auth_;
+  ValidatorSubSystem* validator_;
+  LoggerSubSystem* logger_;
+  BackendSubSystem* backend_;
 
   /**
    * Depending on your application's needs, you can provide the Facade with
@@ -132,14 +172,14 @@ class RequestFacade {
   /**
    * In this case we will delegate the memory ownership to Facade Class
    */
-  explicit RequestFacade(const AuthSubSystem* s1 = nullptr,
-                         const ValidatorSubSystem* s2 = nullptr,
-                         const LoggerSubSystem* s3 = nullptr,
-                         const BackendSubSystem* s4 = nullptr) {
-    this->auth_ = s1 ?: new AuthSubSystem;
-    this->validator_ = s2 ?: new ValidatorSubSystem;
-    this->logger_ = s3 ?: new LoggerSubSystem;
-    this->backend_ = s4 ?: new BackendSubSystem;
+  explicit RequestFacade(AuthSubSystem* s1 = nullptr,
+                         ValidatorSubSystem* s2 = nullptr,
+                         LoggerSubSystem* s3 = nullptr,
+                         BackendSubSystem* s4 = nullptr) {
+    this->auth_ = s1 ? s1 : new AuthSubSystem();
+    this->validator_ = s2 ? s2 : new ValidatorSubSystem();
+    this->logger_ = s3 ? s3 : new LoggerSubSystem();
+    this->backend_ = s4 ? s4 : new BackendSubSystem();
   }
 
   ~RequestFacade() {
@@ -154,59 +194,59 @@ class RequestFacade {
    * functionality of the subsystems. However, clients get only to a fraction of
    * a subsystem's capabilities.
    */
-  void sendRequest() const {
+  void sendRequest() {
     validator_->check();
     auth_->login();
     logger_->write();
     backend_->send();
   }
 
-  void validate() const { validator_->check(); }
+  void validate() { validator_->check(); }
 };
 
-namespace Client1 {
+namespace client1 {
 /**
  * The client code works with complex subsystems through a simple interface
  * provided by the Facade. When a facade manages the lifecycle of the subsystem,
  * the client might not even know about the existence of the subsystem. This
  * approach lets you keep the complexity under control.
  */
-void clientCode(const RequestFacade& facade) {
+void clientCode(RequestFacade& facade) {
   facade.sendRequest();
 }
-}  // namespace Client1
+}  // namespace client1
 
-namespace Client2 {
+namespace client2 {
 /**
  * The client code works with complex subsystems through a simple interface
  * provided by the Facade. When a facade manages the lifecycle of the subsystem,
  * the client might not even know about the existence of the subsystem. This
  * approach lets you keep the complexity under control.
  */
-void clientCode(const RequestFacade& facade) {
+void clientCode(RequestFacade& facade) {
   facade.validate();
 }
-}  // namespace Client2
+}  // namespace client2
 
 void run() {
   std::cout << "\n\nFacade\n";
   {
-    RequestFacade* facade = new RequestFacade();
-    Client1::clientCode(*facade);
-    Client2::clientCode(*facade);
+    auto* facade = new RequestFacade();
+    client1::clientCode(*facade);
+    client2::clientCode(*facade);
     delete facade;
   }
 
   {
     // injected subsystems for mocktest
     std::cout << "\n";
-    const MockBackendSubSystem* b = new MockBackendSubSystem();
-    RequestFacade* facade = new RequestFacade(nullptr, nullptr, nullptr, b);
-    Client1::clientCode(*facade);
+    auto* b = new MockBackendSubSystem();
+    auto* facade = new RequestFacade(nullptr, nullptr, nullptr, b);
+    client1::clientCode(*facade);
     delete facade;
   }
 }
-}  // namespace Facade
+}  // namespace facade
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -217,8 +257,8 @@ class FacadeExample : public IExample {
   std::string name() const override { return "Facade"; }
   std::string description() const override { return "Facade Pattern Example"; }
   void execute() override {
-    Problem::run();
-    Facade::run();
+    problem::run();
+    facade::run();
   }
 };
 

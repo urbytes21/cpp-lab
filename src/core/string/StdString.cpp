@@ -4,7 +4,7 @@
 #include <string>
 #include "ExampleRegistry.h"
 
-namespace Create {
+namespace create {
 void run() {
   // 1. Direct initialization with literal
   std::string s1 = "string 1";
@@ -30,9 +30,9 @@ void run() {
   std::cout << "s4: " << s4 << '\n';
   std::cout << "s5: " << s5 << '\n';
 }
-}  // namespace Create
+}  // namespace create
 
-namespace Modify {
+namespace modify {
 void run() {
   std::string ss = "xPhong";
   std::cout << "init      : " << ss << '\n';
@@ -72,18 +72,18 @@ void run() {
   ss.erase(ss.find_last_not_of(" \t\n\r") + 1);
   std::cout << "trim last   : " << ss << '\n';
 }
-}  // namespace Modify
+}  // namespace modify
 
-namespace Sub {
+namespace sub {
 void run() {
   std::string ss = "PhongNguyen";
   std::cout << "init      : " << ss << '\n';
-  std::string firstName = ss.substr(0, 5);
-  std::cout << "sub     : " << firstName << '\n';
+  std::string first_name = ss.substr(0, 5);
+  std::cout << "sub     : " << first_name << '\n';
 }
-}  // namespace Sub
+}  // namespace sub
 
-namespace Search {
+namespace search {
 void run() {
   std::string ss = "PhongNguyen";
   std::cout << "init           : " << ss << '\n';
@@ -91,8 +91,8 @@ void run() {
   // find char
   size_t pos = ss.find('N');
   if (pos != std::string::npos) {
-    std::string secondName = ss.substr(pos);  // from pos to end (default)
-    std::cout << "find 'N'       : at " << pos << " -> " << secondName << '\n';
+    std::string second_name = ss.substr(pos);  // from pos to end (default)
+    std::cout << "find 'N'       : at " << pos << " -> " << second_name << '\n';
   }
 
   // find substring
@@ -107,9 +107,9 @@ void run() {
     std::cout << "rfind 'n'      : at " << pos << '\n';
   }
 }
-}  // namespace Search
+}  // namespace search
 
-namespace Compare {
+namespace compare {
 void run() {
   std::string ss1 = "PhongNguyen";
   std::string ss2 = "PhongNguyen";
@@ -120,9 +120,9 @@ void run() {
   std::cout << "equal ?        : " << std::boolalpha << (result == 0) << '\n';
 }
 
-}  // namespace Compare
+}  // namespace compare
 
-namespace Convert {
+namespace convert {
 void run() {
   // string -> int
   std::string sint = "3";
@@ -139,9 +139,9 @@ void run() {
   std::string svalue = std::to_string(value);
   std::cout << "to_string      : " << svalue << '\n';
 }
-}  // namespace Convert
+}  // namespace convert
 
-namespace Parsing {
+namespace parsing {
 void run() {
   std::string line = "a,b,c";
   std::cout << "init      : " << line << '\n';
@@ -154,7 +154,7 @@ void run() {
     std::cout << item << std::endl;
   }
 }
-}  // namespace Parsing
+}  // namespace parsing
 
 class StdString : public IExample {
  public:
@@ -162,13 +162,13 @@ class StdString : public IExample {
   std::string name() const override { return "StdString"; }
   std::string description() const override { return "StdString Example"; }
   void execute() override {
-    Create::run();
-    Modify::run();
-    Sub::run();
-    Search::run();
-    Compare::run();
-    Convert::run();
-    Parsing::run();
+    create::run();
+    modify::run();
+    sub::run();
+    search::run();
+    compare::run();
+    convert::run();
+    parsing::run();
   }
 };
 

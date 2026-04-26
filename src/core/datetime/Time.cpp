@@ -6,7 +6,7 @@
 namespace {
 void run() {
   // **1. Get the current timestamp**
-  std::time_t now = time(NULL);
+  std::time_t now = time(nullptr);
   const auto* ts = ctime(&now);
   std::cout << "Current time: " << ts << '\n';
 
@@ -31,9 +31,9 @@ void run() {
 class CTime : public IExample {
  public:
   std::string group() const override { return "core/datetime"; }
-  std::string name() const override { return "CTime"; }
+  std::string name() const override { return "Time"; }
   std::string description() const override { return ""; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(CTime, "core/datetime", "CTime");
+REGISTER_EXAMPLE(CTime, "core/datetime", "Time");

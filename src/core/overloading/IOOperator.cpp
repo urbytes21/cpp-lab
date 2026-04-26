@@ -7,11 +7,11 @@
 namespace {
 class Cents {
  private:
-  int m_cents{};
+  int m_cents_{};
 
  public:
-  explicit Cents(int cents) : m_cents{cents} {}
-  int getCents() const { return m_cents; }
+  explicit Cents(int cents) : m_cents_{cents} {}
+  int getCents() const { return m_cents_; }
 
   //   // We won’t be able to use a member overload if the left operand is either not a class (e.g. int),
   //   // or it is a class that we can’t modify (e.g. std::ostream).

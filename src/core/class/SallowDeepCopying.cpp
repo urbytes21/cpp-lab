@@ -3,17 +3,17 @@
 #include <iostream>
 
 namespace {
-namespace Shallow {
+namespace shallow {
 class Model {
  private:
-  int m_x{0}, m_y{1};
-  int* ptr;
+  int x_{0}, y_{1};
+  int* ptr_{};
 
  public:
   // Default constructor: Model a = Model(1,2)
-  explicit Model(int x, int y, int z) : m_x{x}, m_y{y}, ptr{nullptr} {
-    ptr = new int;
-    *ptr = z;
+  explicit Model(int x, int y, int z) : x_{x}, y_{y} {
+    ptr_ = new int;
+    *ptr_ = z;
   }
 
   ~Model() {
@@ -21,24 +21,24 @@ class Model {
     // Shallow copying makes both objects use the same pointer.
     // If one object deletes the pointer, the other object now
     // points to invalid memory.
-    // delete ptr;   // Commented out on purpose for demo
+    // delete ptr_;   // Commented out on purpose for demo
   }
 
   void changePtr(int value) {
-    if (ptr != nullptr) {
-      *ptr = value;
+    if (ptr_ != nullptr) {
+      *ptr_ = value;
     }
   }
 
   int getPtr() const {
-    if (ptr != nullptr) {
-      return *ptr;
+    if (ptr_ != nullptr) {
+      return *ptr_;
     }
     return 0;
   }
 
   // Implicit copy constructor: Model a{b};
-  // Model(const Model &f) : m_x{f.m_x}, m_y{f.m_y} {}
+  // Model(const Model &f) : x_{f.x_}, y_{f.y_} {}
 
   // Implicit assignment operator (like the way compiler gen this function):
   // Model a = b; Model &operator=(const Model &f)
@@ -50,8 +50,8 @@ class Model {
   //     }
 
   //     // do the copy
-  //     m_x = f.m_x;
-  //     m_y = f.m_y;
+  //     x_ = f.x_;
+  //     y_ = f.y_;
 
   //     //  return the existing object so we can chain this operator
   //     return *this;
@@ -64,49 +64,49 @@ void run() {
   obj2.changePtr(30);
   // [P2]
   std::cout << "\n=== Shallow Copy Demo ===\n";
-  std::cout << "obj1.ptr = " << obj1.getPtr() << "\n";
-  std::cout << "obj2.ptr = " << obj2.getPtr() << "\n";
+  std::cout << "obj1.ptr_ = " << obj1.getPtr() << "\n";
+  std::cout << "obj2.ptr_ = " << obj2.getPtr() << "\n";
 }
 
-}  // namespace Shallow
+}  // namespace shallow
 
 // To do a deep copy on any non-null pointers being copied
 // Requires that we write our own `copy constructors` and `overloaded assignment
 // operators`.
-namespace DeepCopying {
+namespace deep_copying {
 class Model {
  private:
-  int m_x{0}, m_y{1};
-  int* ptr;
+  int x_{0}, y_{1};
+  int* ptr_{};
 
   void deepCopy(const Model& source) {
     // sallow copy the normal fields
-    m_x = source.m_x;
-    m_y = source.m_y;
+    x_ = source.x_;
+    y_ = source.y_;
 
-    // deep copy the ptr field
+    // deep copy the ptr_ field
     // m_data is a pointer, so we need to deep copy it if it is non-null
     // first we need to deallocate any value that this Model is holding!
-    delete ptr;
-    if (source.ptr != nullptr) {
+    delete ptr_;
+    if (source.ptr_ != nullptr) {
       // allocate memory for our copy
-      ptr = new int;
+      ptr_ = new int;
       // do the copy
-      *ptr = *source.ptr;
+      *ptr_ = *source.ptr_;
     } else {
-      ptr = nullptr;
+      ptr_ = nullptr;
     }
   }
 
  public:
   // Constructor
-  explicit Model(int x, int y, int z) : m_x{x}, m_y{y}, ptr{nullptr} {
-    ptr = new int;
-    *ptr = z;
+  explicit Model(int x, int y, int z) : x_{x}, y_{y} {
+    ptr_ = new int;
+    *ptr_ = z;
   }
 
   // Destructor
-  ~Model() { delete ptr; }
+  ~Model() { delete ptr_; }
 
   // Copy constructor
   // no need to check self-copy [if (this != &source)]
@@ -125,14 +125,14 @@ class Model {
   }
 
   void changePtr(int value) {
-    if (ptr != nullptr) {
-      *ptr = value;
+    if (ptr_ != nullptr) {
+      *ptr_ = value;
     }
   }
 
   int getPtr() const {
-    if (ptr != nullptr) {
-      return *ptr;
+    if (ptr_ != nullptr) {
+      return *ptr_;
     }
     return 0;
   }
@@ -144,11 +144,11 @@ void run() {
   obj2.changePtr(30);
 
   std::cout << "\n=== Deep Copy Demo ===\n";
-  std::cout << "obj1.ptr = " << obj1.getPtr() << "\n";
-  std::cout << "obj2.ptr = " << obj2.getPtr() << "\n";
+  std::cout << "obj1.ptr_ = " << obj1.getPtr() << "\n";
+  std::cout << "obj2.ptr_ = " << obj2.getPtr() << "\n";
 }
 
-}  // namespace DeepCopying
+}  // namespace deep_copying
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -159,8 +159,8 @@ class ShallowDeepCopying : public IExample {
   std::string name() const override { return "ShallowDeepCopying"; }
   std::string description() const override { return ""; }
   void execute() override {
-    Shallow::run();
-    DeepCopying::run();
+    shallow::run();
+    deep_copying::run();
   }
 };
 

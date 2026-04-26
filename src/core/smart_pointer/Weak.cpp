@@ -17,24 +17,24 @@ struct AppConfig {
 };
 
 void run() {
-  std::weak_ptr<const AppConfig> observeConfig;
+  std::weak_ptr<const AppConfig> observe_config;
   {
     std::shared_ptr<AppConfig> config =
         std::make_shared<AppConfig>("test.server.com", 80);
 
     // check lock() to determine if pointer is valid
-    observeConfig = config;
-    if (auto tmpConfig = observeConfig.lock()) {
-      std::cout << "[O] config value is: " << tmpConfig->port << " "
-                << tmpConfig->server << '\n';
+    observe_config = config;
+    if (auto tmp_config = observe_config.lock()) {
+      std::cout << "[O] config value is: " << tmp_config->port << " "
+                << tmp_config->server << '\n';
     } else {
       std::cout << "[O] config is expired\n";
     }
   }
 
-  if (auto tmpConfig = observeConfig.lock()) {
-    std::cout << "[O] config value is: " << tmpConfig->port << " "
-              << tmpConfig->server << '\n';
+  if (auto tmp_config = observe_config.lock()) {
+    std::cout << "[O] config value is: " << tmp_config->port << " "
+              << tmp_config->server << '\n';
   } else {
     std::cout << "[O] config is expired\n";
   }
@@ -50,10 +50,10 @@ void run() {
 
 class Weak : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/smart_pointer"; }
   std::string name() const override { return "Weak"; }
   std::string description() const override { return "Weak Pointer Example"; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Weak, "core", "Weak");
+REGISTER_EXAMPLE(Weak, "core/smart_pointer", "Weak");

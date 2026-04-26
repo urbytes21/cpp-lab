@@ -6,7 +6,7 @@
 
 #include "ExampleRegistry.h"
 
-namespace Async {
+namespace async {
 int async_worker() {
   std::cout << "[worker] started, needs 2000 ms\n";
   std::this_thread::sleep_for(std::chrono::seconds(2));
@@ -45,9 +45,9 @@ void run() {
   std::cout << "[main] total time = " << total << " ms\n";
 }
 
-}  // namespace Async
+}  // namespace async
 
-namespace Simple {
+namespace simple {
 void promise_worker(std::promise<int>* prom) {
   std::cout << "[worker] started, needs 2000 ms\n";
   std::this_thread::sleep_for(std::chrono::seconds(2));
@@ -91,7 +91,7 @@ void run() {
   thread.join();
 }
 
-}  // namespace Simple
+}  // namespace simple
 
 class FuturePromise : public IExample {
 
@@ -102,9 +102,9 @@ class FuturePromise : public IExample {
   }
 
   void execute() override {
-    Async::run();
+    async::run();
 
-    Simple::run();
+    simple::run();
   }
 };
 

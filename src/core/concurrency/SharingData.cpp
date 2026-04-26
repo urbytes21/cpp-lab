@@ -1,4 +1,3 @@
-#include <chrono>
 #include <iostream>
 #include <thread>
 #include "ExampleRegistry.h"
@@ -35,13 +34,13 @@ void run() {
 
 class SharingData : public IExample {
 
-  std::string group() const { return "core/concurrency"; }
-  std::string name() const { return "SharingData"; }
-  std::string description() const {
+  std::string group() const override { return "core/concurrency"; }
+  std::string name() const override { return "SharingData"; }
+  std::string description() const override {
     return "The examples for <thread> sharing data";
   }
 
-  void execute() { run(); }
+  void execute() override { run(); }
 };
 
 REGISTER_EXAMPLE(SharingData, "core/concurrency", "SharingData");

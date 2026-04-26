@@ -8,25 +8,25 @@
 namespace {
 class Cents {
  private:
-  int m_cents{};
+  int m_cents_{};
 
  public:
-  explicit Cents(int cents = 0) : m_cents{cents} {}
+  explicit Cents(int cents = 0) : m_cents_{cents} {}
 
-  int getCents() const { return m_cents; }
-  void setCents(int cents) { m_cents = cents; }
+  int getCents() const { return m_cents_; }
+  void setCents(int cents) { m_cents_ = cents; }
 
   // Copy constructor
   Cents(const Cents& other) {
     std::cout << "Cents(const Cents& other)\n";
-    m_cents = other.m_cents;
+    m_cents_ = other.m_cents_;
   }
 
   // Overload copy assignment
   Cents& operator=(const Cents& cents) {
     // do the copy
     std::cout << "Cents& operator=(const Cents& cents)\n";
-    m_cents = cents.m_cents;
+    m_cents_ = cents.m_cents_;
     return *this;
   }
 };

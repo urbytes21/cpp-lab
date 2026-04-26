@@ -12,9 +12,11 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
+
 namespace {
-namespace Memento {
+namespace memento {
 /**
  * Memento interface provides a way to retrieve the memento's metadata, such as
  * creation date or name. However, it doesn't expose the Originator's state.
@@ -34,12 +36,12 @@ class IMemento {
  */
 class ConcreteMemento : public IMemento {
  private:
-  std::string m_state;
-  std::string m_date;
-  std::string m_name;
+  std::string state_;
+  std::string date_;
+  std::string name_;
 
  public:
-  explicit ConcreteMemento(const std::string& state) : m_state{state} {
+  explicit ConcreteMemento(std::string  state) : state_{std::move(state)} {
     // Get current time
     std::time_t now = std::time(nullptr);
     std::tm* t = std::localtime(&now);
@@ -47,20 +49,20 @@ class ConcreteMemento : public IMemento {
     // Format date as YYYYMMDD_HHMMSS
     std::stringstream date_ss;
     date_ss << std::put_time(t, "%Y%m%d_%H%M%S");
-    m_date = date_ss.str();
+    date_ = date_ss.str();
 
     // Append a random number for uniqueness
     int rand_num = std::rand() % 10000;  // optional: limit size
     std::stringstream name_ss;
-    name_ss << "mem_" << m_date << "_" << rand_num;
-    m_name = name_ss.str();
+    name_ss << "me" << date_ << "_" << rand_num;
+    name_ = name_ss.str();
   }
 
-  std::string getName() const override { return m_name; };
+  std::string getName() const override { return name_; };
 
-  std::string getDate() const override { return this->m_date; };
+  std::string getDate() const override { return this->date_; };
 
-  std::string getState() const override { return this->m_state; }
+  std::string getState() const override { return this->state_; }
 };
 
 /**
@@ -70,42 +72,44 @@ class ConcreteMemento : public IMemento {
  */
 class Originator {
  private:
-  std::string m_state;
+  std::string state_;
+  int dummy_{};
 
   // Simulate new state using rand
-  static std::string generateRandomString(int len = 10) {
+  std::string generateRandomString(int len = 10) {
     // String literal concatenation
-    const char alphaNum[] =
+    const char alpha_num[] =
         "0123456789"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
 
-    int strLen = sizeof(alphaNum) - 1;
-    std::string ranStr;
+    int str_len = sizeof(alpha_num) - 1;
+    std::string ran_str;
     for (int i = 0; i < len; ++i) {
-      ranStr += alphaNum[std::rand() % strLen];
+      ran_str += alpha_num[std::rand() % str_len];
     }
-    return ranStr;
+    dummy_++;
+    return ran_str;
   }
 
  public:
-  explicit Originator(const std::string& state) : m_state{state} {
-    std::cout << "[O]Initial state is: " << this->m_state << "\n";
+  explicit Originator(std::string  state) : state_{std::move(state)} {
+    std::cout << "[O]Initial state is: " << this->state_ << "\n";
   }
 
   void operation() {
     std::cout << "[O]Doing something important.\n";
-    this->m_state = this->generateRandomString(30);
-    std::cout << "[O]The state has changed to: " << this->m_state << "\n";
+    this->state_ = this->generateRandomString(30);
+    std::cout << "[O]The state has changed to: " << this->state_ << "\n";
   }
 
   //  Save the current state inside a memento.
-  IMemento* save() { return new ConcreteMemento(this->m_state); }
+  IMemento* save() { return new ConcreteMemento(this->state_); }
 
   // Restores the Originator's state from a memento object.
   void restore(IMemento* mem) {
-    this->m_state = mem->getState();
-    std::cout << "[O]The state has restored to: " << this->m_state << "\n";
+    this->state_ = mem->getState();
+    std::cout << "[O]The state has restored to: " << this->state_ << "\n";
 
     delete mem;
   }
@@ -118,77 +122,77 @@ class Originator {
  */
 class CareTaker {
  private:
-  std::vector<IMemento*> m_mementos;
-  Originator* m_originator;
+  std::vector<IMemento*> mementos_;
+  Originator* originator_;
 
  public:
-  explicit CareTaker(Originator* const org) : m_originator{org} {}
+  explicit CareTaker(Originator* const org) : originator_{org} {}
   ~CareTaker() {
-    for (IMemento* m : m_mementos) {
+    for (IMemento* m : mementos_) {
       delete m;
     }
   }
 
   void backup() {
     std::cout << "[C]Saving Originator's state...\n";
-    this->m_mementos.push_back(this->m_originator->save());
+    this->mementos_.push_back(this->originator_->save());
   }
 
   void undo() {
-    if (this->m_mementos.size() != 0) {
-      IMemento* mem = m_mementos.back();
-      this->m_mementos.pop_back();
+    if (this->mementos_.size() != 0) {
+      IMemento* mem = mementos_.back();
+      this->mementos_.pop_back();
 
       std::cout << "[C]Restoring state to: " << mem->getName() << "\n";
-      this->m_originator->restore(mem);
+      this->originator_->restore(mem);
     }
   }
 
   void history() const {
     std::cout << "[C]The list of mementos:\n";
-    for (const IMemento* m : m_mementos) {
+    for (const IMemento* m : mementos_) {
       std::cout << "\t" << m->getName() << "\n";
     }
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(Originator* const org) {
-  CareTaker* careTaker = new CareTaker(org);
+  auto* care_taker = new CareTaker(org);
 
   // 1
-  careTaker->backup();
+  care_taker->backup();
   org->operation();
 
   // 2
-  careTaker->backup();
+  care_taker->backup();
   org->operation();
 
   // 3
-  careTaker->backup();
+  care_taker->backup();
   org->operation();
 
-  careTaker->history();
-  careTaker->undo();
-  careTaker->undo();
-  careTaker->history();
-  careTaker->undo();
+  care_taker->history();
+  care_taker->undo();
+  care_taker->undo();
+  care_taker->history();
+  care_taker->undo();
 
-  // [P] The previous state can’t be restored directly because m_state is
+  // [P] The previous state can’t be restored directly because state is
   // private. We need a Memento to save and recover internal state safely.
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   // Gen seed
-  std::srand(static_cast<unsigned int>(std::time(NULL)));
+  std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
-  Originator* origin = new Originator("Hello World");
-  Client::clientCode(origin);
+  auto* origin = new Originator("Hello World");
+  client::clientCode(origin);
 
   delete origin;
 }
-}  // namespace Memento
+}  // namespace memento
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -200,7 +204,7 @@ class MementoExample : public IExample {
   std::string description() const override {
     return "Memento Pattern Example ";
   }
-  void execute() override { Memento::run(); }
+  void execute() override { memento::run(); }
 };
 
 REGISTER_EXAMPLE(MementoExample, "dp/behavioral", "Memento");

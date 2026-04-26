@@ -1,5 +1,7 @@
+// cppcheck-suppress-file [unreadVariable]
+
 #include <iostream>
-using namespace std;
+
 // A type defined in terms of other types
 
 void increment(int& x) {
@@ -17,16 +19,16 @@ int& returnRef() {
 }
 
 void references() {
-  cout << "\n--- References Type Examples ---\n";
+  std::cout << "\n--- References Type Examples ---\n";
   int a = 10;
-  cout << "a = " << a << "\n";
+  std::cout << "a = " << a << "\n";
 
   // *1. Reference basics
   // int &ref_error; // reference must be initialized
   int& ref_a = a;
 
   ref_a = 20;  // modifies 'a', since ref is just an alias
-  cout << "ref_a =20, a = " << a << "\n";  // prints 20
+  std::cout << "ref_a =20, a = " << a << "\n";  // prints 20
 
   // Cannot reseat: once 'ref' is bound to 'a', it cannot be bound to another
   // variable int b = 30; ref = &b;   invalid, would assign value instead of
@@ -56,8 +58,7 @@ source (rvalue reference parameter, but it's the lvalue inside the function)
   V
   b
  */
-namespace RvalueReference {
-using namespace std;
+namespace rvalue_reference {
 
 // Move-like function taking an rvalue reference as parameter
 int copyConstructor(int&& x) {
@@ -75,26 +76,28 @@ void run() {
   // std::move(a) casts a (lvalue) into an rvalue reference (int&&)
   int b = copyConstructor(std::move(a));
 
-  cout << b << endl;  // prints 100
-  cout << a << endl;  // prints 0, because x in the function referred to a and
-                      // was reset
+  std::cout << b << std::endl;  // prints 100
+  std::cout
+      << a
+      << std::endl;  // prints 0, because x in the function referred to a and
+                     // was reset
 }
 
-}  // namespace RvalueReference
+}  // namespace rvalue_reference
 
 #include "ExampleRegistry.h"
 
 class CReferences : public IExample {
  public:
-  std::string group() const override { return "core"; }
-  std::string name() const override { return "CReferences"; }
+  std::string group() const override { return "core/datatype"; }
+  std::string name() const override { return "Reference"; }
   std::string description() const override {
     return "Compound type: References";
   }
   void execute() override {
     references();
-    RvalueReference::run();
+    rvalue_reference::run();
   }
 };
 
-REGISTER_EXAMPLE(CReferences, "core", "CReferences");
+REGISTER_EXAMPLE(CReferences, "core/datatype", "References");

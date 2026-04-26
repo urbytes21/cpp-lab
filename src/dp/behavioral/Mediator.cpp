@@ -17,26 +17,27 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 namespace {
-namespace Mediator {
+namespace mediator {
 
 enum class Event {
-  CREATE = 0,
-  READ,
-  UPDATE,
-  DELETE,
+  kCreate = 0,
+  kRead,
+  kUpdate,
+  kDelete,
 };
 
-static inline const char* getEventName(const Event& e) {
+inline const char* getEventName(const Event& e) {
   switch (e) {
-    case Event::CREATE:
+    case Event::kCreate:
       return "CREATE";
-    case Event::READ:
+    case Event::kRead:
       return "READ";
-    case Event::UPDATE:
+    case Event::kUpdate:
       return "UPDATE";
-    case Event::DELETE:
+    case Event::kDelete:
       return "DELETE";
   }
   return "invalid_event";
@@ -46,8 +47,8 @@ class IComponent {
  public:
   virtual ~IComponent() = default;
 
-  virtual void send(const Event e) = 0;
-  virtual void receive(const Event e) = 0;
+  virtual void send(const Event& e) = 0;
+  virtual void receive(const Event& e) = 0;
 };
 
 /**
@@ -60,7 +61,7 @@ class IComponent {
 class IMediator {
  public:
   virtual ~IMediator() = default;
-  virtual void registerComponent(IComponent* const c) = 0;
+  virtual void registerComponent(IComponent* const& c) = 0;
   virtual void notify(IComponent* sender, const Event& e) = 0;
 };
 
@@ -71,15 +72,15 @@ class IMediator {
  */
 class ComponentMediator : public IMediator {
  private:
-  std::vector<IComponent*> m_components;
+  std::vector<IComponent*> components_;
 
  public:
-  void registerComponent(IComponent* const c) override {
-    m_components.push_back(c);
+  void registerComponent(IComponent* const& c) override {
+    components_.push_back(c);
   }
 
   void notify(IComponent* const sender, const Event& e) override {
-    for (auto c : m_components) {
+    for (auto* c : components_) {
       if (c != sender) {
         c->receive(e);
       }
@@ -96,19 +97,18 @@ class ComponentMediator : public IMediator {
  */
 class AbstractComponent : public IComponent {
  private:
-  const std::string m_id;
+  const std::string id_;
 
  protected:
-  IMediator* m_mediator;
+  IMediator* mediator_;
   void log(const Event& e, const std::string& msg) const {
-    std::cout << "\t" + msg + "-id:" + m_id + "-event:" + getEventName(e) +
-                     "\n";
+    std::cout << "\t" + msg + "-id:" + id_ + "-event:" + getEventName(e) + "\n";
   }
 
  public:
-  explicit AbstractComponent(const std::string& id,
+  explicit AbstractComponent(std::string  id,
                              IMediator* const m = nullptr)
-      : m_id{id}, m_mediator{m} {};
+      : id_{std::move(id)}, mediator_{m} {};
 };
 
 /**
@@ -120,23 +120,23 @@ class ConreteComponent : public AbstractComponent {
   explicit ConreteComponent(const std::string& id, IMediator* const m = nullptr)
       : AbstractComponent{id, m} {}
 
-  void send(const Event e) override {
+  void send(const Event& e) override {
     log(e, "[SEND]");
-    if (m_mediator != nullptr)
-      m_mediator->notify(this, e);
+    if (mediator_ != nullptr)
+      mediator_->notify(this, e);
   }
 
-  void receive(const Event e) override {
+  void receive(const Event& e) override {
     log(e, "[RECV]");
     // Additional handling logic can go here
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(IComponent* comp) {
-  comp->send(Event::READ);
+  comp->send(Event::kRead);
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   IMediator* mediator = new ComponentMediator();
@@ -151,7 +151,7 @@ void run() {
   mediator->registerComponent(c4);
 
   // c2 triggers event => observed by others
-  Client::clientCode(c2);
+  client::clientCode(c2);
 
   delete mediator;
   delete c1;
@@ -159,7 +159,7 @@ void run() {
   delete c3;
   delete c4;
 }
-}  // namespace Mediator
+}  // namespace mediator
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -171,7 +171,7 @@ class MediatorExample : public IExample {
   std::string description() const override {
     return "Mediator Pattern Example";
   }
-  void execute() override { Mediator::run(); }
+  void execute() override { mediator::run(); }
 };
 
 REGISTER_EXAMPLE(MediatorExample, "dp/behavioral", "Mediator");

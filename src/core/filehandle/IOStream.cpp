@@ -10,23 +10,23 @@ void run() {
   // 1) input stream
 
   // input source using std::stringstream
-  std::string inputStr{};
+  std::string input_str{};
   std::stringstream input("input aa aa");
 
   // save and redirect std::cin
-  auto* oldBuf = std::cin.rdbuf(input.rdbuf());
+  auto* old_buf = std::cin.rdbuf(input.rdbuf());
 
   // input from keyboard,
   // std::cin >> inputStr; // skip whitespace
-  std::getline(std::cin, inputStr);  // get all
+  std::getline(std::cin, input_str);  // get all
 
   // have to restore std::cin
-  std::cin.rdbuf(oldBuf);
+  std::cin.rdbuf(old_buf);
 
   // 2) output stream
-  std::cout << "[cout] " << inputStr << '\n';
-  std::cerr << "[cerr] " << inputStr << '\n';  // unbuffered
-  std::clog << "[clog] " << inputStr << '\n';  // buffered
+  std::cout << "[cout] " << input_str << '\n';
+  std::cerr << "[cerr] " << input_str << '\n';  // unbuffered
+  std::clog << "[clog] " << input_str << '\n';  // buffered
 }
 }  // namespace
 

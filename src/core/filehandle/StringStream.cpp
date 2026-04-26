@@ -20,13 +20,13 @@ void runStringStreamExample() {
   std::cout << os.str();
 
   // output: std::ostringstream oss;
-  std::string bytesStr = os.str();
-  std::cout << bytesStr;
+  std::string bytes_str = os.str();
+  std::cout << bytes_str;
 
   os.str("0x0 0xF 0xE 0x2");
   os.clear();
-  os >> bytesStr;
-  std::cout << bytesStr;
+  os >> bytes_str;
+  std::cout << bytes_str;
 
   // conversions
   int byte_low = 0xFFF;

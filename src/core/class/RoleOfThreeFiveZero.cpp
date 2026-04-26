@@ -5,23 +5,23 @@
 #include <utility>
 
 namespace {
-namespace Problem {
+namespace problem {
 class Model {
  private:
-  char* cstring;
+  char* cstring_;
 
  public:
-  explicit Model(const char* s = "") : cstring{nullptr} {
+  explicit Model(const char* s = "") : cstring_{nullptr} {
     if (s) {
-      cstring = new char[std::strlen(s) + 1];  // allocate
-      std::strcpy(cstring, s);                 // populate
+      cstring_ = new char[std::strlen(s) + 1];  // allocate
+      std::strcpy(cstring_, s);                 // populate
     }
   }
 
   // I. destructor
   ~Model() {
     // delete[] cstring; // [P2] Double call here
-    std::cout << "Deleted cstring at: " << static_cast<const void*>(cstring)
+    std::cout << "Deleted cstring at: " << static_cast<const void*>(cstring_)
               << "\n";
   }
 
@@ -33,12 +33,12 @@ class Model {
   // Helper functions
   const char* c_str() const  // accessor
   {
-    return cstring;
+    return cstring_;
   }
 
   void set_first_char(char ch) {
-    if (cstring)
-      cstring[0] = ch;
+    if (cstring_)
+      cstring_[0] = ch;
   }
 };
 
@@ -60,51 +60,51 @@ void run() {
         << "\n[P2] Decontructor issue when releasing the shared pointer.\n";
   }
 }
-}  // namespace Problem
+}  // namespace problem
 
 // Rule of Three: define
 //  - destructor
 //  - copy constructor
 //  - copy assignment
-namespace RoleOfThree {
+namespace role_of_three {
 class Model {
  private:
-  char* cstring;
+  char* cstring_;
 
  public:
-  explicit Model(const char* s = "") : cstring{nullptr} {
+  explicit Model(const char* s = "") : cstring_{nullptr} {
     if (s) {
-      cstring = new char[std::strlen(s) + 1];  // allocate
-      std::strcpy(cstring, s);                 // populate
+      cstring_ = new char[std::strlen(s) + 1];  // allocate
+      std::strcpy(cstring_, s);                 // populate
     }
   }
 
   // I. destructor
   ~Model() {
-    delete[] cstring;  // [P2] Double call here
-    std::cout << "Deleted cstring at: " << static_cast<const void*>(cstring)
+    delete[] cstring_;  // [P2] Double call here
+    std::cout << "Deleted cstring at: " << static_cast<const void*>(cstring_)
               << "\n";
   }
 
   // II. copy constructor
-  Model(const Model& other) : Model(other.cstring) {}
+  Model(const Model& other) : Model(other.cstring_) {}
 
   // III. copy assignment
   Model& operator=(const Model& other) {
     Model temp(other);
-    std::swap(cstring, temp.cstring);
+    std::swap(cstring_, temp.cstring_);
     return *this;
   }
 
   // Helper functions
   const char* c_str() const  // accessor
   {
-    return cstring;
+    return cstring_;
   }
 
   void set_first_char(char ch) {
-    if (cstring)
-      cstring[0] = ch;
+    if (cstring_)
+      cstring_[0] = ch;
   }
 };
 
@@ -132,38 +132,38 @@ void run() {
               << (str_move.c_str() ? str_move.c_str() : "null") << "\n";
   }
 }
-}  // namespace RoleOfThree
+}  // namespace role_of_three
 
 // Rule of Five: Rule of Three and define
 //  - move constructor
 //  - move assignment
-namespace RoleOfFive {
+namespace role_of_five {
 class Model {
  private:
-  char* cstring;
+  char* cstring_;
 
  public:
-  explicit Model(const char* s = "") : cstring{nullptr} {
+  explicit Model(const char* s = "") : cstring_{nullptr} {
     if (s) {
-      cstring = new char[std::strlen(s) + 1];  // allocate
-      std::strcpy(cstring, s);                 // populate
+      cstring_ = new char[std::strlen(s) + 1];  // allocate
+      std::strcpy(cstring_, s);                 // populate
     }
   }
 
   // I. destructor
   ~Model() {
-    delete[] cstring;  // [P2] Double call here
-    std::cout << "Deleted cstring at: " << static_cast<const void*>(cstring)
+    delete[] cstring_;  // [P2] Double call here
+    std::cout << "Deleted cstring at: " << static_cast<const void*>(cstring_)
               << "\n";
   }
 
   // II. copy constructor
-  Model(const Model& other) : Model(other.cstring) {}
+  Model(const Model& other) : Model(other.cstring_) {}
 
   // III. copy assignment
   Model& operator=(const Model& other) {
     Model temp(other);
-    std::swap(cstring, temp.cstring);
+    std::swap(cstring_, temp.cstring_);
     return *this;
   }
 
@@ -171,23 +171,23 @@ class Model {
   // noexcept is a specifier that indicates a function will not throw
   // exceptions.
   Model(Model&& other) noexcept
-      : cstring(std::exchange(other.cstring, nullptr)){};
+      : cstring_(std::exchange(other.cstring_, nullptr)){};
 
   // V. move assignment
   Model& operator=(Model&& other) noexcept {
-    std::swap(cstring, other.cstring);
+    std::swap(cstring_, other.cstring_);
     return *this;
   }
 
   // Helper functions
   const char* c_str() const  // accessor
   {
-    return cstring;
+    return cstring_;
   }
 
   void set_first_char(char ch) {
-    if (cstring)
-      cstring[0] = ch;
+    if (cstring_)
+      cstring_[0] = ch;
   }
 };
 
@@ -215,37 +215,37 @@ void run() {
               << (str_move.c_str() ? str_move.c_str() : "null") << "\n";
   }
 }
-}  // namespace RoleOfFive
+}  // namespace role_of_five
 
 // Rule of Zero: use RAII (std::string, std::vector, smart pointers,...), no
 // need to define any special functions except constructor
-namespace RoleOfZero {
-class base_of_five_defaults {
+namespace role_of_zero {
+class BaseOfFiveDefaults {
  public:
-  base_of_five_defaults(const base_of_five_defaults&) = default;
-  base_of_five_defaults(base_of_five_defaults&&) = default;
-  base_of_five_defaults& operator=(const base_of_five_defaults&) = default;
-  base_of_five_defaults& operator=(base_of_five_defaults&&) = default;
-  virtual ~base_of_five_defaults() = default;
+  BaseOfFiveDefaults(const BaseOfFiveDefaults&) = default;
+  BaseOfFiveDefaults(BaseOfFiveDefaults&&) = default;
+  BaseOfFiveDefaults& operator=(const BaseOfFiveDefaults&) = default;
+  BaseOfFiveDefaults& operator=(BaseOfFiveDefaults&&) = default;
+  virtual ~BaseOfFiveDefaults() = default;
 };
 
 class Model {
  private:
-  std::string cstring;
+  std::string cstring_;
   // int* ptr;	-> std::unique_ptr<int> ptr; (exclusive ownership)
   // int* arr;	-> std::vector<int> arr; (automatic array management)
   // int* shared;	-> std::shared_ptr<int> shared; (shared ownership)
 
  public:
-  explicit Model(const std::string& str) : cstring{str} {}
+  explicit Model(const std::string& str) : cstring_{str} {}
 
   // Helper functions
-  const std::string c_str() const  // accessor
+  std::string c_str() const  // accessor
   {
-    return cstring;
+    return cstring_;
   }
 
-  void set_first_char(char ch) { cstring.at(0) = ch; }
+  void set_first_char(char ch) { cstring_.at(0) = ch; }
 };
 
 void run() {
@@ -269,7 +269,7 @@ void run() {
     std::cout << "  str_move.c_str() = " << str_move.c_str() << "\n";
   }
 }
-}  // namespace RoleOfZero
+}  // namespace role_of_zero
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -280,10 +280,10 @@ class RoleOfThreeFiveZero : public IExample {
   std::string name() const override { return "RoleOfThreeFiveZero"; }
   std::string description() const override { return ""; }
   void execute() override {
-    Problem::run();
-    RoleOfThree::run();
-    RoleOfFive::run();
-    RoleOfZero::run();
+    problem::run();
+    role_of_three::run();
+    role_of_five::run();
+    role_of_zero::run();
   }
 };
 

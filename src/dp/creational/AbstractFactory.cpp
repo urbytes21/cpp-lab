@@ -15,7 +15,7 @@
 #include <iostream>
 #include <string>
 namespace {
-namespace AbstractFactory {
+namespace abstract_factory {
 /**
  * The Product interface declares the operations that all concrete products must
  * implement.
@@ -128,7 +128,7 @@ class MacOsProductFactory : public IProductAbstractFactory {
  * types: AbstractFactory and AbstractProduct. This lets you pass any factory or
  * product subclass to the client code without breaking it.
  */
-namespace ClientCode {
+namespace client_code {
 void clientCode(IProductAbstractFactory* f) {
   ICMakeProduct* cmake = f->createCMakeProduct();
   IGdbProduct* gdb = f->createGdbProduct();
@@ -138,29 +138,30 @@ void clientCode(IProductAbstractFactory* f) {
   delete cmake;
   delete gdb;
 }
-}  // namespace ClientCode
+}  // namespace client_code
 
 // static redudant inside anonymous namespace
 IProductAbstractFactory* createProductFactory(const std::string& os) {
   if (os == "linux") {
     return new LinuxProductFactory();
-  } else if (os == "windows") {
-    return new WindowsProductFactory();
-  } else if (os == "macos") {
-    return new MacOsProductFactory();
-  } else {
-    std::cout << "OS not support yet - " << os << "\n";
-    return nullptr;
   }
+  if (os == "windows") {
+    return new WindowsProductFactory();
+  }
+  if (os == "macos") {
+    return new MacOsProductFactory();
+  }
+  std::cout << "OS not support yet - " << os << "\n";
+  return nullptr;
 }
 
 void run() {
   std::string os = "linux";
   IProductAbstractFactory* factory = createProductFactory(os);
-  ClientCode::clientCode(factory);
+  client_code::clientCode(factory);
   delete factory;
 }
-}  // namespace AbstractFactory
+}  // namespace abstract_factory
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -172,7 +173,7 @@ class AbstractFactoryExample : public IExample {
   std::string description() const override {
     return "AbstractFactory Pattern Example";
   }
-  void execute() override { AbstractFactory::run(); }
+  void execute() override { abstract_factory::run(); }
 };
 
 REGISTER_EXAMPLE(AbstractFactoryExample, "dp/creational", "AbstractFactory");

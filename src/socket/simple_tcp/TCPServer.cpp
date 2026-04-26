@@ -5,11 +5,8 @@
 #include <unistd.h>      // close(server)
 
 #include <iostream>
-#include <sstream>
-#include <vector>
 
-TCPServer::TCPServer(uint16_t port)
-    : port_{port}, server_fd_{-1}, running_{false} {}
+TCPServer::TCPServer(uint16_t port) : port_{port} {}
 
 TCPServer::~TCPServer() {
   if (server_fd_ >= 0) {
@@ -33,7 +30,7 @@ void TCPServer::createSocket() {
   }
 }
 
-void TCPServer::bindSocket() {
+void TCPServer::bindSocket() const {
   sockaddr_in server_addr{};
   server_addr.sin_family = AF_INET;  // IPv4
   // server_addr.sin_addr.s_addr = INADDR_ANY;  // accept connections on all network interfaces
@@ -51,14 +48,14 @@ void TCPServer::bindSocket() {
   if (bind(server_fd_, reinterpret_cast<sockaddr*>(&server_addr),
            sizeof(server_addr)) < 0) {
     throw std::runtime_error(
-        "bind failed");  // TODO: anyway to know what kind of the error
+        "bind failed");  // TODO(phong-nguyen): anyway to know what kind of the error
   }
 
   std::cout << "Server running on " << inet_ntoa(server_addr.sin_addr) << ":"
             << ntohs(server_addr.sin_port) << "\n";
 }
 
-void TCPServer::listenSocket() {
+void TCPServer::listenSocket() const {
   // (128) is the maximum number of queued connection requests
   if (listen(server_fd_, 128) < 0) {
     throw std::runtime_error("listen failed");
@@ -104,7 +101,7 @@ void TCPServer::sendAll(int fd, const char* data, size_t len) {
   }
 }
 
-void TCPServer::handleClient(int client_fd) {
+void TCPServer::handleClient(int client_fd) const {
   char buffer[1024];
 
   // send a notify to the client

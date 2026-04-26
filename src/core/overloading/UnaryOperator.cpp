@@ -7,17 +7,17 @@
 namespace {
 class Cents {
  private:
-  int m_cents{};
+  int m_cents_{};
 
  public:
-  explicit Cents(int cents) : m_cents{cents} {}
-  int getCents() const { return m_cents; }
+  explicit Cents(int cents) : m_cents_{cents} {}
+  int getCents() const { return m_cents_; }
 
-  Cents operator-() const { return Cents{-m_cents}; }
+  Cents operator-() const { return Cents{-m_cents_}; }
 
-  Cents operator+() const { return Cents{m_cents}; }
+  Cents operator+() const { return Cents{m_cents_}; }
 
-  bool operator!() const { return m_cents == 0; }
+  bool operator!() const { return m_cents_ == 0; }
 };
 
 void run() {

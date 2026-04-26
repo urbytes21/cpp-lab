@@ -1,3 +1,17 @@
+# Classes
+- **A class** is a user-defined blueprint used to create objects. It defines the properties and behaviors that all objects of that type share.
+- **An object** is an instance of a class. It represents a real entity and contains actual values for the class’s attributes.
+- **An instance** is a specific object created from a class. (In practice, “object” and “instance” are often used interchangeably.)
+
+- **Four Pillars of OOP in C++:**
+  - **Abstraction** is the process of hiding the implementation details and only showing the essential details or features to the user. It allows to focus on what an object does rather than how it does it. It is achieved using abstract classes (classes that have at least one pure virtual function).
+  - **Encapsulation** is the process of bundling data and methods into a single unit (class) and restricting direct access to some components. Data is hidden and accessed through public methods. It is achieved using access specifiers like private, protected, and public.
+  - **Inheritance** is a mechanism where a derived class acquires the properties and behaviors of a base class, forming an is-a relationship. It improves code reuse and extensibility. It is implemented using : followed by an access specifier public, private, protected.
+  - **Polymorphism** means many forms. It allows the same interface (function or method) to behave differently depending on the context. 
+    - It is achieved through: 
+      - **Compile-time polymorphism**: function overloading, operator overloading 
+      - **Runtime polymorphism**: virtual functions
+
 ## 1. Friend
 - Friend declaration (classes and functions) allows certain classes or functions to access the private and protected members of another class.
 
@@ -5,12 +19,13 @@
 - It serves the same kind of role as the package access specifier in Java.
 - `a << b` C++ tries in this order:
 ```cpp
-1 a.operator<<(b)
-2 operator<<(a, b) (non-member function)
+a.operator<<(b)
+operator<<(a, b) (non-member function)
 
 X OP Y
 operator OP (type_of_X, type_of_Y)
 ```
+
 ### 1.2. Member of Another Class:
 - It give access to only once specific function.
 ### 1.3. Class
@@ -60,7 +75,7 @@ public:
 };
 ```
 
-## 2.2. Aggregations
+### 2.2. Aggregations
 - **Has-a, weak ownership**
 - The member is part of the class
 - The member can belong to more than one class at a time
@@ -100,7 +115,7 @@ public:
 };
 ```
 
-## 2.3. Associations 
+### 2.3. Associations 
 - **Uses-a, loose relationship**
 - The associated member is otherwise unrelated to the class
 - The associated member can belong to more than one class at a time
@@ -130,7 +145,7 @@ public:
 };
 ```
 
-## 2.4. Dependency
+### 2.4. Dependency
 - **Denpends-on**
 -  One class uses another class to perform a task. 
 -  It is temporarily created, used, and then destroyed, or passed into a member function from an external source.
@@ -167,7 +182,7 @@ public:
 };
 
 ```
-## 2.5. Container
+### 2.5. Container
 -  The class one class provides a container to hold multiple objects of another type
 - UML
 ```cpp
@@ -264,48 +279,4 @@ public:
         void start();
     };
 };
-```
-
-## Type Cast
-- C-style cast is unsafe, so we should use dynamic_cast or static_cast instead. For example:
-```cpp
-#include <iostream>
-using namespace std;
-
-class Car {
-public:
-	virtual ~Car() {}
-};
-
-class PassCar : public Car {
-private:
-	int passengers = 5;
-public:
-	void display() {
-		cout << passengers << endl;
-	}
-};
-
-class Truck : public Car {
-private:
-	int a =1;
-public:
-	void setAxle1s() {
-		cout << "Truck axles set1\n";
-	}
-	void setAxles() {
-		cout << "Truck axles set\n";
-	}
-};
-
-int main() {
-	Car* car = new Truck();  
-
-	// -style cast 
-	PassCar* p = (PassCar*)car;
-
-	p->display();
-
-	delete car;
-}
 ```

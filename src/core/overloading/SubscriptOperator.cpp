@@ -8,17 +8,17 @@ namespace {
 
 class IntList {
  private:
-  int m_list[10]{
+  int m_list_[10]{
       0, 1, 2, 3, 4,
       5, 6, 7, 8, 9};  // give this class some initial state for this example
 
  public:
   // For non-const objects: can be used for assignment
-  int& operator[](int index) { return m_list[index]; }
+  int& operator[](int index) { return m_list_[index]; }
 
   // For const objects: can only be used for access
   // This function could also return by value if the type is cheap to copy
-  const int& operator[](int index) const { return m_list[index]; }
+  const int& operator[](int index) const { return m_list_[index]; }
 };
 
 void run() {

@@ -6,11 +6,11 @@
 namespace {
 class Cents {
  private:
-  int m_cents{};
+  int m_cents_{};
 
  public:
-  explicit Cents(int cents) : m_cents{cents} {}
-  int getCents() const { return m_cents; }
+  explicit Cents(int cents) : m_cents_{cents} {}
+  int getCents() const { return m_cents_; }
 
   auto operator<=> (const Cents&) const = default;  // std 20
   // friend bool operator== (const Cents& c1, const Cents& c2) { return c1.m_cents == c2.m_cents; }

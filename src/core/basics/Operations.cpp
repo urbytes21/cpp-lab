@@ -1,5 +1,5 @@
 #include <iostream>
-using namespace std;
+#include <bitset>
 
 #include "ExampleRegistry.h"
 
@@ -22,107 +22,107 @@ class Operations : public IExample {
 REGISTER_EXAMPLE(Operations, "core", "Operations");
 
 void arithmeticOperator() {
-  cout << "\n--- ArithmeticOperator Examples ---\n";
-  int a{100}, b{200};
+  std::cout << "\n--- ArithmeticOperator Examples ---\n";
+  int a{100};
+  int b{200};
 
   // Addition
-  cout << "a = " << a << ", b = " << b << "\n";
+  std::cout << "a = " << a << ", b = " << b << "\n";
   int sum = a + b;
-  cout << "sum = " << sum << "\n";
+  std::cout << "sum = " << sum << "\n";
 
   // Subtraction
-  cout << "a = " << a << ", b = " << b << "\n";
+  std::cout << "a = " << a << ", b = " << b << "\n";
   int different = a - b;
-  cout << "different = " << different << "\n";
+  std::cout << "different = " << different << "\n";
 
   // Multiplication
-  cout << "a = " << a << ", b = " << b << "\n";
+  std::cout << "a = " << a << ", b = " << b << "\n";
   int product = a * b;
-  cout << "product = " << product << "\n";
+  std::cout << "product = " << product << "\n";
 
   // Division
-  cout << "a = " << a << ", b = " << b << "\n";
+  std::cout << "a = " << a << ", b = " << b << "\n";
   int quotient = a / b;
-  cout << "quotient = " << quotient << "\n";
+  std::cout << "quotient = " << quotient << "\n";
 
   // Modulus
-  cout << "a = " << a << ", b = " << b << "\n";
+  std::cout << "a = " << a << ", b = " << b << "\n";
   int remainder = a % b;
-  cout << "remainder = " << remainder << "\n";
+  std::cout << "remainder = " << remainder << "\n";
 
   // Increment
-  cout << "a = " << a << "\n";
-  int preIn = ++a;  // increase a, return a
-  cout << "preIn = " << preIn << "\n";
+  std::cout << "a = " << a << "\n";
+  int pre_in = ++a;  // increase a, return a
+  std::cout << "preIn = " << pre_in << "\n";
 
-  cout << "a = " << a << "\n";
-  int postIn = a++;  // copy a to a copy, then increase a, return copy
-  cout << "postIn = " << postIn << "\n";
+  std::cout << "a = " << a << "\n";
+  int post_in = a++;  // copy a to a copy, then increase a, return copy
+  std::cout << "postIn = " << post_in << "\n";
 
   // Decrement
-  cout << "b = " << b << "\n";
-  int preDe = --b;
-  cout << "preDe = " << preDe << "\n";
+  std::cout << "b = " << b << "\n";
+  int pre_de = --b;
+  std::cout << "preDe = " << pre_de << "\n";
 
-  cout << "b = " << b << "\n";
-  int postDe = b--;
-  cout << "postDe = " << postDe << "\n";
+  std::cout << "b = " << b << "\n";
+  int post_de = b--;
+  std::cout << "postDe = " << post_de << "\n";
 
   // Comma:
   int value = (a++, b);  // a is incremented, then b is returned
-  cout << "a = " << a << ", b = " << b << "\n";
-  cout << "comma(a++, b) = " << value << "\n";
+  std::cout << "a = " << a << ", b = " << b << "\n";
+  std::cout << "comma(a++, b) = " << value << "\n";
 }
 
 void logicalOperator() {
-  cout << "\n--- LogicalOperator Examples ---\n";
+  std::cout << "\n--- LogicalOperator Examples ---\n";
   bool a = true;
   bool b = false;
   bool c = true;
 
-  cout << boolalpha;  // show true/false instead of 1/0
-  cout << "a = " << a << ", b = " << b << ", c = " << c << "\n\n";
+  std::cout << std::boolalpha;  // show true/false instead of 1/0
+  std::cout << "a = " << a << ", b = " << b << ", c = " << c << "\n\n";
 
   // AND (&&)
-  cout << "[AND] a && b = " << (a && b) << "\n";
+  std::cout << "[AND] a && b = " << (a && b) << "\n";
 
   // OR (||)
-  cout << "[OR ] a || b = " << (a || b) << "\n";
+  std::cout << "[OR ] a || b = " << (a || b) << "\n";
 
   // NOT (!)
-  cout << "[NOT] !c = " << (!c) << "\n";
+  std::cout << "[NOT] !c = " << (!c) << "\n";
 }
 
-#include <bitset>
 void bitWiseOperator() {
-  cout << "\n--- BitWiseOperator Examples ---\n";
-  bitset<8> bitsA {
-    0b1111'1111}; bitset<8> bitsB { 0b1111'0000};
+  std::cout << "\n--- BitWiseOperator Examples ---\n";
+  std::bitset<8> bits_a {0b1111'1111};
+  std::bitset<8> bits_b {0b1111'0000};
 
-        cout
-        << "bitA = " << bitsA << ", bitB = " << bitsB << "\n";
+  std::cout
+  << "bitA = " << bits_a << ", bitB = " << bits_b << "\n";
 
-    // AND
-    bitset<8> result = bitsA & bitsB;
-    cout << "bitA && bitB= " << result << "\n";
+  // AND
+  std::bitset<8> result = bits_a & bits_b;
+  std::cout << "bitA && bitB= " << result << "\n";
 
-    // OR
-    result = bitsA | bitsB;
-    cout << "bitA | bitB= " << result << "\n";
+  // OR
+  result = bits_a | bits_b;
+  std::cout << "bitA | bitB= " << result << "\n";
 
-    // XOR
-    result = bitsA ^ bitsB;
-    cout << "bitA ^ bitB= " << result << "\n";
+  // XOR
+  result = bits_a ^ bits_b;
+  std::cout << "bitA ^ bitB= " << result << "\n";
 
-    // NOT
-    result = ~bitsA;
-    cout << "~bitA = " << result << "\n";
+  // NOT
+  result = ~bits_a;
+  std::cout << "~bitA = " << result << "\n";
 
-    // LEFT SHIFT
-    result = bitsA << 1;
-    cout << "bitA << 1 = " << result << "\n";
+  // LEFT SHIFT
+  result = bits_a << 1;
+  std::cout << "bitA << 1 = " << result << "\n";
 
-    // RIGHT SHIFT
-    result = bitsA >> 1;
-    cout << "bitA >> 1 = " << result << "\n";
-  }
+  // RIGHT SHIFT
+  result = bits_a >> 1;
+  std::cout << "bitA >> 1 = " << result << "\n";
+}

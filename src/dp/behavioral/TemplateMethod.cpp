@@ -17,14 +17,14 @@
 #include <iostream>
 
 namespace {
-namespace TemplateMethod {
+namespace template_method {
 class AbstractClass {
  public:
   virtual ~AbstractClass() = default;
   // Template Method (non-virtual => cannot be overridden)
   // Defines the algorithm's skeleton and ensures subclasses cannot change the
   // flow.
-  void templateMethod() const {
+  void templateMethod() {
     baseOperation1();
     abstractMethod1();
     hookOperation1();
@@ -37,14 +37,16 @@ class AbstractClass {
  protected:
   // 1. Base operations: These have full implementations and cannot be
   // overridden.
-  void baseOperation1() const {
+  void baseOperation1() {
     // Common logic step 1
     std::cout << "[AbstractClass]\t Executed base operation - 1\n";
+    dummy_++;
   }
 
-  void baseOperation2() const {
+  void baseOperation2() {
     // Common logic step 2
     std::cout << "[AbstractClass]\t Executed base operation - 2\n";
+    dummy_++;
   }
 
   // 2. Hook methods: Subclasses may override them to extend behavior, but
@@ -55,6 +57,9 @@ class AbstractClass {
   // 3. Abstract methods: Subclasses MUST provide implementations.
   virtual void abstractMethod1() const = 0;
   virtual void abstractMethod2() const = 0;
+
+ private:
+  int dummy_{};
 };
 
 class ConcreteClass1 : public AbstractClass {
@@ -83,24 +88,24 @@ class ConcreteClass2 : public AbstractClass {
   }
 };
 
-namespace Client {
-void clientCode(const AbstractClass* clazz) {
+namespace client {
+void clientCode(AbstractClass* clazz) {
   clazz->templateMethod();
 }
-}  // namespace Client
+}  // namespace client
 void run() {
   std::cout << "\t[ConcreteClass1] Executed templateMethod\n";
   AbstractClass* clazz1 = new ConcreteClass1();
-  Client::clientCode(clazz1);
+  client::clientCode(clazz1);
 
   std::cout << "\t[ConcreteClass1] Executed templateMethod\n";
   AbstractClass* clazz2 = new ConcreteClass2();
-  Client::clientCode(clazz2);
+  client::clientCode(clazz2);
 
   delete clazz1;
   delete clazz2;
 }
-}  // namespace TemplateMethod
+}  // namespace template_method
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -112,7 +117,7 @@ class TemplateMethodExample : public IExample {
   std::string description() const override {
     return "TemplateMethod Pattern Example";
   }
-  void execute() override { TemplateMethod::run(); }
+  void execute() override { template_method::run(); }
 };
 
 REGISTER_EXAMPLE(TemplateMethodExample, "dp/behavioral", "TemplateMethod");

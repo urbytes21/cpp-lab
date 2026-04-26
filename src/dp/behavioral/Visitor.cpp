@@ -8,10 +8,11 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace {
-namespace Visitor {
+namespace visitor {
 class TextConcreteElement;
 class ImageConcreteElement;
 class TableConcreteElement;
@@ -54,19 +55,19 @@ class IElement {
  */
 class DocumentConcreteStructure {
  private:
-  std::vector<IElement*> m_elements;
+  std::vector<IElement*> elements_;
 
  public:
   ~DocumentConcreteStructure() {
-    for (IElement* e : this->m_elements) {
+    for (IElement* e : this->elements_) {
       delete e;
     }
-    m_elements.clear();
+    elements_.clear();
   }
 
-  void add(IElement* e) { m_elements.push_back(e); }
+  void add(IElement* e) { elements_.push_back(e); }
 
-  std::vector<IElement*>& get() { return this->m_elements; };
+  std::vector<IElement*>& get() { return this->elements_; };
 };
 
 /**
@@ -79,35 +80,35 @@ class DocumentConcreteStructure {
  */
 class TextConcreteElement : public IElement {
  private:
-  std::string m_content;
+  std::string content_;
 
  public:
-  explicit TextConcreteElement(const std::string& c) : m_content{c} {};
-  std::string getContent() const { return this->m_content; }
+  explicit TextConcreteElement(std::string c) : content_{std::move(c)} {};
+  std::string getContent() const { return this->content_; }
 
   void accept(IVisitor* visitor) override { visitor->visitText(this); }
 };
 
 class ImageConcreteElement : public IElement {
  private:
-  std::string m_path;
+  std::string path_;
 
  public:
-  explicit ImageConcreteElement(const std::string& p) : m_path{p} {};
+  explicit ImageConcreteElement(std::string p) : path_{std::move(p)} {};
 
-  std::string getPath() const { return this->m_path; }
+  std::string getPath() const { return this->path_; }
 
   void accept(IVisitor* visitor) override { visitor->visitImage(this); }
 };
 
 class TableConcreteElement : public IElement {
  private:
-  int m_rows, m_cols;
+  int rows_, cols_;
 
  public:
-  TableConcreteElement(int r, int c) : m_rows{r}, m_cols{c} {};
-  int getRows() const { return this->m_rows; }
-  int getCols() const { return this->m_cols; }
+  TableConcreteElement(int r, int c) : rows_{r}, cols_{c} {};
+  int getRows() const { return this->rows_; }
+  int getCols() const { return this->cols_; }
 
   void accept(IVisitor* visitor) override { visitor->visitTable(this); }
 };
@@ -140,16 +141,15 @@ class HtmlExportConcreteVisitor : public IVisitor {
 
 class JsonExportConcreteVisitor : public IVisitor {
   void visitText(const TextConcreteElement* t) override {
-    std::cout << "{ \"type\": \"text\", \"content\": \"" << t->getContent()
+    std::cout << R"({ "type": "text", "content": ")" << t->getContent()
               << "\" }\n";
   }
   void visitImage(const ImageConcreteElement* i) override {
-    std::cout << "{ \"type\": \"image\", \"path\": \"" << i->getPath()
-              << "\" }\n";
+    std::cout << R"({ "type": "image", "path": ")" << i->getPath() << "\" }\n";
   }
 
   void visitTable(const TableConcreteElement* t) override {
-    std::cout << "{ \"type\": \"table\", \"rows\": " << t->getRows()
+    std::cout << R"({ "type": "table", "rows": )" << t->getRows()
               << ", \"cols\": " << t->getCols() << " }\n";
   }
 };
@@ -178,7 +178,7 @@ class MarkdownExportConcreteVisitor : public IVisitor {
  * clients aren’t aware of all the concrete element classes because they work
  * with objects from that collection via some abstract interface.
  */
-namespace Client {
+namespace client {
 void clientCode(DocumentConcreteStructure* const doc, IVisitor* const visitor) {
   // [P2] Instead of adding exportHtml(), exportMarkdown(), exportJson() in each
   // element, we use the Visitor pattern to separate data from behavior. This
@@ -188,9 +188,9 @@ void clientCode(DocumentConcreteStructure* const doc, IVisitor* const visitor) {
     ele->accept(visitor);
   }
 }
-}  // namespace Client
+}  // namespace client
 void run() {
-  DocumentConcreteStructure* document = new DocumentConcreteStructure();
+  auto* document = new DocumentConcreteStructure();
   // Add images
   document->add(new ImageConcreteElement("header.png"));
   document->add(new ImageConcreteElement("diagram1.png"));
@@ -218,22 +218,22 @@ void run() {
 
   IVisitor* visitor = new HtmlExportConcreteVisitor();
   std::cout << " ===HTML Export ===\n";
-  Client::clientCode(document, visitor);
+  client::clientCode(document, visitor);
   std::cout << " ==================\n";
 
   visitor = new JsonExportConcreteVisitor();
   std::cout << " ===JSON Export ===\n";
-  Client::clientCode(document, visitor);
+  client::clientCode(document, visitor);
   std::cout << " ==================\n";
 
   visitor = new MarkdownExportConcreteVisitor();
   std::cout << " ===MD Export ===\n";
-  Client::clientCode(document, visitor);
+  client::clientCode(document, visitor);
   std::cout << " ==================\n";
   delete visitor;
   delete document;
 }
-}  // namespace Visitor
+}  // namespace visitor
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -243,7 +243,7 @@ class VisitorExample : public IExample {
   std::string group() const override { return "dp/behavioral"; }
   std::string name() const override { return "Visitor"; }
   std::string description() const override { return "Visitor Pattern Example"; }
-  void execute() override { Visitor::run(); }
+  void execute() override { visitor::run(); }
 };
 
 REGISTER_EXAMPLE(VisitorExample, "dp/behavioral", "Visitor");

@@ -20,30 +20,30 @@ struct AppConfig {
 class NetworkManager {
  public:
   explicit NetworkManager(std::shared_ptr<const AppConfig> cfg)
-      : mConfig(std::move(cfg)) {}
+      : config_(std::move(cfg)) {}
 
   void connect() const {
-    std::cout << "Connecting to " << mConfig->server << ":" << mConfig->port
+    std::cout << "Connecting to " << config_->server << ":" << config_->port
               << "\n";
   }
 
  private:
   // const means we cannot modify config at this point
-  std::shared_ptr<const AppConfig> mConfig;
+  std::shared_ptr<const AppConfig> config_;
 };
 
 // Module B
 class Logger {
  public:
   explicit Logger(std::shared_ptr<const AppConfig> cfg)
-      : mConfig(std::move(cfg)) {}
+      : config_(std::move(cfg)) {}
 
   void log_start() const {
-    std::cout << "Logging enabled for " << mConfig->server << "\n";
+    std::cout << "Logging enabled for " << config_->server << "\n";
   }
 
  private:
-  std::shared_ptr<const AppConfig> mConfig;
+  std::shared_ptr<const AppConfig> config_;
 };
 
 void run() {
@@ -69,10 +69,10 @@ void run() {
 
 class Shared : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/smart_pointer"; }
   std::string name() const override { return "Shared"; }
   std::string description() const override { return "Shared Pointer Example"; }
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Shared, "core", "Shared");
+REGISTER_EXAMPLE(Shared, "core/smart_pointer", "Shared");

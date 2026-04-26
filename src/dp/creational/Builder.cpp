@@ -10,24 +10,23 @@
 // UML: docs/uml/patterns_behavioral_iterator.drawio.svg
 
 #include <iostream>
-#include <memory>
 #include <string>
 #include <vector>
 
 namespace {
-namespace BuilderPattern {
+namespace builder_pattern {
 class Product {
  private:
-  std::vector<std::string> m_parts;
+  std::vector<std::string> parts_;
 
  public:
-  void addPart(const std::string& part) { m_parts.push_back(part); }
+  void addPart(const std::string& part) { parts_.push_back(part); }
 
   void print() const {
     std::cout << "Product parts: ";
-    for (size_t i = 0; i < m_parts.size(); ++i) {
-      std::cout << m_parts[i];
-      if (i + 1 < m_parts.size())
+    for (size_t i = 0; i < parts_.size(); ++i) {
+      std::cout << parts_[i];
+      if (i + 1 < parts_.size())
         std::cout << ", ";
     }
     std::cout << "\n\n";
@@ -46,43 +45,43 @@ class IBuilder {
   virtual IBuilder& producePart2() = 0;
   virtual IBuilder& producePart3() = 0;
 
-  virtual Product* const build() = 0;
+  virtual Product* build() = 0;
 };
 
 class AbstractBuilder : public IBuilder {
  protected:
-  Product* m_product;
+  Product* product_;
 
  public:
-  explicit AbstractBuilder() { m_product = new Product(); }
+  explicit AbstractBuilder() { product_ = new Product(); }
 
-  ~AbstractBuilder() { delete m_product; }
+  ~AbstractBuilder() override { delete product_; }
 
   AbstractBuilder(const AbstractBuilder& other) {
-    if (m_product != nullptr) {
-      delete m_product;
-    }
-    m_product = new Product();
-    *m_product = *other.m_product;
+
+    delete product_;
+
+    product_ = new Product();
+    *product_ = *other.product_;
   }
 
   AbstractBuilder& operator=(const AbstractBuilder& other) {
     if (this == &other) {
       return *this;
     }
-    if (m_product != nullptr) {
-      delete m_product;
-    }
-    m_product = new Product();
-    *m_product = *other.m_product;
+
+    delete product_;
+    product_ = new Product();
+    *product_ = *other.product_;
+
     return *this;
   }
 
-  IBuilder& reset() override final {
-    if (m_product != nullptr) {
-      delete m_product;
-    }
-    m_product = new Product();
+  // the child classes are no longer override this function
+  IBuilder& reset() final {
+
+    delete product_;
+    product_ = new Product();
 
     return *this;
   }
@@ -96,44 +95,44 @@ class AbstractBuilder : public IBuilder {
 class SimpleBuilder : public AbstractBuilder {
  public:
   IBuilder& producePart1() override {
-    m_product->addPart("PART1");
+    product_->addPart("PART1");
     return *this;
   }
 
   IBuilder& producePart2() override {
-    m_product->addPart("PART2");
+    product_->addPart("PART2");
     return *this;
   }
 
   IBuilder& producePart3() override {
-    m_product->addPart("PART3");
+    product_->addPart("PART3");
     return *this;
   }
 
-  Product* const build() override { return m_product; }
+  Product* build() override { return product_; }
 };
 
 class ComplexBuilder : public AbstractBuilder {
  public:
   IBuilder& producePart1() override {
-    m_product->addPart("PART_1-X9a7Fq!2@Lm#48Z");
+    product_->addPart("PART_1-X9a7Fq!2@Lm#48Z");
     return *this;
   }
 
   IBuilder& producePart2() override {
-    m_product->addPart("PART_2-X9a7Fq!2@Lm#48Z");
+    product_->addPart("PART_2-X9a7Fq!2@Lm#48Z");
     return *this;
   }
 
   IBuilder& producePart3() override {
-    m_product->addPart("PART_3-X9a7Fq!2@Lm#48Z");
+    product_->addPart("PART_3-X9a7Fq!2@Lm#48Z");
     return *this;
   }
 
-  Product* const build() override { return m_product; }
+  Product* build() override { return product_; }
 };
 
-namespace Client {
+namespace client {
 void clientCode(IBuilder* const builder) {
   const Product* product1 =
       (*builder).producePart1().producePart2().producePart3().build();
@@ -148,17 +147,17 @@ void run() {
   {
     std::cout << "ConcreteBuilder: Simple\n";
     IBuilder* builder = new SimpleBuilder();
-    Client::clientCode(builder);
+    client::clientCode(builder);
     delete builder;
   }
   {
     std::cout << "ConcreteBuilder: Complex\n";
     IBuilder* builder = new ComplexBuilder();
-    Client::clientCode(builder);
+    client::clientCode(builder);
     delete builder;
   }
 }
-}  // namespace BuilderPattern
+}  // namespace builder_pattern
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -168,7 +167,7 @@ class BuilderExample : public IExample {
   std::string group() const override { return "dp/creational"; }
   std::string name() const override { return "Builder"; }
   std::string description() const override { return "Builder Pattern Example"; }
-  void execute() override { BuilderPattern::run(); }
+  void execute() override { builder_pattern::run(); }
 };
 
 REGISTER_EXAMPLE(BuilderExample, "dp/creational", "Builder");

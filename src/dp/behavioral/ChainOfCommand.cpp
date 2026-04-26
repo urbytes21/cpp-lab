@@ -9,17 +9,17 @@
 
 // UML: docs/uml/patterns_behavioral_CoR.drawio.svg
 
-#include <iostream>
 #include <string>
-#include <vector>
+#include "Logger.h"
 
 namespace {
-namespace CoR {
+namespace co_r {
 /*
  *  Handler - defines an interface for handling requests
  */
 class IHandler {
  public:
+  virtual ~IHandler() = default;
   virtual void setNextHandler(IHandler* handler) = 0;
   virtual IHandler* setNext(IHandler* handler) = 0;
   virtual void handle(const std::string& request) = 0;
@@ -27,24 +27,24 @@ class IHandler {
 
 class AbstractHandler : public IHandler {
  private:
-  IHandler* m_setNext;
+  IHandler* setNext_{};
 
  public:
-  AbstractHandler() : m_setNext{nullptr} {};
+  AbstractHandler() = default;
 
-  void setNextHandler(IHandler* handler) override { this->m_setNext = handler; }
+  void setNextHandler(IHandler* handler) override { this->setNext_ = handler; }
 
   // handler1->setNext(handler2)->setNext(handler3)
   IHandler* setNext(IHandler* handler) override {
-    this->m_setNext = handler;
+    this->setNext_ = handler;
     return handler;
   }
 
   void handle(const std::string& request) override {
-    if (this->m_setNext != nullptr) {
-      this->m_setNext->handle(request);
+    if (this->setNext_ != nullptr) {
+      this->setNext_->handle(request);
     } else {
-      std::cout << "\tNo handler processed request: " << request << "\n";
+      LOG("\tNo handler processed request: " + request);
     }
   }
 };
@@ -56,13 +56,13 @@ class AbstractHandler : public IHandler {
  */
 class ConcreteHandlerGET : public AbstractHandler {
  private:
-  static constexpr const char* header = "GET";
+  static constexpr const char* kHeader = "GET";
 
  public:
   void handle(const std::string& request) override {
-    if (request.rfind(header, 0) == 0) {
+    if (request.rfind(kHeader, 0) == 0) {
       // If request is eligible, handle it
-      std::cout << "\tHandle GET request: " << request << "\n";
+      LOG("\tHandle GET request: " + request);
       // In realworld, it should be other logics here
     } else {
       AbstractHandler::handle(request);
@@ -72,12 +72,12 @@ class ConcreteHandlerGET : public AbstractHandler {
 
 class ConcreteHandlerPUT : public AbstractHandler {
  private:
-  static constexpr const char* header = "PUT";
+  static constexpr const char* kHeader = "PUT";
 
  public:
   void handle(const std::string& request) override {
-    if (request.rfind(header, 0) == 0) {
-      std::cout << "\tHandle PUT request: " << request << "\n";
+    if (request.rfind(kHeader, 0) == 0) {
+      LOG("\tHandle PUT request: " + request);
     } else {
       AbstractHandler::handle(request);
     }
@@ -86,12 +86,12 @@ class ConcreteHandlerPUT : public AbstractHandler {
 
 class ConcreteHandlerPOST : public AbstractHandler {
  private:
-  static constexpr const char* header = "POST";
+  static constexpr const char* kHeader = "POST";
 
  public:
   void handle(const std::string& request) override {
-    if (request.rfind(header, 0) == 0) {
-      std::cout << "\tHandle POST request: " << request << "\n";
+    if (request.rfind(kHeader, 0) == 0) {
+      LOG("\tHandle POST request: " + request);
     } else {
       AbstractHandler::handle(request);
     }
@@ -102,35 +102,35 @@ class ConcreteHandlerPOST : public AbstractHandler {
  * Client - sends commands to the first object in the chain that may handle the
  * command
  */
-namespace Client {
+namespace client {
 void clientCode(IHandler& handler, const std::string& request) {
   handler.handle(request);
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   // Setup Chain of Responsibility
-  IHandler* postHandler = new ConcreteHandlerPOST();
-  IHandler* gettHandler = new ConcreteHandlerGET();
-  IHandler* puttHandler = new ConcreteHandlerPUT();
-  postHandler->setNext(gettHandler)->setNext(puttHandler);
+  IHandler* post_handler = new ConcreteHandlerPOST();
+  IHandler* gett_handler = new ConcreteHandlerGET();
+  IHandler* putt_handler = new ConcreteHandlerPUT();
+  post_handler->setNext(gett_handler)->setNext(putt_handler);
 
   // Send requests to the chain
   std::string dummy = "DUMMY ..";
-  std::string postRequest = "POST /test/demo_form.php HTTP/1.1 ..";
-  std::string getRequest = "GET /users/123 ..";
-  std::cout << "Send dummy request\n";
-  Client::clientCode(*postHandler, dummy);
-  std::cout << "Send POST request\n";
-  Client::clientCode(*postHandler, postRequest);
-  std::cout << "Send GET request\n";
-  Client::clientCode(*postHandler, getRequest);
+  std::string post_request = "POST /test/demo_form.php HTTP/1.1 ..";
+  std::string get_request = "GET /users/123 ..";
+  LOG("Send dummy request");
+  client::clientCode(*post_handler, dummy);
+  LOG("Send POST request");
+  client::clientCode(*post_handler, post_request);
+  LOG("Send GET request");
+  client::clientCode(*post_handler, get_request);
 
-  delete postHandler;
-  delete gettHandler;
-  delete puttHandler;
+  delete post_handler;
+  delete gett_handler;
+  delete putt_handler;
 }
-}  // namespace CoR
+}  // namespace co_r
 
 }  // namespace
 
@@ -141,7 +141,7 @@ class ChainOfResponsibilityExample : public IExample {
   std::string group() const override { return "dp/behavioral"; }
   std::string name() const override { return "ChainOfResponsibility"; }
   std::string description() const override { return "CoR Pattern Example"; }
-  void execute() override { CoR::run(); }
+  void execute() override { co_r::run(); }
 };
 
 REGISTER_EXAMPLE(ChainOfResponsibilityExample, "dp/behavioral",

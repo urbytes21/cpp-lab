@@ -9,38 +9,38 @@ namespace {
 
 class IntCollection {
  private:
-  int m_data[3]{10, 20, 30};
+  int m_data_[3]{10, 20, 30};
 
  public:
   class Iterator {
    private:
-    int* m_ptr;
+    int* m_ptr_;
 
    public:
-    explicit Iterator(int* ptr) : m_ptr(ptr) {}
+    explicit Iterator(int* ptr) : m_ptr_(ptr) {}
 
     int& operator*() {
       std::cout << "int& operator*()\n";
-      return *m_ptr;
+      return *m_ptr_;
     }
 
     int* operator->() {
       std::cout << "int* operator->()\n";
-      return m_ptr;
+      return m_ptr_;
     }
 
     Iterator& operator++() {
-      ++m_ptr;
+      ++m_ptr_;
       return *this;
     }
 
     bool operator!=(const Iterator& other) const {
-      return m_ptr != other.m_ptr;
+      return m_ptr_ != other.m_ptr_;
     }
   };
 
-  Iterator begin() { return Iterator(m_data); }
-  Iterator end() { return Iterator(m_data + 3); }
+  Iterator begin() { return Iterator(m_data_); }
+  Iterator end() { return Iterator(m_data_ + 3); }
 };
 
 void run() {
