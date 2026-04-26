@@ -1,6 +1,8 @@
+#include <exception>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
+#include <string>
 #include <vector>
 
 #include "ExampleRegistry.h"
@@ -34,8 +36,9 @@ void runMenu() {
     }
 
     // Group
-    int gIndex = 1;
+    size_t g_index = 1;
     std::vector<std::string> groups;
+    groups.reserve(data.size());
 
     for (const auto& [group, _] : data) {
       groups.push_back(group);
@@ -44,50 +47,50 @@ void runMenu() {
     // sort
     std::sort(groups.begin(), groups.end());
     for (const auto& group : groups) {
-      std::cout << gIndex++ << ". " << group << "\n";
+      std::cout << g_index++ << ". " << group << "\n";
     }
-    std::cout << gIndex << ". Exit\n";
+    std::cout << g_index << ". Exit\n";
     std::cout << "----------------------------------------\n";
     std::cout << "Enter choice: ";
 
-    int gChoice = readChoice();
-    if (gChoice == gIndex) {
+    size_t g_choice = readChoice();
+    if (g_choice == g_index) {
       std::cout << "\n--- Exit ---\n";
       break;
     }
 
-    if (gChoice < 1 || gChoice > groups.size()) {
+    if (g_choice < 1 || g_choice > groups.size()) {
       std::cout << "Invalid group choice\n";
       continue;
     }
 
     try {
       // Sub-group
-      const auto& selectedGroup = groups[gChoice - 1];
-      const auto& examples = data.at(selectedGroup);
+      const auto& selected_group = groups[g_choice - 1];
+      const auto& examples = data.at(selected_group);
 
-      int eIndex = 1;
+      int e_index = 1;
       std::vector<std::string> names;
 
       for (const auto& [name, _] : examples) {
-        std::cout << eIndex++ << ". " << name << "\n";
+        std::cout << e_index++ << ". " << name << "\n";
         names.push_back(name);
       }
-      std::cout << eIndex << ". Back\n";
+      std::cout << e_index << ". Back\n";
       std::cout << "----------------------------------------\n";
       std::cout << "Enter choice: ";
 
-      int eChoice = readChoice();
-      if (eChoice == eIndex) {
+      int e_choice = readChoice();
+      if (e_choice == e_index) {
         continue;
       }
 
-      if (eChoice < 1 || eChoice > eIndex) {
+      if (e_choice < 1 || e_choice > e_index) {
         std::cout << "Invalid example choice\n";
         continue;
       }
 
-      auto example = registry.create(selectedGroup, names[eChoice - 1]);
+      auto example = registry.create(selected_group, names[e_choice - 1]);
       if (example != nullptr) {
         std::cout << "\n--- Running Example [" << example->name() << "] ["
                   << example->description() << "]---\n\n";
@@ -103,8 +106,7 @@ void runMenu() {
   }
 }
 
-int main(int argc, char* argv[]) {
-  LOG("Logger has been integrated");
+void printInfo() {
   std::cout << std::endl;
   if (__cplusplus == 202302L)
     std::cout << "C++23";
@@ -123,6 +125,69 @@ int main(int argc, char* argv[]) {
   std::cout << "\n";
   std::cout << APP_NAME << " v" << APP_VERSION << std::endl;
   std::cout << APP_DESCRIPTION << std::endl;
+}
+
+enum class ApplicationMode {
+  kDev,
+  kUAT,
+  kProd,
+};
+
+static ApplicationMode mode = ApplicationMode::kDev;
+
+std::string toString(ApplicationMode m) {
+  switch (m) {
+    case ApplicationMode::kDev:
+      return "dev";
+    case ApplicationMode::kUAT:
+      return "uat";
+    case ApplicationMode::kProd:
+      return "prod";
+  }
+  return "unknown";
+}
+
+ApplicationMode parseMode(const std::string& value) {
+  if (value == "Dev")
+    return ApplicationMode::kDev;
+  if (value == "Uat")
+    return ApplicationMode::kUAT;
+  if (value == "Prod")
+    return ApplicationMode::kProd;
+
+  throw std::invalid_argument("Invalid mode: " + value +
+                              ". Expected: dev, uat, prod");
+}
+
+void handleArg(int argc, const char* const argv[]) {
+  // argv[0] = executable
+  for (int i = 1; i < argc; ++i) {
+    std::string arg = argv[i];
+
+    if (arg == "-mode") {
+      if (i + 1 >= argc) {
+        std::cerr << "Missing value for -mode\n";
+        return;
+      }
+
+      std::string value = argv[++i];
+      try {
+        mode = parseMode(value);
+      } catch (const std::exception& e) {
+        std::cerr << e.what() << '\n';
+      }
+    } else {
+      std::cerr << "Invalid argv param: " << arg << "\n";
+    }
+  }
+}
+
+int main(int argc, char* argv[]) {
+  handleArg(argc, argv);
+  LOG("Running in mode: " + toString(mode));
+  LOG("Logger has been integrated");
+  printInfo();
   runMenu();
+
   return 0;
 }
