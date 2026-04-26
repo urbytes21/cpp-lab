@@ -6,7 +6,7 @@
 
 #include "ExampleRegistry.h"
 
-namespace StdFormat {
+namespace std_format {
 void run() {
   std::string name{"Phong"};
   int score = 100;
@@ -16,9 +16,9 @@ void run() {
 
   std::cout << s;
 }
-}  // namespace StdFormat
+}  // namespace std_format
 
-namespace Concatenation {
+namespace concatenation {
 void run() {
   std::string name{"Phong"};
   int score = 100;
@@ -28,9 +28,9 @@ void run() {
 
   std::cout << s;
 }
-}  // namespace Concatenation
+}  // namespace concatenation
 
-namespace Stream {
+namespace stream {
 void run() {
   std::string name{"Phong"};
   int score = 100;
@@ -41,9 +41,9 @@ void run() {
 
   std::cout << ss.str();
 }
-}  // namespace Stream
+}  // namespace stream
 
-namespace CStyle {
+namespace c_style {
 void run() {
   std::string name{"Phong"};
   int score = 100;
@@ -54,7 +54,7 @@ void run() {
 
   std::cout << buffer;
 }
-}  // namespace CStyle
+}  // namespace c_style
 
 class StringFormatting : public IExample {
  public:
@@ -68,10 +68,10 @@ class StringFormatting : public IExample {
   }
 
   void execute() override {
-    StdFormat::run();
-    Concatenation::run();
-    Stream::run();
-    CStyle::run();
+    std_format::run();
+    concatenation::run();
+    stream::run();
+    c_style::run();
   }
 };
 

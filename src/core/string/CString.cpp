@@ -1,9 +1,9 @@
-#include <string.h> // C-String
+#include <string.h>  // C-String
 #include <iostream>
 
 namespace {
 
-namespace InitializeString {
+namespace initialize_string {
 
 // Memory layout (addresses are illustrative):
 // Stack (modifiable array)
@@ -28,37 +28,37 @@ namespace InitializeString {
 // 0x7fffbff0: str1 = 0x00403000   // str1 holds address of string literal
 void run() {
   // **1. As a character array (modifiable)**
-  char strArray[] = "this is a strArray literal";
-  std::cout << strArray << " - size " << sizeof(strArray) << " - length "
-            << strlen(strArray) << "\n";
-  strArray[0] ^= ' ';
-  std::cout << strArray << "\n";
+  char str_array[] = "this is a strArray literal";
+  std::cout << str_array << " - size " << sizeof(str_array) << " - length "
+            << strlen(str_array) << "\n";
+  str_array[0] ^= ' ';
+  std::cout << str_array << "\n";
 
   // **2. As a a pointer to a string literal const (read-only)**
   // Literal is const char*
-  char* strPtr = "this is a strPtr literal";
-  std::cout << strPtr << " - size " << sizeof(strPtr) << " - length "
-            << strlen(strPtr) << "\n";
+  char* str_ptr = "this is a strPtr literal";
+  std::cout << str_ptr << " - size " << sizeof(str_ptr) << " - length "
+            << strlen(str_ptr) << "\n";
   //   strPtr[0] ^= ' '; // ERROR
 
   // **3. Using sprintf / snprintf (string formatting)**
-  char strFormatted[50];
-  int numVar = 21;
+  char str_formatted[50];
+  int num_var = 21;
 
   // sprintf (unsafe if buffer too small)
-  sprintf(strFormatted, "sprintf: %d", numVar);
-  std::cout << strFormatted << " - size " << sizeof(strFormatted)
-            << " - length " << strlen(strFormatted) << "\n";
+  sprintf(str_formatted, "sprintf: %d", num_var);
+  std::cout << str_formatted << " - size " << sizeof(str_formatted)
+            << " - length " << strlen(str_formatted) << "\n";
 
   // snprintf (safer, limits buffer size)
-  snprintf(strFormatted, sizeof(strFormatted), "snprintf %s %d", strArray,
-           numVar);
-  std::cout << strFormatted << " - size " << sizeof(strFormatted)
-            << " - length " << strlen(strFormatted) << "\n";
+  snprintf(str_formatted, sizeof(str_formatted), "snprintf %s %d", str_array,
+           num_var);
+  std::cout << str_formatted << " - size " << sizeof(str_formatted)
+            << " - length " << strlen(str_formatted) << "\n";
 }
-}  // namespace InitializeString
+}  // namespace initialize_string
 
-namespace CopyString {
+namespace copy_string {
 void run() {
   const char src[] = "CopyStr";
   char dst[50];
@@ -76,9 +76,9 @@ void run() {
   std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
             << "\n";
 }
-}  // namespace CopyString
+}  // namespace copy_string
 
-namespace ConcatString {
+namespace concat_string {
 void run() {
   const char part1[] = "Hello";
   const char part2[] = "World";
@@ -96,9 +96,9 @@ void run() {
   std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
             << "\n";
 }
-}  // namespace ConcatString
+}  // namespace concat_string
 
-namespace CompareString {
+namespace compare_string {
 void run() {
   const char str1[] = "abc";
   const char str2[] = "abcde";
@@ -117,9 +117,9 @@ void run() {
   int result3 = strncmp(str1, str2, 3);
   std::cout << "strncmp(str1, str2, 3) = " << result3 << "\n";
 }
-}  // namespace CompareString
+}  // namespace compare_string
 
-namespace ParseString {
+namespace parse_string {
 void run() {
   char str[] = "A,B,C,D,";  // OK
                             //   char* str = "A,B,C,D,"; // ERROR - const
@@ -130,7 +130,7 @@ void run() {
   const char* token = strtok(str, delimiter);
   while (token != nullptr) {
     std::cout << "strtok - token :" << token << "\n";
-    token = strtok(NULL, delimiter);
+    token = strtok(nullptr, delimiter);
   }
   {
     std::cout << " === problem === \n";
@@ -157,7 +157,7 @@ void run() {
   const char* token2 = strtok_r(str2, delimiter, &saveptr);
   while (token2 != nullptr) {
     std::cout << "strtok - token :" << token2 << "\n";
-    token2 = strtok_r(NULL, delimiter, &saveptr);
+    token2 = strtok_r(nullptr, delimiter, &saveptr);
   }
 
   // **2. strcspn: find first occurrence of any chars in reject set**
@@ -169,43 +169,43 @@ void run() {
             << "\n";
   std::cout << "The digit is: " << sample[pos] << "\n";
 }
-}  // namespace ParseString
+}  // namespace parse_string
 
-namespace NumberConversion {
+namespace number_conversion {
 void run() {
   // **1. string to integer**
-  const char strNum[] = "100";
-  int num = atoi(strNum);
+  const char str_num[] = "100";
+  int num = atoi(str_num);
   std::cout << num << "\n";
 
   // **2. string to double**
-  const char strNumD[] = "100.1234__123";
-  double numD = atof(strNumD);
-  std::cout << numD << "\n";
+  const char str_num_d[] = "100.1234__123";
+  double num_d = atof(str_num_d);
+  std::cout << num_d << "\n";
 
   char* end;
-  numD = strtod(strNumD, &end);
-  std::cout << numD << " end part:" << end << "\n";
+  num_d = strtod(str_num_d, &end);
+  std::cout << num_d << " end part:" << end << "\n";
 }
-}  // namespace NumberConversion
+}  // namespace number_conversion
 }  // namespace
 
 #include "ExampleRegistry.h"
 
-class BasicString : public IExample {
+class CString : public IExample {
  public:
   std::string group() const override { return "core/string"; }
-  std::string name() const override { return "BasicString"; }
-  std::string description() const override { return "String Example"; }
+  std::string name() const override { return "C-String"; }
+  std::string description() const override { return "C-String Example"; }
   void execute() override {
-    InitializeString::run();
-    CopyString::run();
-    ConcatString::run();
-    CompareString::run();
-    ParseString::run();
+    initialize_string::run();
+    copy_string::run();
+    concat_string::run();
+    compare_string::run();
+    parse_string::run();
 
-    NumberConversion::run();
+    number_conversion::run();
   }
 };
 
-REGISTER_EXAMPLE(BasicString, "core/string", "BasicString");
+REGISTER_EXAMPLE(CString, "core/string", "C-String");

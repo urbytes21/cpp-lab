@@ -3,7 +3,7 @@
 
 #include "ExampleRegistry.h"
 
-namespace FindIfExample {
+namespace find_if_example {
 void run() {
   std::cout << "std::find_if example\n";
   std::vector<int> v{1, 2, 3, 4, 5};
@@ -32,7 +32,7 @@ class StdAlgorithm : public IExample {
     return "The examples for <algorithm> header";
   }
 
-  void execute() override { FindIfExample::run(); }
+  void execute() override { find_if_example::run(); }
 };
 
 REGISTER_EXAMPLE(StdAlgorithm, "core/utils", "StdAlgorithm");

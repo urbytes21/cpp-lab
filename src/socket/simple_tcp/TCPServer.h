@@ -1,7 +1,5 @@
 #pragma once
-#include <stdint.h>
-#include <stdexcept>
-#include <string>
+#include <cstdint>
 
 class TCPServer {
  public:
@@ -23,14 +21,14 @@ class TCPServer {
   /**
    * @brief Bind the socket to a port and network interface
    */
-  void bindSocket();
+  void bindSocket() const;
 
   /**
    * @brief Put the socket into listening mode
    */
-  void listenSocket();
+  void listenSocket() const;
 
-  static void sendAll(int fd, const char* data, size_t len);
+  static void sendAll(int fd, const char* data, std::size_t len);
 
  protected:
   /**
@@ -39,7 +37,7 @@ class TCPServer {
    * @param
    *  [in] client_fd client file descriptor 
    */
-  void handleClient(int client_fd);
+  void handleClient(int client_fd) const;
 
   /**
    * @brief Loop waiting for client connections

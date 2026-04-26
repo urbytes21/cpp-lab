@@ -9,8 +9,9 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <utility>
 namespace {
-namespace Prototy {
+namespace prototy {
 
 /*
  * Prototype interface declares the cloning methods.
@@ -31,32 +32,32 @@ class IExtensionPrototype {
  */
 class LoggerExtension : public IExtensionPrototype {
  private:
-  std::string m_logLevel;
+  std::string logLevel_;
 
  public:
-  explicit LoggerExtension(const std::string& level = "DEBUG")
-      : m_logLevel{level} {}
+  explicit LoggerExtension(std::string level = "DEBUG")
+      : logLevel_{std::move(level)} {}
 
   IExtensionPrototype* clone() override { return new LoggerExtension(*this); }
 
   void execute() const override {
-    std::cout << "[Logger] log level: " << m_logLevel << "\n";
+    std::cout << "[Logger] log level: " << logLevel_ << "\n";
   }
 };
 
 class AnalyticsExtension : public IExtensionPrototype {
  private:
-  int m_sRate;
+  int sRate_;
 
  public:
-  explicit AnalyticsExtension(int level = 1) : m_sRate{level} {}
+  explicit AnalyticsExtension(int level = 1) : sRate_{level} {}
 
   IExtensionPrototype* clone() override {
     return new AnalyticsExtension(*this);
   }
 
   void execute() const override {
-    std::cout << "[Analytics] sampling rate: " << m_sRate << "\n";
+    std::cout << "[Analytics] sampling rate: " << sRate_ << "\n";
   }
 };
 
@@ -68,22 +69,22 @@ class AnalyticsExtension : public IExtensionPrototype {
  */
 class ExtensionPrototypeRegistry {
  private:
-  std::unordered_map<std::string, IExtensionPrototype*> prototypes;
+  std::unordered_map<std::string, IExtensionPrototype*> prototypes_;
 
  public:
   ~ExtensionPrototypeRegistry() {
-    for (auto it = prototypes.begin(); it != prototypes.end();) {
-      delete it->second;          // free the pointer
-      it = prototypes.erase(it);  // erase and move to next
+    for (auto it = prototypes_.begin(); it != prototypes_.end();) {
+      delete it->second;           // free the pointer
+      it = prototypes_.erase(it);  // erase and move to next
     }
   }
   void registerExtension(const std::string& id, IExtensionPrototype* proto) {
-    prototypes[id] = proto;
+    prototypes_[id] = proto;
   }
 
   IExtensionPrototype* create(const std::string& id) const {
-    auto it = prototypes.find(id);
-    if (it != prototypes.end()) {
+    auto it = prototypes_.find(id);
+    if (it != prototypes_.end()) {
       return it->second->clone();
     }
     return nullptr;
@@ -93,28 +94,28 @@ class ExtensionPrototypeRegistry {
 /*
  * Client creates a new object by asking a prototype to clone itself
  */
-namespace Client {
+namespace client {
 void clientCode(const ExtensionPrototypeRegistry* const registry) {
-  IExtensionPrototype* loggerEtx = registry->create("logger");
-  loggerEtx->execute();
-  IExtensionPrototype* analyxEtx = registry->create("analyze");
-  analyxEtx->execute();
+  IExtensionPrototype* logger_etx = registry->create("logger");
+  logger_etx->execute();
+  IExtensionPrototype* analyx_etx = registry->create("analyze");
+  analyx_etx->execute();
 
-  delete loggerEtx;
-  delete analyxEtx;
+  delete logger_etx;
+  delete analyx_etx;
 }
 
-}  // namespace Client
+}  // namespace client
 
 void run() {
-  ExtensionPrototypeRegistry* registry = new ExtensionPrototypeRegistry();
+  auto* registry = new ExtensionPrototypeRegistry();
   registry->registerExtension("logger", new LoggerExtension("DEBUG"));
   registry->registerExtension("analyze", new AnalyticsExtension(1200));
-  Client::clientCode(registry);
+  client::clientCode(registry);
 
   delete registry;
 }
-}  // namespace Prototy
+}  // namespace prototy
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -126,7 +127,7 @@ class PrototypeExample : public IExample {
   std::string description() const override {
     return "Prototype Pattern Example";
   }
-  void execute() override { Prototy::run(); }
+  void execute() override { prototy::run(); }
 };
 
 REGISTER_EXAMPLE(PrototypeExample, "dp/creational", "Prototype");

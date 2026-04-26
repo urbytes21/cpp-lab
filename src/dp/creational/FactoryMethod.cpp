@@ -15,7 +15,7 @@
 #include <iostream>
 #include <string>
 namespace {
-namespace FactoryMethod {
+namespace factory_method {
 /**
  * The Product interface declares the operations that all concrete products must
  * implement.
@@ -68,7 +68,7 @@ class IGdbFactory {
 class AbstractGdbFactory : public IGdbFactory {
  public:
   // Call the factory method to create a Product object.
-  void launchGdb() override final {
+  void launchGdb() final {
     IGdbProduct* gdb = this->factoryMethod();
     gdb->launch();
     delete gdb;
@@ -101,33 +101,34 @@ class MacOsGdbFactory : public AbstractGdbFactory {
  * its base interface. As long as the client keeps working with the creator via
  * the base interface, you can pass it any creator's subclass.
  */
-namespace ClientCode {
+namespace client_code {
 void clientCode(IGdbFactory* gdb) {
   if (gdb != nullptr)
     gdb->launchGdb();
 }
-}  // namespace ClientCode
+}  // namespace client_code
 
 IGdbFactory* createGdbFactory(const std::string& os) {
   if (os == "linux") {
     return new LinuxGdbFactory();
-  } else if (os == "windows") {
-    return new WindowsGdbFactory();
-  } else if (os == "macos") {
-    return new MacOsGdbFactory();
-  } else {
-    std::cout << "OS not support yet - " << os << "\n";
-    return nullptr;
   }
+  if (os == "windows") {
+    return new WindowsGdbFactory();
+  }
+  if (os == "macos") {
+    return new MacOsGdbFactory();
+  }
+  std::cout << "OS not support yet - " << os << "\n";
+  return nullptr;
 }
 
 void run() {
   std::string os = "linux";
   IGdbFactory* gdb = createGdbFactory(os);
-  ClientCode::clientCode(gdb);
+  client_code::clientCode(gdb);
   delete gdb;
 }
-}  // namespace FactoryMethod
+}  // namespace factory_method
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -139,7 +140,7 @@ class FactoryMethodExample : public IExample {
   std::string description() const override {
     return "FactoryMethod Pattern Example";
   }
-  void execute() override { FactoryMethod::run(); }
+  void execute() override { factory_method::run(); }
 };
 
 REGISTER_EXAMPLE(FactoryMethodExample, "dp/creational", "FactoryMethod");

@@ -13,8 +13,9 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 namespace {
-namespace Strategy {
+namespace strategy {
 class IExportStrategy {
  public:
   virtual ~IExportStrategy() = default;
@@ -23,19 +24,19 @@ class IExportStrategy {
 
 class ExportContext {
  private:
-  std::string m_content;
-  IExportStrategy* m_strategy;
+  std::string content_;
+  IExportStrategy* strategy_;
 
  public:
-  ~ExportContext() { delete m_strategy; }
+  ~ExportContext() { delete strategy_; }
 
   explicit ExportContext(std::string content,
                          IExportStrategy* const strategy = nullptr)
-      : m_content{content}, m_strategy{strategy} {}
+      : content_{std::move(content)}, strategy_{strategy} {}
 
   void setExportStrategy(IExportStrategy* const strategy) {
-    delete m_strategy;
-    this->m_strategy = strategy;
+    delete strategy_;
+    this->strategy_ = strategy;
   }
 
   // The old approach using if-else for each format is commented out:
@@ -55,19 +56,18 @@ class ExportContext {
   // only holds data.
   // ======================================================================================
   std::string exportDocument() const {
-    if (m_strategy != nullptr) {
-      return this->m_strategy->executeExportData(this->m_content);
-    } else {
-      std::cout << "Context: Strategy isn't set\n";
-      return "";
+    if (strategy_ != nullptr) {
+      return this->strategy_->executeExportData(this->content_);
     }
+    std::cout << "Context: Strategy isn't set\n";
+    return "";
   }
 };
 
 class JsonExportStrategy : public IExportStrategy {
  public:
   std::string executeExportData(const std::string& content) const override {
-    return "{\"content\": \"" + content + "\" }";
+    return R"({"content": ")" + content + "\" }";
   }
 };
 
@@ -78,27 +78,27 @@ class HtmlExportStrategy : public IExportStrategy {
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(const ExportContext* ctx) {
   std::cout << ctx->exportDocument();
   std::cout << "\n";
 }
-}  // namespace Client
+}  // namespace client
 void run() {
-  ExportContext* ctx = new ExportContext{"This is the report content."};
-  Client::clientCode(ctx);
+  auto* ctx = new ExportContext{"This is the report content."};
+  client::clientCode(ctx);
 
   std::cout << " ===HTML Export ===\n";
   ctx->setExportStrategy(new HtmlExportStrategy());
-  Client::clientCode(ctx);
+  client::clientCode(ctx);
 
   std::cout << " ===JSON Export ===\n";
   ctx->setExportStrategy(new JsonExportStrategy());
-  Client::clientCode(ctx);
+  client::clientCode(ctx);
 
   delete ctx;
 }
-}  // namespace Strategy
+}  // namespace strategy
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -110,7 +110,7 @@ class StrategyExample : public IExample {
   std::string description() const override {
     return "Strategy Pattern Example";
   }
-  void execute() override { Strategy::run(); }
+  void execute() override { strategy::run(); }
 };
 
 REGISTER_EXAMPLE(StrategyExample, "dp/behavioral", "Strategy");

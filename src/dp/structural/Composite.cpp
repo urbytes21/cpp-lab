@@ -10,48 +10,49 @@
 #include <iostream>
 #include <list>
 #include <string>
+#include <utility>
 
 namespace {
-namespace Problem {
+namespace problem {
 class File {
  private:
-  std::string _name;
+  std::string name_;
 
  public:
-  explicit File(const std::string& fileName) : _name{fileName} {}
-  std::string getName() const { return this->_name; }
+  explicit File(std::string fileName) : name_{std::move(fileName)} {}
+  std::string getName() const { return this->name_; }
 
-  void setName(const std::string& name) { this->_name = name; }
+  void setName(const std::string& name) { this->name_ = name; }
 
-  void open() const { std::cout << "Open file: " << _name << "\n"; }
+  void open() const { std::cout << "Open file: " << name_ << "\n"; }
 };
 
 // [P1] Have the NewTypeFile => Update Folder (fields, functions)
 
 class Folder {
  private:
-  std::string _name;
+  std::string name_;
   std::list<File*>
-      _files;  // Should store the pointer to the actual file so when we delete
+      files_;  // Should store the pointer to the actual file so when we delete
                // the file it should delete in the list
-  std::list<Folder*> _subFolders;
+  std::list<Folder*> subFolders_;
   // [P2] What about the parrent ?
 
  public:
-  explicit Folder(const std::string& name) : _name{name} {}
+  explicit Folder(std::string name) : name_{std::move(name)} {}
 
   ~Folder() {
-    for (File* f : _files) {
+    for (File* f : files_) {
       delete f;
     }
 
-    for (Folder* sf : _subFolders) {
+    for (Folder* sf : subFolders_) {
       delete sf;
     }
   }
 
   void removeFile(const File* file) {
-    _files.remove_if([file](const File* f) { return f == file; });
+    files_.remove_if([file](const File* f) { return f == file; });
   }
 
   void removeFileByName(const std::string& name) {
@@ -67,12 +68,12 @@ class Folder {
     // }
 
     auto it =
-        std::find_if(_files.begin(), _files.end(),
+        std::find_if(files_.begin(), files_.end(),
                      [&name](const File* f) { return f->getName() == name; });
 
-    if (it != _files.end()) {
+    if (it != files_.end()) {
       delete *it;        // free the memory
-      _files.erase(it);  // remove the pointer from the list
+      files_.erase(it);  // remove the pointer from the list
     }
   }
 
@@ -87,32 +88,32 @@ class Folder {
     //     }
     // }
     auto it =
-        std::find_if(_subFolders.begin(), _subFolders.end(),
+        std::find_if(subFolders_.begin(), subFolders_.end(),
                      [&name](const Folder* f) { return f->getName() == name; });
 
-    if (it != _subFolders.end()) {
+    if (it != subFolders_.end()) {
       delete *it;             // free the memory
-      _subFolders.erase(it);  // remove the pointer from the list
+      subFolders_.erase(it);  // remove the pointer from the list
     }
   }
 
-  void addFile(File* file) { _files.push_back(file); }
+  void addFile(File* file) { files_.push_back(file); }
 
-  void addFolder(Folder* folder) { _subFolders.push_back(folder); }
+  void addFolder(Folder* folder) { subFolders_.push_back(folder); }
 
   void removeFolder(const Folder* folder) {
-    _subFolders.remove_if([folder](const Folder* f) { return f == folder; });
+    subFolders_.remove_if([folder](const Folder* f) { return f == folder; });
   }
 
-  std::string getName() const { return _name; }
+  std::string getName() const { return name_; }
 
-  void open() const { std::cout << "Open Folder: " << _name << "\n"; }
+  void open() const { std::cout << "Open Folder: " << name_ << "\n"; }
 
   int size() const {
-    int size = static_cast<int>(_files.size());
+    int size = static_cast<int>(files_.size());
 
     //  Consider using std::accumulate algorithm instead of a raw loop.
-    std::for_each(_subFolders.begin(), _subFolders.end(),
+    std::for_each(subFolders_.begin(), subFolders_.end(),
                   [&size](const Folder* sf) { size += sf->size(); });
 
     // for (const Folder *subFolder : _subFolders)
@@ -123,26 +124,26 @@ class Folder {
     return size;
   }
 
-  const std::list<Folder*>& getSubFolders() const { return _subFolders; }
+  const std::list<Folder*>& getSubFolders() const { return subFolders_; }
 
-  const std::list<File*>& getFiles() const { return _files; }
+  const std::list<File*>& getFiles() const { return files_; }
 
   void getFilesRecursive(std::list<File*>& out) const {
-    out.insert(out.end(), _files.begin(), _files.end());
-    for (const Folder* sf : _subFolders) {
+    out.insert(out.end(), files_.begin(), files_.end());
+    for (const Folder* sf : subFolders_) {
       sf->getFilesRecursive(out);
     }
   }
 
   void getSubFoldersRecursive(std::list<Folder*>& out) const {
-    out.insert(out.end(), _subFolders.begin(), _subFolders.end());
-    for (const Folder* sf : _subFolders) {
+    out.insert(out.end(), subFolders_.begin(), subFolders_.end());
+    for (const Folder* sf : subFolders_) {
       sf->getSubFoldersRecursive(out);
     }
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(const Folder* folder) {
   std::cout << "File name: " << folder->getName() << "\n";
   folder->open();
@@ -155,17 +156,17 @@ void clientCode(const Folder* folder) {
     std::cout << "\t\tFile: " << f->getName() << "\n";
   }
 
-  std::list<Folder*> subFolders;
-  folder->getSubFoldersRecursive(subFolders);
-  for (const Folder* sf : subFolders) {
+  std::list<Folder*> sub_folders;
+  folder->getSubFoldersRecursive(sub_folders);
+  for (const Folder* sf : sub_folders) {
     std::cout << "\t\tFolder: " << sf->getName() << "\n";
   }
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   std::cout << "\n\n";
-  Folder* root = new Folder("root");
+  auto* root = new Folder("root");
   root->open();
 
   // Prepare files
@@ -176,32 +177,32 @@ void run() {
   root->addFile(new File(*file2));
   root->addFile(new File(*file3));
 
-  Folder* subFolder1 = new Folder("subFolder1");
-  Folder* subFolder2 = new Folder("subFolder2");
-  Folder* subFolder3 = new Folder("subFolder3");
+  auto* sub_folder1 = new Folder("subFolder1");
+  auto* sub_folder2 = new Folder("subFolder2");
+  auto* sub_folder3 = new Folder("subFolder3");
 
-  root->addFolder(new Folder(*subFolder1));
-  root->addFolder(new Folder(*subFolder2));
-  root->addFolder(new Folder(*subFolder3));
+  root->addFolder(new Folder(*sub_folder1));
+  root->addFolder(new Folder(*sub_folder2));
+  root->addFolder(new Folder(*sub_folder3));
 
-  Client::clientCode(root);
+  client::clientCode(root);
 
   // Clean up memory
-  delete subFolder1;
-  delete subFolder2;
-  delete subFolder3;
+  delete sub_folder1;
+  delete sub_folder2;
+  delete sub_folder3;
   delete file1;
   delete file2;
   delete file3;
 
   root->removeFileByName("fileName1.txt");
-  Client::clientCode(root);
+  client::clientCode(root);
   delete root;  // deletes all files/subfolders inside recursively
 }
 
-}  // namespace Problem
+}  // namespace problem
 
-namespace CompositePattern {
+namespace composite_pattern {
 /**
  * Component is the abstraction for leafs and composites.
  * It defines the interface that must be implemented by the objects in the
@@ -210,31 +211,30 @@ namespace CompositePattern {
  */
 class FileSystem {
  private:
-  FileSystem* _parent;
-  std::string _name;
+  FileSystem* parent_{};
+  std::string name_;
 
  public:
-  explicit FileSystem(const std::string& fileName)
-      : _parent{nullptr}, _name{fileName} {}
+  explicit FileSystem(std::string fileName) : name_{std::move(fileName)} {}
   virtual ~FileSystem() {
     std::cout << "Destructor: " << this->getName() << "\n";
   }
 
-  FileSystem* getParent() const { return _parent; }
+  FileSystem* getParent() const { return parent_; }
 
-  void setParent(FileSystem* parent) { _parent = parent; }
+  void setParent(FileSystem* parent) { parent_ = parent; }
 
-  std::string getName() const { return this->_name; }
+  std::string getName() const { return this->name_; }
 
   virtual int size() const { return 1; }
 
-  void setName(const std::string& name) { this->_name = name; }
+  void setName(const std::string& name) { this->name_ = name; }
 
-  virtual void add(FileSystem* fs) {
+  virtual void add(FileSystem*) {
     // do nothing here
   }
 
-  virtual void remove(FileSystem* fs) {
+  virtual void remove(FileSystem*) {
     // do nothing here
   }
 
@@ -257,31 +257,31 @@ class FileSystem {
  */
 class Folder : public FileSystem {
  private:
-  std::list<FileSystem*> _children;
+  std::list<FileSystem*> children_;
 
   // Remove children
   [[maybe_unused]] void removeChildren(const FileSystem* file) {
-    _children.remove_if([file](const FileSystem* f) { return f == file; });
+    children_.remove_if([file](const FileSystem* f) { return f == file; });
   }
 
   [[maybe_unused]] void removeChildrenByName(const std::string& name) {
 
     auto it = std::find_if(
-        _children.begin(), _children.end(),
+        children_.begin(), children_.end(),
         [&name](const FileSystem* f) { return f->getName() == name; });
 
-    if (it != _children.end()) {
+    if (it != children_.end()) {
       delete *it;           // free the memory
-      _children.erase(it);  // remove the pointer from the list
+      children_.erase(it);  // remove the pointer from the list
     }
   }
 
   [[maybe_unused]] const std::list<FileSystem*>& getChildren() const {
-    return _children;
+    return children_;
   }
 
   void getChildrensRecursive(std::list<FileSystem*>& out) const {
-    for (FileSystem* fs : _children) {
+    for (FileSystem* fs : children_) {
       if (fs->isComposite()) {
         const Folder* f = static_cast<Folder*>(fs);
         if (f != nullptr)
@@ -295,9 +295,9 @@ class Folder : public FileSystem {
  public:
   explicit Folder(const std::string& name) : FileSystem{name} {}
 
-  ~Folder() {
+  ~Folder() override {
     // Delete folder should delete all children
-    for (auto f : _children) {
+    for (auto* f : children_) {
       std::cout << "Folder '" << this->getName()
                 << "' deleted : " << f->getName() << "\n";
       delete f;
@@ -307,14 +307,14 @@ class Folder : public FileSystem {
   void add(FileSystem* fs) override {
     std::cout << "Folder '" << this->getName() << "' added : " << fs->getName()
               << "\n";
-    _children.push_back(fs);
+    children_.push_back(fs);
     fs->setParent(this);
   }
 
   void remove(FileSystem* fs) override {
     std::cout << "Folder: " << this->getName() << "removed : " << fs->getName()
               << "\n";
-    _children.remove(fs);
+    children_.remove(fs);
     fs->setParent(nullptr);
   }
 
@@ -323,8 +323,8 @@ class Folder : public FileSystem {
   }
 
   int size() const override {
-    int size = static_cast<int>(_children.size());
-    std::for_each(_children.begin(), _children.end(), [&size](FileSystem* fs) {
+    int size = static_cast<int>(children_.size());
+    std::for_each(children_.begin(), children_.end(), [&size](FileSystem* fs) {
       if (fs->isComposite()) {
         const Folder* f = static_cast<Folder*>(fs);
         if (f != nullptr)
@@ -363,28 +363,30 @@ class ZipFile : public FileSystem {
 
 class ShortCut : public FileSystem {
  private:
-  FileSystem* origin;
+  FileSystem* origin_;
 
  public:
-  explicit ShortCut(FileSystem* fs) : FileSystem{fs->getName()} { origin = fs; }
+  explicit ShortCut(FileSystem* fs) : FileSystem{fs->getName()} {
+    origin_ = fs;
+  }
 
   void open() const override {
     std::cout << "Open ShortCut: " << this->getName() << "\n";
-    if (origin != nullptr) {
-      std::cout << "Navigate to: " << origin->getName() << "\n";
+    if (origin_ != nullptr) {
+      std::cout << "Navigate to: " << origin_->getName() << "\n";
     } else {
       std::cout << "Original file no longer exist\n";
     }
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(const FileSystem* fs) {
   std::cout << "File name: " << fs->getName() << ", size: " << fs->size()
             << "\n";
   fs->open();
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   std::cout << "\n\n";
@@ -398,16 +400,16 @@ void run() {
   root->add(file1);
   root->add(file2);
   root->add(file3);
-  Client::clientCode(file1);
-  Client::clientCode(root);
+  client::clientCode(file1);
+  client::clientCode(root);
 
-  Folder* subFolder1 = new Folder("subFolder1");
-  Folder* subFolder2 = new Folder("subFolder2");
-  Folder* subFolder3 = new Folder("subFolder3");
-  root->add(subFolder1);
-  root->add(subFolder2);
-  root->add(subFolder3);
-  Client::clientCode(root);
+  auto* sub_folder1 = new Folder("subFolder1");
+  auto* sub_folder2 = new Folder("subFolder2");
+  auto* sub_folder3 = new Folder("subFolder3");
+  root->add(sub_folder1);
+  root->add(sub_folder2);
+  root->add(sub_folder3);
+  client::clientCode(root);
 
   root->remove(file1);
   delete file1;
@@ -421,7 +423,7 @@ void run() {
   delete root;  // deletes all files/subfolders inside recursively
 }
 
-}  // namespace CompositePattern
+}  // namespace composite_pattern
 
 }  // namespace
 
@@ -435,8 +437,8 @@ class CompositeExample : public IExample {
     return "Composite Pattern Example";
   }
   void execute() override {
-    Problem::run();
-    CompositePattern::run();
+    problem::run();
+    composite_pattern::run();
   }
 };
 

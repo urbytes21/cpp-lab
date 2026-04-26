@@ -5,7 +5,7 @@
 #include <unistd.h>      // close(server)
 
 #include <iostream>
-#include <sstream>
+#include "ExampleRegistry.h"
 
 void MultiTCPServer::acceptLoop() {
   while (isRunning()) {

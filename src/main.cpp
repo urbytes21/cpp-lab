@@ -1,4 +1,5 @@
 #include <exception>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
@@ -47,7 +48,9 @@ void runMenu() {
     // sort
     std::sort(groups.begin(), groups.end());
     for (const auto& group : groups) {
-      std::cout << g_index++ << ". " << group << "\n";
+      std::cout
+          << std::setw(2) << g_index++ << ". " << group
+          << "\n";  // use at least 2 characters of space for the next value
     }
     std::cout << g_index << ". Exit\n";
     std::cout << "----------------------------------------\n";
@@ -64,44 +67,47 @@ void runMenu() {
       continue;
     }
 
-    try {
-      // Sub-group
-      const auto& selected_group = groups[g_choice - 1];
-      const auto& examples = data.at(selected_group);
+    while (true) {
+      try {
+        // Sub-group
+        const auto& selected_group = groups[g_choice - 1];
+        const auto& examples = data.at(selected_group);
 
-      int e_index = 1;
-      std::vector<std::string> names;
+        int e_index = 1;
+        std::vector<std::string> names;
 
-      for (const auto& [name, _] : examples) {
-        std::cout << e_index++ << ". " << name << "\n";
-        names.push_back(name);
+        for (const auto& [name, _] : examples) {
+          std::cout << std::setw(2) << e_index++ << ". " << name << "\n";
+          names.push_back(name);
+        }
+        std::cout << std::setw(2) << e_index << ". Back\n";
+        std::cout << "----------------------------------------\n";
+        std::cout << "Enter choice: ";
+
+        int e_choice = readChoice();
+        // return
+        if (e_choice == e_index) {
+          break;
+        }
+
+        if (e_choice < 1 || e_choice > e_index) {
+          std::cout << "Invalid example choice\n";
+          continue;
+        }
+
+        auto example = registry.create(selected_group, names[e_choice - 1]);
+        if (example != nullptr) {
+          std::cout << "\n--- Running Example [" << example->name() << "] ["
+                    << example->description() << "]---\n\n";
+          example->execute();
+          std::cout << "\n--- Finished ---\n";
+          std::cout << "Press any key to continue ...\n";
+          std::cin.get();
+        }
+      } catch (std::out_of_range& e) {
+        std::cout << "\nError" << e.what();
+        std::cout << "\nInvalid example. Try again.\n";
       }
-      std::cout << e_index << ". Back\n";
-      std::cout << "----------------------------------------\n";
-      std::cout << "Enter choice: ";
-
-      int e_choice = readChoice();
-      if (e_choice == e_index) {
-        continue;
-      }
-
-      if (e_choice < 1 || e_choice > e_index) {
-        std::cout << "Invalid example choice\n";
-        continue;
-      }
-
-      auto example = registry.create(selected_group, names[e_choice - 1]);
-      if (example != nullptr) {
-        std::cout << "\n--- Running Example [" << example->name() << "] ["
-                  << example->description() << "]---\n\n";
-        example->execute();
-        std::cout << "\n--- Finished ---\n";
-        std::cout << "Press any key to continue ...\n";
-        std::cin.get();
-      }
-    } catch (std::out_of_range& e) {
-      std::cout << "\nError" << e.what();
-      std::cout << "\nInvalid example. Try again.\n";
     }
   }
 }

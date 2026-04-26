@@ -21,10 +21,10 @@ void arrayExamples() {
 
 class CArray : public IExample {
  public:
-  std::string group() const override { return "core"; }
-  std::string name() const override { return "CArray"; }
+  std::string group() const override { return "core/datatype"; }
+  std::string name() const override { return "Array"; }
   std::string description() const override { return ""; }
   void execute() override { arrayExamples(); }
 };
 
-REGISTER_EXAMPLE(CArray, "core", "CArray");
+REGISTER_EXAMPLE(CArray, "core/datatype", "Array");

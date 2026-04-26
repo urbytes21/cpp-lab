@@ -3,53 +3,53 @@
 
 namespace {
 
-constexpr inline std::string_view test_file_name = "fileio_test.csv";
+constexpr inline std::string_view kTestFileName = "fileio_test.csv";
 
 void fileInput() {
-  std::ifstream inFile{std::string{test_file_name}};
-  if (!inFile.is_open()) {
-    std::cerr << "Cannot open file: " << test_file_name << " \n";
+  std::ifstream in_file{std::string{kTestFileName}};
+  if (!in_file.is_open()) {
+    std::cerr << "Cannot open file: " << kTestFileName << " \n";
   }
 
-  std::string inputStr{};
+  std::string input_str{};
   std::cout << "====skip while space content====" << std::endl;
   while (
-      inFile >>
-      inputStr) {  //  Note that ifstream returns a 0 if we’ve reached the end of the file (EOF)
-    std::cout << inputStr;
+      in_file >>
+      input_str) {  //  Note that ifstream returns a 0 if we’ve reached the end of the file (EOF)
+    std::cout << input_str;
   }
   std::cout << "========" << std::endl;
   std::cout << "====full content====" << std::endl;
 
   // not skip whitespace
-  inFile.close();
-  inFile.open(std::string{test_file_name});  // explicitly call open()
+  in_file.close();
+  in_file.open(std::string{kTestFileName});  // explicitly call open()
   // The otherway to do this
   /**
    * inFile.clear();                 // clear eof/fail flags
    * inFile.seekg(0);                // rewind
    */
 
-  inputStr.clear();
-  while (std::getline(inFile, inputStr)) {
-    std::cout << inputStr << std::endl;
+  input_str.clear();
+  while (std::getline(in_file, input_str)) {
+    std::cout << input_str << std::endl;
   }
   std::cout << "========" << std::endl;
 
-  inFile.close();
+  in_file.close();
 }
 
 void fileOutput() {
   std::ofstream outfile{std::string{
-      test_file_name}};  // only output stream creates new file if not exist
+      kTestFileName}};  // only output stream creates new file if not exist
   if (!outfile || !outfile.is_open()) {
-    std::cerr << "Cannot open file: " << test_file_name << " \n";
+    std::cerr << "Cannot open file: " << kTestFileName << " \n";
     return;
   }
 
   // Put bytes data to the file
   // put string
-  std::string elfBytes{
+  std::string elf_bytes{
       R"""(
         time_s,
         gsr_value 0.0, 45.27761157741693 0.005, 41.69912812397066 0.01,
@@ -65,33 +65,33 @@ void fileOutput() {
         15.118189654760348 0.105, 15.473255351586635 0.11,
         14.913896402347113
     \n )"""};
-  outfile << elfBytes;
+  outfile << elf_bytes;
 
-  elfBytes =
+  elf_bytes =
       "0x0 0x0"
       "0x0 0x0"
       "0x0 0x0";
-  outfile << elfBytes;
+  outfile << elf_bytes;
 
-  elfBytes =
+  elf_bytes =
       "0xF 0xA \
               0xE 0xB \
               0x0 0x0";
-  outfile << elfBytes;
+  outfile << elf_bytes;
 
   outfile.put('E');  // put char
   outfile.close();
 }
 
 void fileRemove() {
-  std::remove(std::string{test_file_name}.c_str());
-  std::ifstream ifile{std::string{test_file_name}};
+  std::remove(std::string{kTestFileName}.c_str());
+  std::ifstream ifile{std::string{kTestFileName}};
   if (ifile) {
-    std::cerr << "Cannot delete file: " << test_file_name << " \n";
+    std::cerr << "Cannot delete file: " << kTestFileName << " \n";
     return;
   }
 
-  std::cout << "Delete file: " << test_file_name << " \n";
+  std::cout << "Delete file: " << kTestFileName << " \n";
 }
 
 void run() {

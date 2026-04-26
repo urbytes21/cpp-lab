@@ -14,7 +14,7 @@ void checkJoinable(std::thread& thread) {
 }
 }  // namespace
 
-namespace ExceptionBeforeJoin {
+namespace exception_before_join {
 class ThreadGuard {
  public:
   explicit ThreadGuard(std::thread& thread);
@@ -66,9 +66,9 @@ void run() {
   std::cout << "\nrun finished\n";
 }
 
-}  // namespace ExceptionBeforeJoin
+}  // namespace exception_before_join
 
-namespace Detach {
+namespace detach {
 void foo() {
   std::cout << "\nfoo started\n";
   std::this_thread::sleep_for(std::chrono::microseconds(1000));
@@ -92,9 +92,9 @@ void run() {
   foo_thread.join();
   std::cout << "\nrun finished\n";
 }
-}  // namespace Detach
+}  // namespace detach
 
-namespace Join {
+namespace join {
 void callable() {
   for (size_t i = 0; i < 10; ++i) {
     std::cout << "callable " << i << '\n';
@@ -104,8 +104,9 @@ void callable() {
 }
 
 void run() {
-  unsigned int threadsNum = std::thread::hardware_concurrency();
-  std::cout << "The number of hardware thread contexts: " << threadsNum << '\n';
+  unsigned int threads_num = std::thread::hardware_concurrency();
+  std::cout << "The number of hardware thread contexts: " << threads_num
+            << '\n';
 
   std::cout << "\n---Join Ex---\n";
   // create a thread object
@@ -125,18 +126,20 @@ void run() {
 
   std::cout << "\nrun finished\n";
 }
-}  // namespace Join
+}  // namespace join
 
 class ThreadManagement : public IExample {
 
-  std::string group() const { return "core/concurrency"; }
-  std::string name() const { return "ThreadManagement"; }
-  std::string description() const { return "The examples for <thread>"; }
+  std::string group() const override { return "core/concurrency"; }
+  std::string name() const override { return "ThreadManagement"; }
+  std::string description() const override {
+    return "The examples for <thread>";
+  }
 
-  void execute() {
-    Join::run();
-    Detach::run();
-    ExceptionBeforeJoin::run();
+  void execute() override {
+    join::run();
+    detach::run();
+    exception_before_join::run();
   }
 };
 

@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-namespace AdapterPattern {
+namespace adapter_pattern {
 /**
  * The Adaptee contains some useful behavior, but its interface is incompatible
  * with the existing client code. The Adaptee needs some adaptation before the
@@ -17,9 +17,13 @@ namespace AdapterPattern {
  */
 class Adaptee {
  public:
-  static std::string specificRequest() {
+  std::string specificRequest() {
+    dummy_++;
     return "Adaptee: The adaptee's behavior.";
   }
+
+ private:
+  int dummy_{};
 };
 
 /**
@@ -27,9 +31,7 @@ class Adaptee {
  */
 class Target {
  public:
-  virtual std::string request() const {
-    return "   Target: The target's behavior.";
-  }
+  virtual std::string request() { return "   Target: The target's behavior."; }
 };
 
 // ============================================================================================================
@@ -44,32 +46,32 @@ class Target {
  */
 class Adapter : public Target {
  private:
-  Adaptee* m_adaptee;
+  Adaptee* adaptee_;
 
  public:
-  explicit Adapter(Adaptee* adaptee) : m_adaptee{adaptee} {
+  explicit Adapter(Adaptee* adaptee) : adaptee_{adaptee} {
     std::cout << "Adapter constructer.\n";
   }
 
-  std::string request() const override { return m_adaptee->specificRequest(); }
+  std::string request() override { return adaptee_->specificRequest(); }
 };
 
 /**
  * The client code supports all classes that follow the Target interface.
  */
 
-namespace Client {
-void clientCode(const Target* target) {
+namespace client {
+void clientCode(Target* const target) {
   if (target != nullptr)
     std::cout << "Output: " << target->request() << "\n";
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   std::cout << "Client: Can work just fine with the Target objects:\n";
   Target target = Target();
   std::cout << "Target: " << target.request() << "\n";
-  Client::clientCode(&target);
+  client::clientCode(&target);
   std::cout << "\n\n";
 
   std::cout << "Client: Cannot work with the Adaptee objects:\n";
@@ -78,13 +80,13 @@ void run() {
   // Client::clientCode(&adaptee); // error
 
   std::cout << "Client: But can work with it via the Adapter:\n";
-  Adapter adapter = Adapter(&adaptee);
-  Client::clientCode(&adapter);
+  auto adapter = Adapter(&adaptee);
+  client::clientCode(&adapter);
   std::cout << "\n";
 }
-}  // namespace AdapterPattern
+}  // namespace adapter_pattern
 
-namespace CaseStudy {
+namespace case_study {
 // Target interface expected by the existing system
 class PaymentSystem {
  public:
@@ -98,26 +100,31 @@ class PaymentSystem {
 // Adaptee: a new payment API with an incompatible interface
 class PayPalAPI {
  public:
-  static void sendPayment(const std::string& email) {
+  void sendPayment(const std::string& email) {
     std::cout << "Payment sent via PayPal to " << email << "\n";
+    dummy_++;
   }
+
+ private:
+  int dummy_{};
 };
 
 // Adapter: makes PayPalAPI compatible with PaymentSystem
 class PayPalAdapter : public PaymentSystem {
  private:
-  PayPalAPI paypal;
+  PayPalAPI paypal_;
 
  public:
   void payWithCard(const std::string& cardNumber) override {
     // Treat the cardNumber parameter as a PayPal email
-    paypal.sendPayment(cardNumber);
+    paypal_.sendPayment(cardNumber);
   }
 };
 
 // Client code: uses the old interface without modification
 void run() {
-  std::string method, input;
+  std::string method;
+  std::string input;
   method = std::string("card") + std::string("");
   input = "1234-5678-9999";
   // method = std::string("paypal") + std::string("");input =
@@ -125,21 +132,21 @@ void run() {
 
   std::cout << "Choose payment method (card/paypal): " << method << "\n";
 
-  PaymentSystem* paymentSystem = nullptr;
+  PaymentSystem* payment_system = nullptr;
 
   if (method == "card") {
-    paymentSystem = new PaymentSystem();
-    paymentSystem->payWithCard(input);
+    payment_system = new PaymentSystem();
+    payment_system->payWithCard(input);
   } else if (method == "paypal") {
-    paymentSystem = new PayPalAdapter();
-    paymentSystem->payWithCard(input);
+    payment_system = new PayPalAdapter();
+    payment_system->payWithCard(input);
   } else {
     std::cout << "Unsupported payment method!\n";
   }
 
-  delete paymentSystem;
+  delete payment_system;
 }
-}  // namespace CaseStudy
+}  // namespace case_study
 
 #include "ExampleRegistry.h"
 
@@ -149,8 +156,8 @@ class AdapterExample : public IExample {
   std::string name() const override { return "Adapter"; }
   std::string description() const override { return "Factory Pattern Example"; }
   void execute() override {
-    AdapterPattern::run();
-    CaseStudy::run();
+    adapter_pattern::run();
+    case_study::run();
   }
 };
 

@@ -13,9 +13,10 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 
 namespace {
-namespace Command {
+namespace command {
 
 /**
  * The Command interface usually declares just a single method for executing the
@@ -23,6 +24,7 @@ namespace Command {
  */
 class ICommand {
  public:
+  virtual ~ICommand() = default;
   virtual void execute() const = 0;
 };
 
@@ -34,11 +36,23 @@ class ICommand {
  */
 class Receiver {
  public:
-  static void doCheck() { std::cout << "Receiver checking... \n"; };
-  static void doInit() { std::cout << "Receiver initializing... \n"; };
-  static void doLaunch(const std::string& arg) {
-    std::cout << "Receiver launching... \n\t" << arg << "\n";
+  void doCheck() {
+    std::cout << "Receiver checking... \n";
+    dummy_++;
   };
+
+  void doInit() {
+    std::cout << "Receiver initializing... \n";
+    dummy_++;
+  };
+
+  void doLaunch(const std::string& arg) {
+    std::cout << "Receiver launching... \n\t" << arg << "\n";
+    dummy_++;
+  };
+
+ private:
+  int dummy_{};
 };
 
 /**
@@ -54,18 +68,18 @@ class SimpleConcreteCommand : public ICommand {
 
 class ComplexConcreteCommand : public ICommand {
  private:
-  Receiver* m_receiver;
-  std::string m_payload;
+  Receiver* receiver_;
+  std::string payload_;
 
  public:
-  ComplexConcreteCommand(Receiver* receiver, const std::string& payload)
-      : m_receiver{receiver}, m_payload{payload} {};
+  ComplexConcreteCommand(Receiver* receiver, std::string payload)
+      : receiver_{receiver}, payload_{std::move(payload)} {};
 
   void execute() const override {
     std::cout << "\t ComplexCommand executed \n";
-    this->m_receiver->doCheck();
-    this->m_receiver->doInit();
-    this->m_receiver->doLaunch(m_payload);
+    this->receiver_->doCheck();
+    this->receiver_->doInit();
+    this->receiver_->doLaunch(payload_);
   }
 };
 
@@ -79,50 +93,49 @@ class ComplexConcreteCommand : public ICommand {
  */
 class Invoker {
  private:
-  ICommand* m_on_start;
-  ICommand* m_on_finish;
+  ICommand* on_start_;
+  ICommand* on_finish_;
 
  public:
-  explicit Invoker(ICommand* s = nullptr, ICommand* f = nullptr)
-      : m_on_start{s}, m_on_finish{s} {}
+  explicit Invoker(ICommand* s = nullptr) : on_start_{s}, on_finish_{s} {}
 
   ~Invoker() {
-    delete m_on_start;
-    delete m_on_finish;
+    delete on_start_;
+    delete on_finish_;
   }
 
-  void setOnStart(ICommand* command) { this->m_on_start = command; }
+  void setOnStart(ICommand* command) { this->on_start_ = command; }
 
-  void setOnFinish(ICommand* command) { this->m_on_finish = command; }
+  void setOnFinish(ICommand* command) { this->on_finish_ = command; }
 
   void invoke() const {
-    if (m_on_start != nullptr) {
-      m_on_start->execute();
+    if (on_start_ != nullptr) {
+      on_start_->execute();
     }
 
-    if (m_on_finish != nullptr) {
-      m_on_finish->execute();
+    if (on_finish_ != nullptr) {
+      on_finish_->execute();
     }
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(const Invoker* invoker) {
   invoker->invoke();
 }
 
-}  // namespace Client
+}  // namespace client
 
 void run() {
-  Receiver* ui = new Receiver();
+  auto* ui = new Receiver();
   // How to execute these command when something triggered
-  Invoker* invoker = new Invoker();
+  auto* invoker = new Invoker();
   invoker->setOnStart(new SimpleConcreteCommand());
   invoker->setOnFinish(new ComplexConcreteCommand(ui, "cmd --version"));
-  Client::clientCode(invoker);
+  client::clientCode(invoker);
   delete ui;
 }
-}  // namespace Command
+}  // namespace command
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -132,7 +145,7 @@ class CommandExample : public IExample {
   std::string group() const override { return "dp/behavioral"; }
   std::string name() const override { return "Command"; }
   std::string description() const override { return "Command Pattern Example"; }
-  void execute() override { Command::run(); }
+  void execute() override { command::run(); }
 };
 
 REGISTER_EXAMPLE(CommandExample, "dp/behavioral", "Command");

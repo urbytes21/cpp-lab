@@ -33,7 +33,6 @@ struct Foo {
 
 void initialize_variable() {
   std::cout << "\n--- Variable Initialization Examples ---\n";
-  // There are there common ways to intialize a variable
   // * 1) Default-initialization
   int init_default_var;
   Foo init_default_obj;

@@ -5,7 +5,7 @@
 #include <thread>
 #include "ExampleRegistry.h"
 
-namespace Problem {
+namespace problem {
 int glo_var = 0;
 
 void f1() {
@@ -30,9 +30,9 @@ void run() {
   // expect: 200 ?
   std::cout << "glo_var: " << glo_var << '\n';
 }
-}  // namespace Problem
+}  // namespace problem
 
-namespace Mutex {
+namespace mutex {
 int glo_var = 0;
 std::mutex g_mutex;
 
@@ -63,9 +63,9 @@ void run() {
   // expect: 200 ?
   std::cout << "glo_var: " << glo_var << '\n';
 }
-}  // namespace Mutex
+}  // namespace mutex
 
-namespace Atomic {
+namespace atomic {
 std::atomic<int> glo_var = 0;
 
 void f1() {
@@ -90,7 +90,7 @@ void run() {
   // expect: 200 ?
   std::cout << "glo_var: " << glo_var << '\n';
 }
-}  // namespace Atomic
+}  // namespace atomic
 
 class RaceCondition : public IExample {
 
@@ -101,9 +101,9 @@ class RaceCondition : public IExample {
   }
 
   void execute() override {
-    Problem::run();
-    Atomic::run();
-    Mutex::run();
+    problem::run();
+    atomic::run();
+    mutex::run();
   }
 };
 

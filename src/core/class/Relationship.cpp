@@ -4,7 +4,7 @@
 
 namespace {
 
-namespace Composition {
+namespace composition {
 // Engine is a part of the Car
 // Engine is managed by the Car
 class Engine {
@@ -19,16 +19,16 @@ class Car {
   ~Car() { std::cout << "Car destroyed\n"; }
 
  private:
-  Engine engine;  // composition
+  Engine engine_;  // composition
 };
 
 void run() {
   std::cout << "\n---Composition---\n";
   Car car;
 }
-};  // namespace Composition
+};  // namespace composition
 
-namespace Aggregations {
+namespace aggregations {
 // Teacher is a part of the Department
 // Teacher can belong to one or more Department
 // Department does not managed Patient existence
@@ -44,10 +44,10 @@ class Teacher {
 
 class Department {
  private:
-  Teacher* teacher;  // aggregation
+  Teacher* teacher_;  // aggregation
 
  public:
-  explicit Department(Teacher* t) : teacher(t) {
+  explicit Department(Teacher* t) : teacher_(t) {
     std::cout << "Department created \n";
   }
 
@@ -62,11 +62,11 @@ void run() {
     Department dep2{&t};
   }
 }
-};  // namespace Aggregations
+};  // namespace aggregations
 
 // Doctor uses Patient
 // Doctor does not managed Patient existence
-namespace Associations {
+namespace associations {
 class Patient {
  public:
   Patient() { std::cout << "Patient created \n"; }
@@ -87,10 +87,10 @@ void run() {
   Doctor d{};
   d.treat(p);
 }
-}  // namespace Associations
+}  // namespace associations
 
 // Car creates and uses Logger to log
-namespace Dependency {
+namespace dependency {
 class Logger {
  public:
   Logger() { std::cout << "Logger created \n"; }
@@ -115,9 +115,9 @@ void run() {
   Car car{};
   car.start();
 }
-}  // namespace Dependency
+}  // namespace dependency
 
-namespace Container {
+namespace container {
 // class Library1 {
 //  private:
 //   std::vector<std::string> books;  // copy values
@@ -127,9 +127,9 @@ namespace Container {
 //  private:
 //   std::vector<Teacher*> teachers;  // store pointers
 // };
-}  // namespace Container
+}  // namespace container
 
-namespace InnerClass {
+namespace inner_class {
 class Car {
  public:
   class Engine {
@@ -137,7 +137,7 @@ class Car {
     void start();
   };
 };
-}  // namespace InnerClass
+}  // namespace inner_class
 }  // namespace
 
 class Relationship : public IExample {
@@ -147,10 +147,10 @@ class Relationship : public IExample {
   std::string description() const override { return "Relationship examples"; };
 
   void execute() override {
-    Composition::run();
-    Aggregations::run();
-    Associations::run();
-    Dependency::run();
+    composition::run();
+    aggregations::run();
+    associations::run();
+    dependency::run();
   };
 };
 

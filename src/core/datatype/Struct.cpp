@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
 // A type defined in terms of other types
 
 // *0. Define a struct:
@@ -13,13 +12,14 @@ struct StructDataType {
   double voltage{0.0};  // Default initialization
   int id{0};
   char status{'N'};
-  string label{"Unknown"};
+  std::string label{"Unknown"};
 
   /* function */
   void print() const {
-    cout << "Size of struct = " << sizeof(StructDataType) << " bytes" << endl;
-    cout << "Sensor " << id << " [" << label << "] " << "Voltage: " << voltage
-         << " Status: " << status << endl;
+    std::cout << "Size of struct = " << sizeof(StructDataType) << " bytes"
+              << std::endl;
+    std::cout << "Sensor " << id << " [" << label << "] "
+              << "Voltage: " << voltage << " Status: " << status << std::endl;
   }
 };
 
@@ -33,12 +33,12 @@ void updateVoltagePtr(StructDataType* data, double newV) {
     data->voltage = newV;
 }
 
-StructDataType makeSensor(int id, double v, const string& label) {
+StructDataType makeSensor(int id, double v, const std::string& label) {
   return {v, id, 'N', label};
 }
 
 void structs() {
-  cout << "\n--- Struct Type Examples ---\n";
+  std::cout << "\n--- Struct Type Examples ---\n";
   // *1. Using struct
   [[maybe_unused]] StructDataType data0;  // default init
   StructDataType data1{3.3, 1, 'N', "Temp1"};
@@ -65,10 +65,10 @@ void structs() {
 
 class CStruct : public IExample {
  public:
-  std::string group() const override { return "core"; }
-  std::string name() const override { return "CStruct"; }
+  std::string group() const override { return "core/datatype"; }
+  std::string name() const override { return "Struct"; }
   std::string description() const override { return "Compound type: Struct"; }
   void execute() override { structs(); }
 };
 
-REGISTER_EXAMPLE(CStruct, "core", "CStruct");
+REGISTER_EXAMPLE(CStruct, "core/datatype", "Struct");

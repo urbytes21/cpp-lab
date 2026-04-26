@@ -6,17 +6,15 @@
 // (**)  when it’s awkward or not possible to extend an object’s behavior using
 // inheritance. UML: docs/uml/patterns_structural_decorator.drawio.svg
 
-#include <algorithm>
 #include <iostream>
-#include <list>
 #include <string>
 
 namespace {
-namespace Problem {
+namespace problem {
 
 class IComponent {
  public:
-  virtual ~IComponent() {}
+  virtual ~IComponent() = default;
   virtual std::string operation() const = 0;
 };
 
@@ -50,38 +48,38 @@ class ComponentWithAandB : public ConcreteComponent {
 // If you have 3 features , e.g FeatureC -> many combinations
 // If you have 5 features -> 32 subclasses
 
-namespace Client {
+namespace client {
 void clientCode(const IComponent& comp) {
   std::cout << comp.operation() << "\n";
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   std::cout << "\n\nProblem\n";
   IComponent* simple = new ConcreteComponent;
-  Client::clientCode(*simple);
+  client::clientCode(*simple);
 
-  IComponent* withA = new ComponentWithA;
-  Client::clientCode(*withA);
+  IComponent* with_a = new ComponentWithA;
+  client::clientCode(*with_a);
 
-  IComponent* withB = new ComponentWithB;
-  Client::clientCode(*withB);
+  IComponent* with_b = new ComponentWithB;
+  client::clientCode(*with_b);
 
-  IComponent* withAB = new ComponentWithAandB;
-  Client::clientCode(*withAB);
+  IComponent* with_ab = new ComponentWithAandB;
+  client::clientCode(*with_ab);
 
   delete simple;
-  delete withA;
-  delete withB;
-  delete withAB;
+  delete with_a;
+  delete with_b;
+  delete with_ab;
 }
 
-}  // namespace Problem
+}  // namespace problem
 
-namespace DecoratorPattern {
+namespace decorator_pattern {
 class IComponent {
  public:
-  virtual ~IComponent() {}
+  virtual ~IComponent() = default;
   virtual std::string operation() const = 0;
 };
 
@@ -104,15 +102,15 @@ class ConcreteComponent : public IComponent {
  */
 class BaseDecorator : public IComponent {
  protected:
-  IComponent* m_component;
+  IComponent* component_;
 
  public:
-  explicit BaseDecorator(IComponent* component) : m_component{component} {}
+  explicit BaseDecorator(IComponent* component) : component_{component} {}
 
   /**
    * The Decorator delegates all work to the wrapped component.
    */
-  std::string operation() const override { return m_component->operation(); }
+  std::string operation() const override { return component_->operation(); }
 };
 
 /**
@@ -152,36 +150,36 @@ class ConcreteDecoratorC : public BaseDecorator {
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(const IComponent& comp) {
   std::cout << comp.operation() << "\n";
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   std::cout << "\n\nDecorator\n";
   IComponent* simple = new ConcreteComponent;
-  Client::clientCode(*simple);
+  client::clientCode(*simple);
 
-  IComponent* withA = new ConcreteDecoratorA(simple);
-  Client::clientCode(*withA);
+  IComponent* with_a = new ConcreteDecoratorA(simple);
+  client::clientCode(*with_a);
 
-  IComponent* withB = new ConcreteDecoratorB(simple);
-  Client::clientCode(*withB);
+  IComponent* with_b = new ConcreteDecoratorB(simple);
+  client::clientCode(*with_b);
 
-  IComponent* withAB = new ConcreteDecoratorB(withA);
-  Client::clientCode(*withAB);
+  IComponent* with_ab = new ConcreteDecoratorB(with_a);
+  client::clientCode(*with_ab);
 
-  IComponent* withABC = new ConcreteDecoratorC(withAB);
-  Client::clientCode(*withABC);
+  IComponent* with_abc = new ConcreteDecoratorC(with_ab);
+  client::clientCode(*with_abc);
 
   delete simple;
-  delete withA;
-  delete withB;
-  delete withAB;
-  delete withABC;
+  delete with_a;
+  delete with_b;
+  delete with_ab;
+  delete with_abc;
 }
-}  // namespace DecoratorPattern
+}  // namespace decorator_pattern
 
 }  // namespace
 
@@ -195,8 +193,8 @@ class DecoratorExample : public IExample {
     return "Decorator Pattern Example";
   }
   void execute() override {
-    Problem::run();
-    DecoratorPattern::run();
+    problem::run();
+    decorator_pattern::run();
   }
 };
 

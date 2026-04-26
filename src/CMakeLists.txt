@@ -7,7 +7,6 @@ add_subdirectory(core)
 add_subdirectory(controller)
 add_subdirectory(dp)
 add_subdirectory(socket)
-add_subdirectory(exercise)
 add_subdirectory(ap)
 
 # main application executable does NOT link to this library.
@@ -26,7 +25,6 @@ add_executable(${PROJECT_NAME}
     ${SOCKET_SOURCES}
     ${CONTROLLER_SOURCES}
     ${DP_SOURCES}
-    ${EXCERCISE_SOURCES}
 )
 
 # Add header include paths
@@ -37,10 +35,4 @@ target_include_directories(${PROJECT_NAME}
 # Optional: add project-specific compiler options
 target_compile_options(${PROJECT_NAME}
     PRIVATE -Wall -Wextra -Wpedantic
-)
-
-target_link_libraries(${PROJECT_NAME}
-    PRIVATE
-        ex_account
-        ex_student_manager
 )

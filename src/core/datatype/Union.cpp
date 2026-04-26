@@ -24,7 +24,7 @@ void unionDemo() {
   std::cout << "After assigning intValue = 65:\n";
   u.printAll();  // Only intValue is meaningful; others show overwritten memory
 
-  u.floatValue = 3.14f;
+  u.floatValue = 3.14F;
   std::cout << "After assigning floatValue = 3.14:\n";
   u.printAll();  // Writing floatValue overwrites intValue
 
@@ -41,10 +41,10 @@ void unionDemo() {
 
 class CUnion : public IExample {
  public:
-  std::string group() const override { return "core"; }
-  std::string name() const override { return "CUnion"; }
+  std::string group() const override { return "core/datatype"; }
+  std::string name() const override { return "Union"; }
   std::string description() const override { return "Compound type: Union"; }
   void execute() override { unionDemo(); }
 };
 
-REGISTER_EXAMPLE(CUnion, "core", "CUnion");
+REGISTER_EXAMPLE(CUnion, "core/datatype", "Union");

@@ -20,19 +20,19 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/linkage/sharing/external/constants.cpp
 
     # Fundamental data types
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/Fundamental.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/CArray.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/CReferences.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/CPointers.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/CEnum.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/CStruct.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/CUnion.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/datatypes/TypeConVersions.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datatype/Fundamental.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datatype/Array.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datatype/Reference.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datatype/Pointer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datatype/Enum.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datatype/Struct.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datatype/Union.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datatype/TypeConVersions.cpp
 
     # Classes and object lifecycle
     ${CMAKE_CURRENT_SOURCE_DIR}/class/Friend.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/class/CConstructors.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/class/CDestructors.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/Constructor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/class/Destructor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/class/SallowDeepCopying.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/class/RoleOfThreeFiveZero.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/class/Relationship.cpp
@@ -42,7 +42,7 @@ set(CORE_SOURCES
 
     # String handling
     ${CMAKE_CURRENT_SOURCE_DIR}/string/StringFormatting.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/string/BasicString.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/string/CString.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/string/StdString.cpp
 
     # Exception handling
@@ -88,7 +88,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/overloading/AllocationOperator.cpp
 
     # Date and time
-    ${CMAKE_CURRENT_SOURCE_DIR}/datetime/CTime.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/datetime/Time.cpp
 
     # Concurrency
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/ThreadManagement.cpp

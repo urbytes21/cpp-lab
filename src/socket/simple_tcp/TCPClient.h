@@ -1,5 +1,5 @@
 #pragma once
-#include <stdint.h>
+#include <cstdint>
 #include <string>
 
 class TCPClient {
@@ -8,11 +8,12 @@ class TCPClient {
 
   bool connect();
   void close();
-  void send(const std::string& msg);
-  std::string receive();
+  void send(const std::string& msg) const;
+  std::string receive() const;
 
   const std::string& getHost() const;
-  uint16_t getPort() const; 
+  uint16_t getPort() const;
+
  private:
   std::string host_;
   uint16_t port_;

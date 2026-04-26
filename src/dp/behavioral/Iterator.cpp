@@ -12,23 +12,22 @@
 // UML: docs/uml/patterns_behavioral_iterator.drawio.svg
 
 #include <iostream>
-#include <iterator>
 #include <list>
 #include <string>
 #include <vector>
 
 namespace {
-namespace Iterator {
+namespace iterator {
 class DataModel {
  private:
-  int m_value;
+  int value_;
 
  public:
-  explicit DataModel(int value) : m_value{value} {}
+  explicit DataModel(int value) : value_{value} {}
 
-  void setValue(int v) { m_value = v; }
+  void setValue(int v) { value_ = v; }
 
-  int getValue() const { return m_value; }
+  int getValue() const { return value_; }
 };
 
 /**
@@ -66,40 +65,40 @@ class IAggregate {
 template <typename T>
 class VectorConcreteIterator : public IIterator<T> {
  private:
-  const std::vector<T>& m_data;
-  size_t m_currentIndex{0};
+  const std::vector<T>& data_;
+  size_t currentIndex_{0};
 
  public:
-  explicit VectorConcreteIterator(const std::vector<T>& data) : m_data{data} {}
+  explicit VectorConcreteIterator(const std::vector<T>& data) : data_{data} {}
 
-  bool hasNext() const override { return m_currentIndex < m_data.size(); }
+  bool hasNext() const override { return currentIndex_ < data_.size(); }
 
   const T* next() override {
     if (hasNext()) {
-      return (T*)&m_data[m_currentIndex++];
-    } else {
-      return nullptr;
+      return &data_[currentIndex_++];
     }
+
+    return nullptr;
   }
 };
 
 template <typename T>
 class ListConcreteIterator : public IIterator<T> {
  private:
-  const std::list<T>& m_data;
-  typename std::list<T>::const_iterator m_it;
+  const std::list<T>& data_;
+  typename std::list<T>::const_iterator it_;
 
  public:
   explicit ListConcreteIterator(const std::list<T>& data)
-      : m_data(data), m_it(m_data.begin()) {}
+      : data_(data), it_(data_.begin()) {}
 
-  bool hasNext() const override { return m_it != m_data.end(); }
+  bool hasNext() const override { return it_ != data_.end(); }
 
   const T* next() override {
     if (!hasNext())
       return nullptr;
-    const T* ptr = &(*m_it);
-    ++m_it;
+    const T* ptr = &(*it_);
+    ++it_;
     return ptr;
   }
 };
@@ -111,26 +110,26 @@ class ListConcreteIterator : public IIterator<T> {
 template <typename T>
 class ListConreteAggregate : public IAggregate<T> {
  private:
-  std::list<T> m_data;
+  std::list<T> data_;
 
  public:
-  void add(const T& i) { m_data.push_back(i); }
+  void add(const T& i) { data_.push_back(i); }
 
   IIterator<T>* createIterator() override {
-    return new ListConcreteIterator<T>(m_data);
+    return new ListConcreteIterator<T>(data_);
   }
 };
 
 template <typename T>
 class VectorConcreteAggregate : public IAggregate<T> {
  private:
-  std::vector<T> m_data;
+  std::vector<T> data_;
 
  public:
-  void add(const T& i) { m_data.push_back(i); }
+  void add(const T& i) { data_.push_back(i); }
 
   IIterator<T>* createIterator() override {
-    return new VectorConcreteIterator<T>(m_data);
+    return new VectorConcreteIterator<T>(data_);
   }
 };
 
@@ -139,7 +138,7 @@ class VectorConcreteAggregate : public IAggregate<T> {
  * This way the client isn’t coupled to concrete classes, allowing you to use
  * various collections and iterators with the same client code.
  */
-namespace Client {
+namespace client {
 
 void clientCode(IAggregate<int>* collection) {
   IIterator<int>* iterator = collection->createIterator();
@@ -167,33 +166,33 @@ void clientCode(IAggregate<DataModel>* collection) {
 
 void run() {
   std::cout << "\nVectorConcreteAggregate\n";
-  VectorConcreteAggregate<int> intCollection;
+  VectorConcreteAggregate<int> int_collection;
   for (int i = 0; i < 10; ++i) {
-    intCollection.add(i);
+    int_collection.add(i);
   }
-  Client::clientCode(&intCollection);
+  client::clientCode(&int_collection);
   std::cout << "\n";
-  VectorConcreteAggregate<DataModel> dataCollection;
+  VectorConcreteAggregate<DataModel> data_collection;
   for (int i = 0; i < 10; ++i) {
-    dataCollection.add(DataModel(i * 10));
+    data_collection.add(DataModel(i * 10));
   }
-  Client::clientCode(&dataCollection);
+  client::clientCode(&data_collection);
 
   std::cout << "\nListConreteAggregate\n";
-  ListConreteAggregate<int> intCollection2;
+  ListConreteAggregate<int> int_collection2;
   for (int i = 0; i < 10; ++i) {
-    intCollection2.add(i);
+    int_collection2.add(i);
   }
 
-  Client::clientCode(&intCollection2);
+  client::clientCode(&int_collection2);
   std::cout << "\n";
-  ListConreteAggregate<DataModel> dataCollection2;
+  ListConreteAggregate<DataModel> data_collection2;
   for (int i = 0; i < 10; ++i) {
-    dataCollection2.add(DataModel(i * 10));
+    data_collection2.add(DataModel(i * 10));
   }
-  Client::clientCode(&dataCollection2);
+  client::clientCode(&data_collection2);
 }
-}  // namespace Iterator
+}  // namespace iterator
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -205,7 +204,7 @@ class IteratorExample : public IExample {
   std::string description() const override {
     return "Iterator Pattern Example";
   }
-  void execute() override { Iterator::run(); }
+  void execute() override { iterator::run(); }
 };
 
 REGISTER_EXAMPLE(IteratorExample, "dp/behavioral", "Iterator");

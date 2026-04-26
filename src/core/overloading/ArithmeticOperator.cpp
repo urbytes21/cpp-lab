@@ -6,11 +6,11 @@
 namespace {
 class Cents {
  private:
-  int m_cents{};
+  int m_cents_{};
 
  public:
-  explicit Cents(int cents) : m_cents{cents} {}
-  int getCents() const { return m_cents; }
+  explicit Cents(int cents) : m_cents_{cents} {}
+  int getCents() const { return m_cents_; }
 
   // Problem: A member operator only works when the left-hand operand is an object of the class (e.g., Cents).
   // Cents sum = 5 + s1;

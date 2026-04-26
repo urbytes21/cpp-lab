@@ -15,7 +15,7 @@
 #include <iostream>
 #include <string>
 namespace {
-namespace State {
+namespace state {
 class DeviceContext;
 
 /**
@@ -36,10 +36,10 @@ class IState {
  */
 class AbstractState : public IState {
  protected:
-  DeviceContext* m_ctx;
+  DeviceContext* ctx_;
 
  public:
-  void setContext(DeviceContext* ctx) override { this->m_ctx = ctx; }
+  void setContext(DeviceContext* ctx) override { this->ctx_ = ctx; }
 };
 
 /**
@@ -50,25 +50,23 @@ class AbstractState : public IState {
  */
 class DeviceContext {
  private:
-  IState* m_state;
+  IState* state_{};
 
  public:
-  explicit DeviceContext(IState* state) : m_state{nullptr} {
-    this->changeState(state);
-  }
+  explicit DeviceContext(IState* state) { this->changeState(state); }
 
-  ~DeviceContext() { delete m_state; }
+  ~DeviceContext() { delete state_; }
 
   void changeState(IState* state) {
     std::cout << "[DeviceContext]: Changing state\n";
-    if (this->m_state != nullptr) {
-      delete this->m_state;
-    }
-    this->m_state = state;
-    this->m_state->setContext(this);
+
+    delete this->state_;  // delete nullptr has no effect
+
+    this->state_ = state;
+    this->state_->setContext(this);
   }
 
-  void operation() { this->m_state->handle(); }
+  void operation() { this->state_->handle(); }
 };
 
 /**
@@ -91,13 +89,13 @@ class ErrorConcreteState : public AbstractState {
     std::cout << "[Error] Device error! Reset required.\n";
 
     // After recover => go Idle
-    this->m_ctx->changeState(new IdeConcreteState());
+    this->ctx_->changeState(new IdeConcreteState());
   }
 };
 
 void IdeConcreteState::handle() {
   std::cout << "[Ide] Device is idle. Waiting...\n";
-  this->m_ctx->changeState(new ProcessingConcreteState());
+  this->ctx_->changeState(new ProcessingConcreteState());
 }
 
 void ProcessingConcreteState::handle() {
@@ -105,31 +103,27 @@ void ProcessingConcreteState::handle() {
   bool ok = true;  // Example processing result
   static int index = 0;
   index++;
-  if (index % 2 == 0) {
-    ok = true;
-  } else {
-    ok = false;
-  }
+  ok = index % 2 == 0;
   if (ok) {
     // Back to idle after finishing job
-    this->m_ctx->changeState(new IdeConcreteState());
+    this->ctx_->changeState(new IdeConcreteState());
   } else {
-    this->m_ctx->changeState(new ErrorConcreteState());
+    this->ctx_->changeState(new ErrorConcreteState());
   }
 }
 
-namespace Client {
+namespace client {
 void clientCode(DeviceContext* const device) {
   device->operation();
 }
-}  // namespace Client
+}  // namespace client
 void run() {
-  DeviceContext* device = new DeviceContext(new IdeConcreteState());
-  for (int loopIdx = 0; loopIdx < 10; ++loopIdx)
-    Client::clientCode(device);
+  auto* device = new DeviceContext(new IdeConcreteState());
+  for (int loop_idx = 0; loop_idx < 10; ++loop_idx)
+    client::clientCode(device);
   delete device;
 }
-}  // namespace State
+}  // namespace state
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -139,7 +133,7 @@ class StateExample : public IExample {
   std::string group() const override { return "dp/behavioral"; }
   std::string name() const override { return "State"; }
   std::string description() const override { return "State Pattern Example"; }
-  void execute() override { State::run(); }
+  void execute() override { state::run(); }
 };
 
 REGISTER_EXAMPLE(StateExample, "dp/behavioral", "State");

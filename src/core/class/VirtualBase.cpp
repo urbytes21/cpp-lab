@@ -3,7 +3,7 @@
 #include "ExampleRegistry.h"
 namespace {
 
-namespace Problem {
+namespace problem {
 class PoweredDevice {
  public:
   PoweredDevice() { std::cout << "Powered Device created\n"; }
@@ -57,7 +57,7 @@ void run() {
 
 }  // namespace Problem
 
-namespace VirtualBaseClasses {
+namespace virtual_base_classes {
 class PoweredDevice {
  public:
   PoweredDevice() { std::cout << "Powered Device created\n"; }
@@ -118,8 +118,8 @@ class VirtualBase : public IExample {
   std::string description() const override { return "VirtualBase examples"; };
 
   void execute() override {
-    Problem::run();
-    VirtualBaseClasses::run();
+    problem::run();
+    virtual_base_classes::run();
   };
 };
 

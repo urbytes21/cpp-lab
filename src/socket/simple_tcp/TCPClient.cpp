@@ -17,23 +17,23 @@ bool TCPClient::connect() {
   }
 
   // specifying the address
-  sockaddr_in serverAddress{};
-  serverAddress.sin_family = AF_INET;
-  serverAddress.sin_port = htons(port_);
+  sockaddr_in server_address{};
+  server_address.sin_family = AF_INET;
+  server_address.sin_port = htons(port_);
 
   // serverAddress.sin_addr.s_addr = INADDR_ANY;
-  if (::inet_pton(AF_INET, host_.c_str(), &serverAddress.sin_addr) <= 0) {
+  if (::inet_pton(AF_INET, host_.c_str(), &server_address.sin_addr) <= 0) {
     throw std::runtime_error("invalid address");
   }
 
   // sending connection request
   return (
       ::connect(client_fd_,
-                reinterpret_cast<sockaddr*>(&serverAddress),  // global syscall
-                sizeof(serverAddress)) == 0);
+                reinterpret_cast<sockaddr*>(&server_address),  // global syscall
+                sizeof(server_address)) == 0);
 }
 
-void TCPClient::send(const std::string& msg) {
+void TCPClient::send(const std::string& msg) const {
   if (client_fd_ < 0) {
     throw std::runtime_error("socket not connected");
   }
@@ -50,7 +50,7 @@ void TCPClient::send(const std::string& msg) {
   }
 }
 
-std::string TCPClient::receive() {
+std::string TCPClient::receive() const {
   if (client_fd_ < 0) {
     throw std::runtime_error("socket not connected");
   }

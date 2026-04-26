@@ -12,9 +12,10 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <utility>
 
 namespace {
-namespace Problem {
+namespace problem {
 class ImageContext {
  protected:
  private:
@@ -52,9 +53,9 @@ class ImageContext {
  public:
   // Role of five
   // CONSTRUCTOR
-  explicit ImageContext(const std::string& fileName, int w = 8, int h = 8,
+  explicit ImageContext(std::string fileName, int w = 8, int h = 8,
                         int dpi = 96, float scale = 1, float opacity = 1)
-      : fileName_{fileName},
+      : fileName_{std::move(fileName)},
         width_{w},
         height_{h},
         dpi_{dpi},
@@ -90,20 +91,20 @@ class ImageContext {
   }
 };
 
-namespace Client {
+namespace client {
 void clientCode(const ImageContext* img) {
   img->display();
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   std::cout << "\n\nProblem\n";
-  ImageContext** imgs = new ImageContext*[5];
+  auto** imgs = new ImageContext*[5];
   for (int i = 0; i < 5; i++) {
     imgs[i] = new ImageContext("img1.svg");
-    imgs[i]->setOpacity(1 - (float)1 / (i + 1));
-    imgs[i]->setScale((float)1 / (i + 1));
-    Client::clientCode(imgs[i]);
+    imgs[i]->setOpacity(1 - static_cast<float>(1) / (i + 1));
+    imgs[i]->setScale(static_cast<float>(1) / (i + 1));
+    client::clientCode(imgs[i]);
   }
 
   // delete objects first
@@ -115,9 +116,9 @@ void run() {
   delete[] imgs;
   std::cout << "Size of objects: " << sizeof(ImageContext) * 5 << "\n";
 }
-}  // namespace Problem
+}  // namespace problem
 
-namespace FlyweightPattern {
+namespace flyweight_pattern {
 
 /**
  * The Flyweight stores a common portion of the state (also called intrinsic
@@ -152,9 +153,9 @@ class ImageFlyweight {
   }
 
  public:
-  explicit ImageFlyweight(const std::string& fileName, int w = 8, int h = 8,
+  explicit ImageFlyweight(std::string fileName, int w = 8, int h = 8,
                           int dpi = 96)
-      : fileName_{fileName},
+      : fileName_{std::move(fileName)},
         width_{w},
         height_{h},
         dpi_{dpi},
@@ -242,7 +243,7 @@ class ImageFlyweight {
 class ImageFlyweightFactory {
  private:
   std::unordered_map<std::string, ImageFlyweight>
-      m_imageFlyweights;  // unordered_map => need to role of five
+      imageFlyweights_;  // unordered_map => need to role of five
   static std::string getKey(const std::string& name, int w, int h, int dpi) {
     return "key_" + name + std::to_string(w * h * dpi);
   }
@@ -252,15 +253,15 @@ class ImageFlyweightFactory {
                                      int h = 8, int dpi = 96) {
     std::string key = getKey(fileName, w, h, dpi);
     std::cout << "Key: " << key << "\n";
-    if (this->m_imageFlyweights.find(key) == this->m_imageFlyweights.end()) {
+    if (this->imageFlyweights_.find(key) == this->imageFlyweights_.end()) {
       std::cout << "ImageFlyweightFactory: Can't find a image flyweight, "
                    "creating new one.\n";
-      this->m_imageFlyweights.insert(
+      this->imageFlyweights_.insert(
           std::make_pair(key, ImageFlyweight(fileName, w, h, dpi)));
     } else {
       std::cout << "ImageFlyweightFactory: Reusing existing image flyweight.\n";
     }
-    return this->m_imageFlyweights.at(key);
+    return this->imageFlyweights_.at(key);
   }
 };
 
@@ -273,13 +274,13 @@ class ImageContext {
  private:
   float scale_;
   float opacity_;
-  ImageFlyweight* m_flyweight;
+  ImageFlyweight* flyweight_;
 
  public:
   ImageContext(ImageFlyweight& imageFlyweight, const float& s, const float& o)
-      : scale_{s}, opacity_{o}, m_flyweight{&imageFlyweight} {}
+      : scale_{s}, opacity_{o}, flyweight_{&imageFlyweight} {}
 
-  void display() const { this->m_flyweight->display(scale_, opacity_); }
+  void display() const { this->flyweight_->display(scale_, opacity_); }
 };
 
 /**
@@ -288,31 +289,31 @@ class ImageContext {
  * configured at runtime by passing some contextual data into parameters of its
  * methods.
  */
-namespace Client {
+namespace client {
 void clientCode(const ImageContext* img) {
   img->display();
 }
-}  // namespace Client
+}  // namespace client
 
 void run() {
   std::cout << "\n\nFlyweight\n";
   // Regis the images to the factory
-  ImageFlyweightFactory* imageRegister = new ImageFlyweightFactory();
-  ImageContext* img1 =
-      new ImageContext(imageRegister->getImangeFlyweight("img1.svg"), 1, 0.1);
-  Client::clientCode(img1);
-  ImageContext* img2 =
-      new ImageContext(imageRegister->getImangeFlyweight("img1.svg"), 1, 0.2);
-  Client::clientCode(img2);
-  ImageContext* img3 =
-      new ImageContext(imageRegister->getImangeFlyweight("img1.svg"), 1, 0.3);
-  Client::clientCode(img3);
-  ImageContext* img4 =
-      new ImageContext(imageRegister->getImangeFlyweight("img1.svg"), 1, 0.4);
-  Client::clientCode(img4);
-  ImageContext* img5 =
-      new ImageContext(imageRegister->getImangeFlyweight("img1.svg"), 1, 0.5);
-  Client::clientCode(img5);
+  auto* image_register = new ImageFlyweightFactory();
+  auto* img1 =
+      new ImageContext(image_register->getImangeFlyweight("img1.svg"), 1, 0.1);
+  client::clientCode(img1);
+  auto* img2 =
+      new ImageContext(image_register->getImangeFlyweight("img1.svg"), 1, 0.2);
+  client::clientCode(img2);
+  auto* img3 =
+      new ImageContext(image_register->getImangeFlyweight("img1.svg"), 1, 0.3);
+  client::clientCode(img3);
+  auto* img4 =
+      new ImageContext(image_register->getImangeFlyweight("img1.svg"), 1, 0.4);
+  client::clientCode(img4);
+  auto* img5 =
+      new ImageContext(image_register->getImangeFlyweight("img1.svg"), 1, 0.5);
+  client::clientCode(img5);
   std::cout << "Size of objects: "
             << sizeof(ImageFlyweightFactory) + sizeof(ImageContext) * 5 << "\n";
 
@@ -321,10 +322,10 @@ void run() {
   delete img3;
   delete img4;
   delete img5;
-  delete imageRegister;
+  delete image_register;
 }
 
-}  // namespace FlyweightPattern
+}  // namespace flyweight_pattern
 }  // namespace
 
 #include "ExampleRegistry.h"
@@ -337,8 +338,8 @@ class FlyweightExample : public IExample {
     return "Flyweight Pattern Example";
   }
   void execute() override {
-    Problem::run();
-    FlyweightPattern::run();
+    problem::run();
+    flyweight_pattern::run();
   }
 };
 

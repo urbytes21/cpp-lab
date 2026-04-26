@@ -21,13 +21,13 @@ void run() {
   // 2) Modifiers
   m_map.insert({"k_4", 4});
 
-  std::pair<std::string, int> newElem1 = {"k_5", 0};
-  m_map.insert(newElem1);
+  std::pair<std::string, int> new_elem1 = {"k_5", 0};
+  m_map.insert(new_elem1);
 
   std::string m_key = "k_6";
   int m_value = 99;
-  auto newElem2 = std::make_pair(m_key, m_value);
-  m_map.insert(newElem2);
+  auto new_elem2 = std::make_pair(m_key, m_value);
+  m_map.insert(new_elem2);
 
   auto m_map2 = m_map;
   for (auto it = m_map.begin(); it != m_map.end();) {
@@ -57,6 +57,7 @@ void run() {
 
   // 4) Make fun
   std::vector<std::string> keys{};
+  keys.reserve(m_map2.size());
   for (auto const& [k, v] : m_map2) {
     keys.push_back(k);
   }

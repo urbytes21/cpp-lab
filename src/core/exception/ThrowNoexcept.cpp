@@ -7,7 +7,7 @@ void errorFnc() {
   throw std::runtime_error("errorFnc\n");
 }
 
-// void noExpectExcpt() throw() {
+// void noExpectExcpt() throw() { // deprecated
 void noExpectExcpt() noexcept {
   try {
     errorFnc();
@@ -16,14 +16,14 @@ void noExpectExcpt() noexcept {
   }
 }
 
-void expectExcpt() noexcept(false) {
-  try {
-    errorFnc();
-  } catch (std::exception& e) {
-    std::cout << typeid(e).name() << " " << e.what();
-    throw;
-  }
-}
+// void expectExcpt() noexcept(false) {
+//   try {
+//     errorFnc();
+//   } catch (std::exception& e) {
+//     std::cout << typeid(e).name() << " " << e.what();
+//     throw;
+//   }
+// }
 
 void run() {
   noExpectExcpt();
