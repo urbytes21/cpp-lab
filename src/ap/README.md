@@ -45,13 +45,13 @@ View → Controller → Model
 ### 3. GTK4
 - [Refer](https://docs.gtk.org/gtk4/getting_started.html)
 
-### 4. Examples
-### 4.1. simple_ap
-- Cos:
-    - Quick, Simple
-- Pos:
-    - Dependency: e.g. what happen when we delete  Gtk::Label m_labelMonitorA;
-    - Scalability: 
-    - Reusability:
+### 4. Trade-offs: MVC vs MVVM
 
-### 4.2. mvc_ap
+| Aspect               | MVC                                                                 | MVVM                                                                 |
+|---------------------|---------------------------------------------------------------------|----------------------------------------------------------------------|
+| **Complexity**      | Lower — **Controller** is a thin pass-through                           | Slightly higher — **ViewModel** adds an extra layer                     |
+| **Coupling**        | Views know both **Controller** and **Model** (e.g., for initial data)       | **Views** know only the **ViewModel**                                       |
+| **Testability**     | Controller is testable, but **Views** are still tied to **Model** for reads | **ViewModel** is fully testable without GTK; Views are pure UI          |
+| **Scalability**     | Adding fields requires updating **Model**, **Controller**, and all **Views**    | Adding fields requires updating **Model** and **ViewModel**; Views update bindings only |
+| **Observer wiring** | Manual — Container wires each **View** to the **Model**                     | Self-contained — **Views** register via **ViewModel**; container stays clean|
+| **UI logic leakage**| Risk - Views may call `model_->getData()` directly                  | Eliminated - Views use `viewModel_->getCurrentText()` only          |
