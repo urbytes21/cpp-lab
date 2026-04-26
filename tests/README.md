@@ -1,12 +1,19 @@
 # GoogleTest
+- Ref: https://google.github.io/googletest/
 - GoogleTest helps you write better C++ tests.
-## 1. Basic Concepts
-- **assertions:** the statememts that check whether a condition is true. The result can be:
-   - success
-   - nonfatal failure
-   - fatal failure
-- **test suite:** that contains one or many tests.
-- **text fixture:** the class contain test suite used for multiple tests to share common objects and subroutines.
+- Basic Concepts:
+  - **Assertions:** the statememts that check whether a condition is true. The result can be:
+     - success
+     - nonfatal failure
+     - fatal failure
+  - **Test Suite:** that contains one or many tests.
+  - **Text fixture:** the class contain test suite used for multiple tests to share common objects and subroutines.
+
+## 1. Assertions:
+- **ASSERT_** generates fatal failures and **abort** the current function.
+- **EXPECT_** generates nonfatal failures and don't abort the current function. (Preferred)
+- To provide a custom failure message, simply stream it into the macro using **`<<`**
+- Ref: https://google.github.io/googletest/reference/assertions.html
 
 ## 2. Test Fixtures: Using the Same Data Configuration for Multiple Tests
 - To create a fixture class:
@@ -16,7 +23,7 @@
  - write a default destructor or `TearDown()` function to release resources.
  - use `TEST_F(TestFixtureClassName, TestName)` instead of `TEST()`
 
->All documentation is covered in the official github repo. The primer documentation also covers a lot of information regarding the test macros. You could use the following summary and the examples linked to choose what you want to use. (https://stackoverflow.com/questions/58600728/what-is-the-difference-between-test-test-f-and-test-p)
+> All documentation is covered in the official github repo. The primer documentation also covers a lot of information regarding the test macros. You could use the following summary and the examples linked to choose what you want to use. (https://stackoverflow.com/questions/58600728/what-is-the-difference-between-test-test-f-and-test-p)
 
 - **TEST()** is useful when you want to write unit tests for static or global functions or simple classes.
 - **TEST_F()** is useful when you need access to objects and subroutines in the unit test.
@@ -100,4 +107,5 @@ int main(int argc, char **argv) {
 +) first, you use some simple macros to describe the interface you want to mock, and they will expand to the implementation of your mock class;
 +) next, you create some mock objects and specify its expectations and behavior using an intuitive syntax;
 +) then you exercise code that uses the mock objects. gMock will catch any violation to the expectations as soon as it arises.
+
 TBD https://google.github.io/googletest/gmock_for_dummies.html
