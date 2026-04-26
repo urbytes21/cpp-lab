@@ -30,9 +30,6 @@ add_executable(${PROJECT_NAME}
 )
 
 # Add header include paths
-# PRIVATE   -> this target only
-# PUBLIC    -> this target + dependent targets
-# INTERFACE -> dependent targets only
 target_include_directories(${PROJECT_NAME}
     PRIVATE ${APP_HEADERS}
 )
