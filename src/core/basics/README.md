@@ -1,13 +1,9 @@
-# Theory
+# Basic C++
 
 ## 1. Initialization in C++
-
 C++ provides several ways to initialize objects. Each form has different semantics and use cases.
 
----
-
 ### 1.1 Default Initialization
-
 Performed when an object is created **without any initializer**.
 
 ```cpp
@@ -21,7 +17,6 @@ new T;
 ---
 
 ### 1.2 Value Initialization
-
 Performed when an object is created with an **empty initializer**.
 
 ```cpp
