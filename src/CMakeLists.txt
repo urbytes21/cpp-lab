@@ -9,9 +9,6 @@ add_subdirectory(dp)
 add_subdirectory(socket)
 add_subdirectory(ap)
 
-# main application executable does NOT link to this library.
-add_subdirectory(leetcode)
-
 # Header files directory
 set(APP_HEADERS
     ${PROJECT_SOURCE_DIR}/include
