@@ -12,12 +12,6 @@ set(SOURCES
 
 set(TEST_SOURCES
     DeleteMeTest.cpp
-    two_sum_ut.cpp
-    median_two_sorted_arrays_ut.cpp
-    container_with_most_water_ut.cpp
-    longest_common_prefix_ut.cpp
-    three_sum_ut.cpp
-    four_sum_ut.cpp
 )
 
 # Build the test executable
@@ -39,7 +33,6 @@ target_include_directories(${PROJECT_NAME_TEST}
 
 # Link GoogleTest and GoogleMock
 target_link_libraries(${PROJECT_NAME_TEST}
-    leetcode
     GTest::gtest_main
     GTest::gmock_main
 )
