@@ -19,7 +19,11 @@
 12. [Structural](../src/dp/structural/README.md)
 13. [Creational](../src/dp/creational/README.md)
 
+## Architecture Patterns
+
+14. [MVC/MVVM](../src/ap/README.md)
+
 ## Other
 
-14. [Socket](../src/socket/README.md)
-15. [Google Test](../tests/README.md)
+15. [Socket](../src/socket/README.md)
+16. [Google Test](../tests/README.md)
