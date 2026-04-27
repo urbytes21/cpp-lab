@@ -6,11 +6,13 @@
 
 **Project Hierarchy**
 ```
-includes/   → Header files (.h, .hpp)  
-src/        → Source files (.cpp)  
-tests/      → GoogleTest test cases  
+includes/   -> Header files (.h, .hpp)  
+src/        -> Source files (.cpp)  
+tests/      -> GoogleTest test cases
+docs/       -> Documents
 ```
 
+---
 ## 2. Dependencies
 Make sure the following tools are installed before building the project:
 - **g++ / gcc**
@@ -20,21 +22,20 @@ Make sure the following tools are installed before building the project:
 - **cppcheck** (for static analysis)
 - **Optional:** Install `clang-format` to format C++ code.
 
-**Linux**
-```bash
-sudo apt install clang-format
-find . -regex '.*\.\(cpp\|h\|hpp\)' -exec clang-format -i {} \;
-```
-**Windows**
-```bash
-# Install clang-format via Chocolatey
-choco install clang-format
 
-# Apply clang-format recursively to .cpp, .h, .hpp files
-Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-format -i $_.FullName }
-```
-## 3. Setup
-### 3.1. Setup the Local Test Environment
+> Apply clang-format recursively to .cpp, .h, .hpp files
+    **Linux**
+    ```bash
+    sudo apt install clang-format
+    find . -regex '.*\.\(cpp\|h\|hpp\)' -exec clang-format -i {} \;
+    ```
+    **Windows**
+    ```bash
+    Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-format -i $_.FullName }
+    ```
+---
+## 3. Setup Environment
+### 3.1. Dev
 - **Ubuntu system**
     * Install `gcc`, `cmake`, `git`, and `pthread` (Skip this step if you already install)
         ```bash
@@ -101,7 +102,7 @@ Get-ChildItem -Recurse -Include *.cpp, *.h, *.hpp | ForEach-Object { clang-forma
         * `cpp-lab:latest`: the image you built earlier.
         * `/bin/bash`: the command to execute inside the container (opens a Bash shell).
 
-### 3.2 Config C/C++ Debugging (VS Code)
+### 3.2 Debug - C/C++ Debugging (VS Code)
 
 #### 3.2.1. Launch Configuration
 
@@ -235,7 +236,7 @@ Notes:
 ### 3.3 Documentation with `doxygen`
 TBD - Refer to this [Documentation with doxygen](https://www.labri.fr/perso/fleury/posts/programming/using-cmake-googletests-and-gcovr-in-a-c-project.html#:~:text=of%20the%C2%A0project.-,Documentation%20with%20doxygen,-Code%20embedded%20documentation)
 
-## 5. Update Docker Image
+## 4. Docker Image
 ```bash
 # Navigate to the project that contain your Dockerfile
 cd cpp-lab
@@ -250,11 +251,11 @@ docker image ls
 docker push DOCKER_USERNAME/cpp-lab
 ```
 
-## 6. TroubleShooting
+## 5. TroubleShooting
 1. `push access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed`
 => docker login / Docker Desktop login
 
-## 7. Evaluate Executable
+## 6. Evaluate Executable
 - List all sections:
 ```bash
 $ size ./build/cpp-lab
