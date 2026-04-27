@@ -1,5 +1,6 @@
 ## Architecture Patterns
 ### 1. MVVM
+![Diagram](../../docs/uml/ap/ap_mvvm_example.drawio.svg)
 - **MVVM (Model - View - ViewModel)** is an architecture pattern that separates the user interface (`View`) from the business logic and data (`Model`) through an intermediary component called the `ViewModel`
 - **Components:**
     - **Model**: responsible for managing and abstracting data sources (databases, APIs, ..). 
@@ -17,10 +18,13 @@
     6. The `ViewModel` updates the observable data, which automatically updates the `View` through `data binding or observers`.
 ```bash
 User
- ↓
-View ↔ ViewModel ↔ Model    # view automatically update
+ |
+ v
+View <-> ViewModel <-> Model    # view automatically update
        (data binding)
 ```
+
+---
 ### 2. MVC
 ![Diagram](../../docs/uml/ap/ap_mvc_example.drawio.svg)
 - **MVC (Model - View - Controller)** is an architectural pattern that separates the user interface (`View`) from the application logic and data (`Model`) using an intermediary component called the `Controller`.
@@ -37,14 +41,19 @@ View ↔ ViewModel ↔ Model    # view automatically update
     5. The `Controller` then updates the `View` based on the new `Model` data.
 ```bash
 User
- ↓
-View → Controller → Model
-            ↓
+ |
+ v
+View -> Controller -> Model
+            |
+            v
            View # view update manually
 ```
+
+---
 ### 3. GTK4
 - [Refer](https://docs.gtk.org/gtk4/getting_started.html)
 
+---
 ### 4. Trade-offs: MVC vs MVVM
 
 | Aspect               | MVC                                                                 | MVVM                                                                 |
