@@ -1,6 +1,6 @@
 #include <iostream>
 
-namespace Internal {  // We must define the variable inside the same namespace as its extern declaration;
+namespace internal {  // We must define the variable inside the same namespace as its extern declaration;
                       // otherwise the linker cannot find the correct symbol.
 
 // 1. Static global variable/ function
@@ -18,4 +18,4 @@ namespace {
 int ns_internal{100};
 }
 
-}  // namespace Internal
+}  // namespace internal

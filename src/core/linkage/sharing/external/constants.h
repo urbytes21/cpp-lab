@@ -11,12 +11,12 @@
 #ifndef ECONSTANTS_H
 #define ECONSTANTS_H
 
-namespace ExternalConstants {
+namespace external_constants {
 // Since the actual variables are inside a namespace, the forward declarations need to be inside a namespace as well
 // We can't forward declare variables as constexpr, but we can forward declare them as (runtime) const
-extern const double pi;
-extern const double avogadro;
-extern const double myGravity;
-}  // namespace ExternalConstants
+extern const double kPi;
+extern const double kAvogadro;
+extern const double kMyGravity;
+}  // namespace external_constants
 
 #endif

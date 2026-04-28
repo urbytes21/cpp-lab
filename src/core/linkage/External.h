@@ -1,9 +1,9 @@
-namespace External {
+namespace external {
 // 3. Inline const/constexpr in header file
-inline const int INLINE_CONST_VAR{100};
-constexpr int CONSTEXPR_VAR{500};
+inline const int kInlineConstVar{100};
+constexpr int kConstexprVar{500};
 
-namespace Name {
-extern int namespaceVar;
+namespace name {
+extern int namespace_var;
 }
-}  // namespace External
+}  // namespace external
