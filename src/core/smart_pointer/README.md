@@ -34,8 +34,9 @@ void UseSmartPointer()
     - `shared_ptr`: **multiple owners**, the raw pointer deleted when all owners have gone out of scope or have otherwise given up ownership.
     - `weak_ptr`: provides access to an object that is owned by one or more `shared_ptr`, but holds a **non-owning** reference to this object.
 
-## 2. unique_ptr
-- It can only be moved and cannot be passed by value, copied.
+---
+## 2. std::unique_ptr
+- It can **only be moved** and cannot be passed by value, copied.
 - e.g.
 ```cpp
 unique_ptr<Song> SongFactory(const std::wstring& artist, const std::wstring& title)
@@ -70,10 +71,10 @@ for (int i = 0; i < 5; ++i)
 }
 ```
 
-## 3. shared_ptr
+## 3. std::shared_ptr
 - It is designed for scenarios in which more than one owner needs to manage the lifetime of an object.
 - It can be copied, passed by value in function arguments, and assigned to other `shared_ptr` instances.
-- All the instances point to the same object, and share access to one "control block" that increments and decrements the reference count whenever a new shared_ptr is added, goes out of scope, or is reset. When the reference count reaches zero, the control block deletes the memory resource and itself.
+- All the instances point to the same object, and share access to one "control block" that increments and decrements the reference count whenever a new shared_ptr is added, goes out of scope, or is reset. **When the reference count reaches zero, the control block deletes the memory resource and itself**.
 - e.g.
 ```cpp
 // Use make_shared function when possible.
@@ -105,7 +106,7 @@ shared_ptr<Song> sp7(nullptr);
 sp1.swap(sp2);
 ```
 
-## 4. weak_ptr
+## 4. std::weak_ptr
 - It's used to to access the underlying object of a shared_ptr without causing the reference count to be incremented.
 - If the memory has already been deleted, the weak_ptr's bool operator returns false.
 - e.g. 

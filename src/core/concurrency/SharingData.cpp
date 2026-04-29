@@ -1,34 +1,39 @@
-#include <iostream>
 #include <thread>
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 namespace {
-int glo_var = 99;
 
-void f1(int arg) {
-  std::cout << "arg: " << arg << '\n';
-  glo_var = 100;
+int global_variable = 9;
+
+// Pass-by-value
+void set_global(int arg) {
+  LOG("arg: " + std::to_string(arg));
+  global_variable = 100;
+  LOG("global_variable: " + std::to_string(global_variable));
 }
 
-void f2(int& arg) {
-  //   thread_local int thread_loc_var = 1;
-  std::cout << "arg: " << arg << '\n';
+void set_local(int& arg) {
+  //   thread_local int thread_local_variable = 1;
+  LOG("arg: " + std::to_string(arg));
   arg = 100;
+  LOG("arg: " + std::to_string(arg));
 }
 
 void run() {
-  int loc_var = 10;
-  std::cout << "loc_var: " << loc_var << '\n';
-  std::cout << "glo_var: " << glo_var << '\n';
+  int local_variable = 10;
+  std::cout << "local: " << local_variable << '\n';
+  std::cout << "global: " << global_variable << '\n';
 
-  std::thread t1(f1, loc_var);
-  t1.join();
-  std::cout << "loc_var: " << loc_var << '\n';
-  std::cout << "glo_var: " << glo_var << '\n';
+  std::thread thread1(set_global, local_variable);
+  thread1.join();
 
-  std::thread t2(f2, std::ref(loc_var));
-  t2.join();
-  std::cout << "loc_var: " << loc_var << '\n';
+  std::cout << "local: " << local_variable << '\n';
+  std::cout << "global: " << global_variable << '\n';
+
+  std::thread thread2(set_local, std::ref(local_variable));
+  thread2.join();
+  std::cout << "local: " << local_variable << '\n';
 }
 }  // namespace
 

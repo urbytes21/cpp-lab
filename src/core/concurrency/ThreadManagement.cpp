@@ -1,19 +1,28 @@
 #include <chrono>  // chrono::millisecond()
-#include <iostream>
 #include <stdexcept>
 #include <thread>
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 namespace {
+
+/**
+   * @brief Check whether the thread is joinable
+   * joinable() tells you whether a std::thread is still owned and needs to be handled (joined or detached).
+   * @param thread 
+   */
 void checkJoinable(std::thread& thread) {
   if (thread.joinable()) {
-    std::cout << "Thread Object is joinable.\n";
+    LOG("Thread Object is joinable.");
   } else {
-    std::cout << "Thread Object is not joinable.\n";
+    LOG("Thread Object is not joinable.");
   }
 }
 }  // namespace
 
+/**
+ * @brief Thread Exception Example
+ */
 namespace exception_before_join {
 class ThreadGuard {
  public:
@@ -39,9 +48,9 @@ ThreadGuard::~ThreadGuard() {
 }
 
 void callable() {
-  std::cout << "\ncallable started\n";
+  LOG("begin");
   std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-  std::cout << "\ncallable finished\n";
+  LOG("end");
 }
 
 void exceptionThrow() {
@@ -49,7 +58,7 @@ void exceptionThrow() {
 }
 
 void run() {
-  std::cout << "\n---ExceptionBeforeJoin Ex---\n";
+  LOG("Thread Exception Example Begin");
   std::thread thread(callable);
 
   // try {
@@ -63,44 +72,52 @@ void run() {
   try {
     exceptionThrow();
   } catch (...) {}
-  std::cout << "\nrun finished\n";
+  LOG("Thread Exception Example End");
 }
 
 }  // namespace exception_before_join
 
+/**
+ * @brief Thread Detach Example
+ */
 namespace detach {
 void foo() {
-  std::cout << "\nfoo started\n";
+  LOG("begin");
   std::this_thread::sleep_for(std::chrono::microseconds(1000));
-  std::cout << "\nfoo finished\n";
+  LOG("end");
 }
 
 void bar() {
-  std::cout << "\nbar started\n";
+  LOG("begin");
   std::this_thread::sleep_for(std::chrono::microseconds(2000));
-  std::cout << "\nbar finished\n";
+  LOG("end");
 }
 
 void run() {
-  std::cout << "\n---Detach Ex---\n";
-  std::cout << "\nrun started\n";
+  LOG("Thread Detach Example Begin");
+
   std::thread foo_thread(foo);
   std::thread bar_thread(bar);
 
-  bar_thread.detach();
+  bar_thread
+      .detach();  // https://stackoverflow.com/questions/22803600/when-should-i-use-stdthreaddetach
+  foo_thread.join();  // wait until foo_thread finishes
 
-  foo_thread.join();
-  std::cout << "\nrun finished\n";
+  LOG("Thread Detach Example End");
 }
 }  // namespace detach
 
+/**
+ * @brief Thread Join Example
+ */
 namespace join {
 void callable() {
+  LOG("begin");
   for (size_t i = 0; i < 10; ++i) {
-    std::cout << "callable " << i << '\n';
+    LOG(std::to_string(i));
     std::this_thread::sleep_for(std::chrono::milliseconds(5));  // sleep for 5ms
   }
-  std::cout << "\ncallable finished\n";
+  LOG("end");
 }
 
 void run() {
@@ -108,28 +125,28 @@ void run() {
   std::cout << "The number of hardware thread contexts: " << threads_num
             << '\n';
 
-  std::cout << "\n---Join Ex---\n";
-  // create a thread object
-  std::thread user_thread(callable);
+  LOG("Thread Join Example Begin");
+
+  // thread object
+  std::thread user_thread;
+  checkJoinable(user_thread);
+  user_thread = std::thread(callable);
+  checkJoinable(user_thread);
 
   for (size_t i = 0; i < 10; ++i) {
-    std::cout << "run " << i << '\n';
+    LOG(std::to_string(i));
     std::this_thread::sleep_for(std::chrono::milliseconds(5));  // sleep for 5ms
   }
 
-  checkJoinable(user_thread);
-
   // sync point, block the execution of the caller until the thread executation(callable) finished
   user_thread.join();
-
   checkJoinable(user_thread);
 
-  std::cout << "\nrun finished\n";
+  LOG("Thread Join Example End");
 }
 }  // namespace join
 
 class ThreadManagement : public IExample {
-
   std::string group() const override { return "core/concurrency"; }
   std::string name() const override { return "ThreadManagement"; }
   std::string description() const override {

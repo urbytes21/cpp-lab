@@ -1,97 +1,108 @@
 #include <chrono>
 #include <future>
-#include <iostream>
 #include <string>
 #include <thread>
 
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
-namespace async {
-int async_worker() {
-  std::cout << "[worker] started, needs 2000 ms\n";
+namespace {
+
+// Simulated heavy work
+int heavy_work() {
+  LOG("Begin (2s)");
   std::this_thread::sleep_for(std::chrono::seconds(2));
-  std::cout << "[worker] finished\n";
+  LOG("End");
   return 1000;
 }
 
-void run() {
-  std::cout << "\n=== std::promise/std::future example ===\n";
-  auto start = std::chrono::steady_clock::now();
-
-  // launch heavy_work asynchronously and get a future
-  std::future<int> futur =
-      std::async(std::launch::async, []() { return async_worker(); });
-
-  std::cout << "[main] async launched\n";
+// Shared helper to simulate main thread work
+void do_other_work(std::chrono::steady_clock::time_point start) {
   for (int i = 1; i <= 4; ++i) {
     std::this_thread::sleep_for(std::chrono::milliseconds(400));
     auto now = std::chrono::steady_clock::now();
     auto elapsed =
         std::chrono::duration_cast<std::chrono::milliseconds>(now - start)
             .count();
-
-    std::cout << "[main] doing other work... " << elapsed << " ms\n";
+    LOG("doing other work... " + std::to_string(elapsed) + " ms");
   }
+}
 
-  // get result
-  int result = futur.get();
+}  // namespace
+
+/**
+ * @brief std::async example (high-level async)
+ * Prefer to implement this - run a task and give me the result later
+ */
+namespace async_example {
+
+void run() {
+  LOG("Begin");
+  auto start = std::chrono::steady_clock::now();
+
+  // Launch async task (guaranteed new thread)
+  std::future<int> fut = std::async(std::launch::async, heavy_work);
+
+  LOG("launched");
+  do_other_work(start);
+
+  // Wait and get result
+  int result = fut.get();
 
   auto end = std::chrono::steady_clock::now();
   auto total =
       std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
           .count();
 
-  std::cout << "[main] result = " << result << '\n';
-  std::cout << "[main] total time = " << total << " ms\n";
+  LOG("result = " + std::to_string(result));
+  LOG("total time = " + std::to_string(total) + " ms");
+  LOG("End");
 }
 
-}  // namespace async
+}  // namespace async_example
 
-namespace simple {
-void promise_worker(std::promise<int>* prom) {
-  std::cout << "[worker] started, needs 2000 ms\n";
-  std::this_thread::sleep_for(std::chrono::seconds(2));
-  std::cout << "[worker] finished\n";
-  prom->set_value(100);
+/**
+ * @brief std::promise + std::thread example (manual control)
+ */
+namespace promise_example {
+
+void worker(std::promise<int> prom) {
+  int result = heavy_work();
+  prom.set_value(result);
 }
 
 void run() {
-  std::cout << "\n=== std::async example ===\n";
+  LOG("Begin");
   auto start = std::chrono::steady_clock::now();
 
-  // create a promise and future
-  std::promise<int> promis;
-  std::future<int> futur = promis.get_future();
+  // Create promise/future pair
+  std::promise<int> prom;
+  std::future<int> fut = prom.get_future();
 
-  // start heavy work async
-  std::thread thread(promise_worker, &promis);
+  // Launch thread manually
+  std::thread t(worker, std::move(prom));
 
-  std::cout << "[main] async launched\n";
-  for (int i = 1; i <= 4; ++i) {
-    std::this_thread::sleep_for(std::chrono::milliseconds(400));
-    auto now = std::chrono::steady_clock::now();
-    auto elapsed =
-        std::chrono::duration_cast<std::chrono::milliseconds>(now - start)
-            .count();
+  LOG("launched");
 
-    std::cout << "[main] doing other work... " << elapsed << " ms\n";
-  }
+  do_other_work(start);
 
-  // get result
-  int result = futur.get();
+  // Wait and get result
+  int result = fut.get();
 
   auto end = std::chrono::steady_clock::now();
   auto total =
       std::chrono::duration_cast<std::chrono::milliseconds>(end - start)
           .count();
 
-  std::cout << "[main] result = " << result << '\n';
-  std::cout << "[main] total time = " << total << " ms\n";
+  LOG("result = " + std::to_string(result));
+  LOG("total time = " + std::to_string(total) + " ms");
 
-  thread.join();
+  t.join();
+
+  LOG("End");
 }
 
-}  // namespace simple
+}  // namespace promise_example
 
 class FuturePromise : public IExample {
 
@@ -102,9 +113,8 @@ class FuturePromise : public IExample {
   }
 
   void execute() override {
-    async::run();
-
-    simple::run();
+    async_example::run();
+    promise_example::run();
   }
 };
 
