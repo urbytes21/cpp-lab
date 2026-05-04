@@ -1,6 +1,7 @@
 # CPP Lab Docs
 
-## Core
+---
+## 1. Core
 
 1. [Basic](../src/core/basics/README.md)
 2. [Class](../src/core/class/README.md)
@@ -12,18 +13,22 @@
 8. [File handle](../src/core/filehandle/README.md)
 9. [Smart pointer](../src/core/smart_pointer/README.md)
 10. [String](../src/core/string/README.md)
+11. [Utilities library](../src/core/utils/README.md)
 
-## Design Patterns
+---
+## 2. Design Patterns
 
-11. [Behavioral](../src/dp/behavioral/README.md)
-12. [Structural](../src/dp/structural/README.md)
-13. [Creational](../src/dp/creational/README.md)
+1. [Behavioral](../src/dp/behavioral/README.md)
+2. [Structural](../src/dp/structural/README.md)
+3. [Creational](../src/dp/creational/README.md)
 
-## Architecture Patterns
+---
+## 3. Architecture Patterns
 
-14. [MVC/MVVM](../src/ap/README.md)
+1. [MVC/MVVM](../src/ap/README.md)
 
-## Other
+---
+## 4. Other
 
-15. [Socket](../src/socket/README.md)
-16. [Google Test](../tests/README.md)
+1. [Socket](../src/socket/README.md)
+2. [Google Test](../tests/README.md)
