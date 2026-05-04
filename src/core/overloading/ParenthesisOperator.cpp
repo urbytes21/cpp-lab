@@ -46,5 +46,4 @@ class ParenthesisOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(ParenthesisOperator, "core/overloading",
-                 "ParenthesisOperator");
+REGISTER_EXAMPLE(ParenthesisOperator);

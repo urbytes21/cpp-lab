@@ -144,5 +144,4 @@ class ChainOfResponsibilityExample : public IExample {
   void execute() override { co_r::run(); }
 };
 
-REGISTER_EXAMPLE(ChainOfResponsibilityExample, "dp/behavioral",
-                 "ChainOfResponsibility");
+REGISTER_EXAMPLE(ChainOfResponsibilityExample);

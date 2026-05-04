@@ -130,4 +130,4 @@ class PrototypeExample : public IExample {
   void execute() override { prototy::run(); }
 };
 
-REGISTER_EXAMPLE(PrototypeExample, "dp/creational", "Prototype");
+REGISTER_EXAMPLE(PrototypeExample);

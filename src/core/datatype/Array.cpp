@@ -27,4 +27,4 @@ class CArray : public IExample {
   void execute() override { arrayExamples(); }
 };
 
-REGISTER_EXAMPLE(CArray, "core/datatype", "Array");
+REGISTER_EXAMPLE(CArray);

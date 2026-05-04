@@ -36,4 +36,4 @@ class CTime : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(CTime, "core/datetime", "Time");
+REGISTER_EXAMPLE(CTime);

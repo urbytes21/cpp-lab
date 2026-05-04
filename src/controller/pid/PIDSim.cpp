@@ -25,4 +25,4 @@ class PIDSim : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(PIDSim, "controller", "PIDSim");
+REGISTER_EXAMPLE(PIDSim);

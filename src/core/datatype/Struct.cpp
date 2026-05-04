@@ -71,4 +71,4 @@ class CStruct : public IExample {
   void execute() override { structs(); }
 };
 
-REGISTER_EXAMPLE(CStruct, "core/datatype", "Struct");
+REGISTER_EXAMPLE(CStruct);

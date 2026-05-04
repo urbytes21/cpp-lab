@@ -54,4 +54,4 @@ void MultiTCPServer::run() {
   }
 }
 
-REGISTER_EXAMPLE(MultiTCPServer, "socket/tcp", "MultiTCPServer");
+REGISTER_EXAMPLE(MultiTCPServer);

@@ -98,7 +98,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/FuturePromise.cpp
 
     # Utils
-    ${CMAKE_CURRENT_SOURCE_DIR}/utils/StdAlgorithm.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/Algorithm.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/utils/TypeTrait.cpp
 )
 

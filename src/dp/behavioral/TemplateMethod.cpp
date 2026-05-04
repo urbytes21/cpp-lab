@@ -120,4 +120,4 @@ class TemplateMethodExample : public IExample {
   void execute() override { template_method::run(); }
 };
 
-REGISTER_EXAMPLE(TemplateMethodExample, "dp/behavioral", "TemplateMethod");
+REGISTER_EXAMPLE(TemplateMethodExample);

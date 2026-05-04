@@ -38,7 +38,7 @@ void run() {
 }  // namespace
 
 class SharingData : public IExample {
-
+ public:
   std::string group() const override { return "core/concurrency"; }
   std::string name() const override { return "SharingData"; }
   std::string description() const override {
@@ -48,4 +48,4 @@ class SharingData : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(SharingData, "core/concurrency", "SharingData");
+REGISTER_EXAMPLE(SharingData);

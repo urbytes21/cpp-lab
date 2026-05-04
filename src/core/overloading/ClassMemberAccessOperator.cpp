@@ -61,5 +61,4 @@ class ClassMemberAccessOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(ClassMemberAccessOperator, "core/overloading",
-                 "ClassMemberAccessOperator");
+REGISTER_EXAMPLE(ClassMemberAccessOperator);

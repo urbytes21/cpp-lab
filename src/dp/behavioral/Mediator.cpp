@@ -174,4 +174,4 @@ class MediatorExample : public IExample {
   void execute() override { mediator::run(); }
 };
 
-REGISTER_EXAMPLE(MediatorExample, "dp/behavioral", "Mediator");
+REGISTER_EXAMPLE(MediatorExample);

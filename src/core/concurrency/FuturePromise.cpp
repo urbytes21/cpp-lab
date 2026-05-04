@@ -105,7 +105,7 @@ void run() {
 }  // namespace promise_example
 
 class FuturePromise : public IExample {
-
+ public:
   std::string group() const override { return "core/concurrency"; }
   std::string name() const override { return "FuturePromise"; }
   std::string description() const override {
@@ -118,4 +118,4 @@ class FuturePromise : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(FuturePromise, "core/concurrency", "FuturePromise");
+REGISTER_EXAMPLE(FuturePromise);

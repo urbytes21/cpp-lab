@@ -75,4 +75,4 @@ class StringFormatting : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(StringFormatting, "core/string", "StringFormatting");
+REGISTER_EXAMPLE(StringFormatting);

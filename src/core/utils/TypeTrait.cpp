@@ -107,7 +107,7 @@ class TypeTrait : public IExample {
  public:
   std::string group() const override { return "core/utils"; }
 
-  std::string name() const override { return "TypeTrait"; }
+  std::string name() const override { return "std::type_traits"; }
 
   std::string description() const override {
     return "Examples for <type_traits> with improved logging and SFINAE checks";
@@ -116,4 +116,4 @@ class TypeTrait : public IExample {
   void execute() override { type_trait::run(); }
 };
 
-REGISTER_EXAMPLE(TypeTrait, "core/utils", "TypeTrait");
+REGISTER_EXAMPLE(TypeTrait);

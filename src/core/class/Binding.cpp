@@ -69,6 +69,7 @@ void run() {
 }  // namespace
 
 class Binding : public IExample {
+ public:
   std::string group() const override { return "core/class"; };
 
   std::string name() const override { return "Binding"; };
@@ -80,4 +81,4 @@ class Binding : public IExample {
   };
 };
 
-REGISTER_EXAMPLE(Binding, "core/class", "Binding");
+REGISTER_EXAMPLE(Binding);

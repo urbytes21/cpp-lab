@@ -46,4 +46,4 @@ class ThrowNoexcept : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(ThrowNoexcept, "core/exception", "ThrowNoexcept");
+REGISTER_EXAMPLE(ThrowNoexcept);

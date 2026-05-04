@@ -442,4 +442,4 @@ class CompositeExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(CompositeExample, "dp/structural", "Composite");
+REGISTER_EXAMPLE(CompositeExample);

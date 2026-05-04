@@ -52,4 +52,4 @@ class Stack : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Stack, "core/container", "Stack");
+REGISTER_EXAMPLE(Stack);

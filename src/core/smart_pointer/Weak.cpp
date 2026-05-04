@@ -60,4 +60,4 @@ class Weak : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Weak, "core/smart_pointer", "Weak");
+REGISTER_EXAMPLE(Weak);

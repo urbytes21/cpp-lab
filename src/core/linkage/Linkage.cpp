@@ -50,4 +50,4 @@ class Linkage : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(Linkage, "core", "Linkage");
+REGISTER_EXAMPLE(Linkage);

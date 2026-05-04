@@ -42,4 +42,4 @@ class Unique : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Unique, "core/smart_pointer", "Unique");
+REGISTER_EXAMPLE(Unique);

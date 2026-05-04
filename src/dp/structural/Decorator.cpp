@@ -198,4 +198,4 @@ class DecoratorExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(DecoratorExample, "dp/structural", "Decorator");
+REGISTER_EXAMPLE(DecoratorExample);

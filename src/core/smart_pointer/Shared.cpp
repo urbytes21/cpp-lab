@@ -90,4 +90,4 @@ class Shared : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Shared, "core/smart_pointer", "Shared");
+REGISTER_EXAMPLE(Shared);

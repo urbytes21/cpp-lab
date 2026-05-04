@@ -132,4 +132,4 @@ class ControlFlow : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(ControlFlow, "core", "ControlFlow");
+REGISTER_EXAMPLE(ControlFlow);

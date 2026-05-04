@@ -147,6 +147,7 @@ void run() {
 }  // namespace join
 
 class ThreadManagement : public IExample {
+ public:
   std::string group() const override { return "core/concurrency"; }
   std::string name() const override { return "ThreadManagement"; }
   std::string description() const override {
@@ -160,4 +161,4 @@ class ThreadManagement : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(ThreadManagement, "core/concurrency", "ThreadManagement");
+REGISTER_EXAMPLE(ThreadManagement);

@@ -143,4 +143,4 @@ class FactoryMethodExample : public IExample {
   void execute() override { factory_method::run(); }
 };
 
-REGISTER_EXAMPLE(FactoryMethodExample, "dp/creational", "FactoryMethod");
+REGISTER_EXAMPLE(FactoryMethodExample);

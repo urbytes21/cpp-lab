@@ -287,4 +287,4 @@ class RoleOfThreeFiveZero : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(RoleOfThreeFiveZero, "core", "RoleOfThreeFiveZero");
+REGISTER_EXAMPLE(RoleOfThreeFiveZero);

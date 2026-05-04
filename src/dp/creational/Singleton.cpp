@@ -84,4 +84,4 @@ class SingletonExample : public IExample {
   void execute() override { singleton_pattern::run(); }
 };
 
-REGISTER_EXAMPLE(SingletonExample, "dp/creational", "Singleton");
+REGISTER_EXAMPLE(SingletonExample);

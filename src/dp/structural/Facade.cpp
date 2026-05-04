@@ -262,4 +262,4 @@ class FacadeExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(FacadeExample, "dp/structural", "Facade");
+REGISTER_EXAMPLE(FacadeExample);

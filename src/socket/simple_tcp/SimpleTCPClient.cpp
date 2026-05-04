@@ -49,4 +49,4 @@ class SimpleTCPClient : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(SimpleTCPClient, "socket/tcp", "SimpleTCPClient");
+REGISTER_EXAMPLE(SimpleTCPClient);

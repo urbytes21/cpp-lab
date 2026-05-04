@@ -87,4 +87,4 @@ class Array : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Array, "core/container", "Array");
+REGISTER_EXAMPLE(Array);

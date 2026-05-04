@@ -79,4 +79,4 @@ class ArithmeticOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(ArithmeticOperator, "core/overloading", "ArithmeticOperator");
+REGISTER_EXAMPLE(ArithmeticOperator);

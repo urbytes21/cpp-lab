@@ -48,4 +48,4 @@ class Lambda : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Lambda, "core/expression", "Lambda");
+REGISTER_EXAMPLE(Lambda);

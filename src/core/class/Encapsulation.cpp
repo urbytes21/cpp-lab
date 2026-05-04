@@ -69,6 +69,7 @@ void run() {
 }  // namespace
 
 class Encapsulation : public IExample {
+ public:
   std::string group() const override { return "core/class"; }
   std::string name() const override { return "Encapsulation"; }
   std::string description() const override {
@@ -78,4 +79,4 @@ class Encapsulation : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Encapsulation, "core/class", "Encapsulation");
+REGISTER_EXAMPLE(Encapsulation);

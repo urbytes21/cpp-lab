@@ -79,7 +79,7 @@ void run() {
 }  // namespace atomic
 
 class RaceCondition : public IExample {
-
+ public:
   std::string group() const override { return "core/concurrency"; }
   std::string name() const override { return "RaceCondition"; }
   std::string description() const override {
@@ -93,4 +93,4 @@ class RaceCondition : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(RaceCondition, "core/concurrency", "RaceCondition");
+REGISTER_EXAMPLE(RaceCondition);

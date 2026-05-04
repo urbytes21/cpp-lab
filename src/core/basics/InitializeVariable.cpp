@@ -13,7 +13,7 @@ class InitializeVariable : public IExample {
   void execute() override { initialize_variable(); }
 };
 
-REGISTER_EXAMPLE(InitializeVariable, "core", "InitializeVariable");
+REGISTER_EXAMPLE(InitializeVariable);
 
 struct Foo {
   Foo() { std::cout << "Default constructor/ default init\n"; }

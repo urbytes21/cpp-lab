@@ -52,4 +52,4 @@ class Queue : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Queue, "core/container", "Queue");
+REGISTER_EXAMPLE(Queue);

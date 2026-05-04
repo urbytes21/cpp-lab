@@ -38,4 +38,4 @@ class IOStream : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(IOStream, "core/filehandle", "IOStream");
+REGISTER_EXAMPLE(IOStream);

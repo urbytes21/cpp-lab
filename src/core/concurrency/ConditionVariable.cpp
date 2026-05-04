@@ -62,7 +62,7 @@ void run() {
 }  // namespace
 
 class ConditionVariable : public IExample {
-
+ public:
   std::string group() const override { return "core/concurrency"; }
   std::string name() const override { return "ConditionVariable"; }
   std::string description() const override {
@@ -72,4 +72,4 @@ class ConditionVariable : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(ConditionVariable, "core/concurrency", "ConditionVariable");
+REGISTER_EXAMPLE(ConditionVariable);

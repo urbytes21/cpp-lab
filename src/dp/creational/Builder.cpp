@@ -170,4 +170,4 @@ class BuilderExample : public IExample {
   void execute() override { builder_pattern::run(); }
 };
 
-REGISTER_EXAMPLE(BuilderExample, "dp/creational", "Builder");
+REGISTER_EXAMPLE(BuilderExample);

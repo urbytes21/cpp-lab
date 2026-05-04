@@ -23,11 +23,12 @@ void run() {
     std::cout << "No odd number found\n";
   }
 }
-}  // namespace FindIfExample
+}  // namespace find_if_example
 
-class StdAlgorithm : public IExample {
+class Algorithm : public IExample {
+ public:
   std::string group() const override { return "core/utils"; }
-  std::string name() const override { return "StdAlgorithm"; }
+  std::string name() const override { return "std::algorithm"; }
   std::string description() const override {
     return "The examples for <algorithm> header";
   }
@@ -35,4 +36,4 @@ class StdAlgorithm : public IExample {
   void execute() override { find_if_example::run(); }
 };
 
-REGISTER_EXAMPLE(StdAlgorithm, "core/utils", "StdAlgorithm");
+REGISTER_EXAMPLE(Algorithm);

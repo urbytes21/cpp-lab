@@ -207,4 +207,4 @@ class IteratorExample : public IExample {
   void execute() override { iterator::run(); }
 };
 
-REGISTER_EXAMPLE(IteratorExample, "dp/behavioral", "Iterator");
+REGISTER_EXAMPLE(IteratorExample);

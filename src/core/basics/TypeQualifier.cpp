@@ -40,4 +40,4 @@ class TypeQualifier : public IExample {
   void execute() override { Constant::run(); }
 };
 
-REGISTER_EXAMPLE(TypeQualifier, "core", "TypeQualifier");
+REGISTER_EXAMPLE(TypeQualifier);

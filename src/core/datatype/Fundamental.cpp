@@ -59,4 +59,4 @@ class Fundamental : public IExample {
   void execute() override { primative(); }
 };
 
-REGISTER_EXAMPLE(Fundamental, "core/datatype", "Fundamental");
+REGISTER_EXAMPLE(Fundamental);

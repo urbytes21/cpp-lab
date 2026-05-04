@@ -39,4 +39,4 @@ class Sharing : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(Sharing, "core", "Sharing");
+REGISTER_EXAMPLE(Sharing);

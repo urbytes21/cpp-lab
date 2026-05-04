@@ -48,4 +48,4 @@ class AssignmentOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(AssignmentOperator, "core/overloading", "AssignmentOperator");
+REGISTER_EXAMPLE(AssignmentOperator);

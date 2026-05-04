@@ -113,4 +113,4 @@ class StrategyExample : public IExample {
   void execute() override { strategy::run(); }
 };
 
-REGISTER_EXAMPLE(StrategyExample, "dp/behavioral", "Strategy");
+REGISTER_EXAMPLE(StrategyExample);

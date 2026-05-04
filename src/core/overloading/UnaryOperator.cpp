@@ -38,4 +38,4 @@ class UnaryOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(UnaryOperator, "core/overloading", "UnaryOperator");
+REGISTER_EXAMPLE(UnaryOperator);

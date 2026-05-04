@@ -321,4 +321,4 @@ class Constructor : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(Constructor, "core/class", "Constructor");
+REGISTER_EXAMPLE(Constructor);

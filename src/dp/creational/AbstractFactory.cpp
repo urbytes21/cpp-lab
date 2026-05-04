@@ -176,4 +176,4 @@ class AbstractFactoryExample : public IExample {
   void execute() override { abstract_factory::run(); }
 };
 
-REGISTER_EXAMPLE(AbstractFactoryExample, "dp/creational", "AbstractFactory");
+REGISTER_EXAMPLE(AbstractFactoryExample);

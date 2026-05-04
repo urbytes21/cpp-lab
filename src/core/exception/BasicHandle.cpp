@@ -36,4 +36,4 @@ class BasicHandle : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(BasicHandle, "core/exception", "BasicHandle");
+REGISTER_EXAMPLE(BasicHandle);

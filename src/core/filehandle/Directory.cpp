@@ -49,4 +49,4 @@ class Directory : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Directory, "core/filehandle", "Directory");
+REGISTER_EXAMPLE(Directory);

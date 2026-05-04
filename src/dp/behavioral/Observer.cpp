@@ -189,4 +189,4 @@ class ObserverExample : public IExample {
   void execute() override { observer::run(); }
 };
 
-REGISTER_EXAMPLE(ObserverExample, "dp/behavioral", "Observer");
+REGISTER_EXAMPLE(ObserverExample);
