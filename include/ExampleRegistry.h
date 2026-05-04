@@ -4,15 +4,17 @@
 #include <unordered_map>
 #include "IExample.h"
 
-#define REGISTER_EXAMPLE(CLASS, GROUP, NAME)                        \
-  namespace {                                                       \
-  struct CLASS##Registrar {                                         \
-    CLASS##Registrar() {                                            \
-      ExampleRegistry::instance().registerExample(                  \
-          GROUP, NAME, []() { return std::make_unique<CLASS>(); }); \
-    }                                                               \
-  };                                                                \
-  static CLASS##Registrar global_##CLASS##Registrar;                \
+#define REGISTER_EXAMPLE(CLASS)                        \
+  namespace {                                          \
+  struct CLASS##Registrar {                            \
+    CLASS##Registrar() {                               \
+      auto obj = std::make_unique<CLASS>();            \
+      ExampleRegistry::instance().registerExample(     \
+          obj->group(), obj->name(),                   \
+          []() { return std::make_unique<CLASS>(); }); \
+    }                                                  \
+  };                                                   \
+  static CLASS##Registrar global_##CLASS##Registrar;   \
   }
 
 class ExampleRegistry {
