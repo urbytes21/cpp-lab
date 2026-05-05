@@ -12,9 +12,9 @@
 
 // UML: docs/uml/patterns_behavioral_observer.drawio.svg
 
-#include <iostream>
 #include <list>
 #include <string>
+#include "Logger.h"
 
 namespace {
 namespace observer {
@@ -26,9 +26,14 @@ enum class Event {
   kDelete,
 };
 
-inline const char* getEventName(
-    const Event&
-        e) {  // 'getEventName' is a static definition in anonymous namespace
+/**
+ * @brief Get the Event Name object
+ * 
+ * This is a static definition in anonymous namespace
+ * @param e 
+ * @return const char* 
+ */
+inline std::string getEventName(const Event& e) {
   switch (e) {
     case Event::kCreate:
       return "CREATE";
@@ -39,7 +44,7 @@ inline const char* getEventName(
     case Event::kDelete:
       return "DELETE";
   }
-  return "invalid_event";
+  return "UNKNOWN";
 }
 
 /**
@@ -55,6 +60,8 @@ class IListenerObserver {
 
   // update
   virtual void update(const Event& e) = 0;
+
+  virtual std::string get_name() const = 0;
 };
 
 /**
@@ -69,6 +76,7 @@ class IListenerObserver {
 class IWidgetSubject {
  public:
   virtual ~IWidgetSubject() = default;
+
   // addListener
   virtual void attach(IListenerObserver* observer) = 0;
   // removeLister
@@ -83,15 +91,17 @@ class ButtonConcreteSubject : public IWidgetSubject {
 
  public:
   void attach(IListenerObserver* observer) override {
+    LOG("attched: " + observer->get_name());
     listeners_.push_back(observer);
   }
 
   void detach(IListenerObserver* observer) override {
+    LOG("detached: " + observer->get_name());
     listeners_.remove(observer);
   }
 
   void notify(const Event& e) override {
-    std::cout << "[Subject] notify event-" << getEventName(e) << "\n";
+    LOG("notify event: " + getEventName(e));
     for (IListenerObserver* o : listeners_) {
       o->update(e);
     }
@@ -100,16 +110,18 @@ class ButtonConcreteSubject : public IWidgetSubject {
 
 class AbstractListenerObserver : public IListenerObserver {
  private:
-  int nu_;
-  inline static int nuobservers_ = 0;
+  std::string name_;
 
  protected:
   void log(const Event& e) const {
-    std::cout << "\t-id:" << nu_ << "-event:" << getEventName(e) << "\n";
+    LOG(this->get_name() + " updated after event: " + getEventName(e));
   }
 
  public:
-  explicit AbstractListenerObserver() { nu_ = ++nuobservers_; }
+  explicit AbstractListenerObserver(std::string name)
+      : name_(std::move(name)) {}
+
+  std::string get_name() const override { return name_; }
 };
 
 /**
@@ -118,54 +130,51 @@ class AbstractListenerObserver : public IListenerObserver {
  * the publisher isn’t coupled to concrete classes.
  */
 class ConcreteListenerObserverA : public AbstractListenerObserver {
- private:
-  static const inline char* type_ = "A-type";
-
  public:
-  void update(const Event& e) override {
-    std::cout << "\tListener: " << type_;
-    log(e);
-  }
+  void update(const Event& e) override { log(e); }
+
+  explicit ConcreteListenerObserverA(std::string name)
+      : AbstractListenerObserver(std::move(name)){};
 };
 
 class ConcreteListenerObserverB : public AbstractListenerObserver {
- private:
-  static const inline char* type_ = "B-type";
-
  public:
-  void update(const Event& e) override {
-    std::cout << "\tListener: " << type_;
-    log(e);
-  }
+  explicit ConcreteListenerObserverB(std::string name)
+      : AbstractListenerObserver(std::move(name)){};
+
+  void update(const Event& e) override { log(e); }
 };
 
-/**
- * The Client creates publisher and subscriber objects separately
- * and then registers subscribers for publisher updates.
- */
-namespace client {
-void clientCode(IWidgetSubject* const s) {
-  s->notify(Event::kUpdate);
-}
-}  // namespace client
-
 void run() {
+
+  // Client code that triggers event
+  auto client_code = [](IWidgetSubject* const widget, const Event& e) {
+    widget->notify(e);
+  };
+
+  // Create subject - Button
   IWidgetSubject* btn = new ButtonConcreteSubject();
 
-  IListenerObserver* listener_1 = new ConcreteListenerObserverA();
-  IListenerObserver* listener_2 = new ConcreteListenerObserverA();
-  IListenerObserver* listener_3 = new ConcreteListenerObserverA();
-  IListenerObserver* listener_4 = new ConcreteListenerObserverB();
+  // Create observers - Listenerss
+  IListenerObserver* listener_1 = new ConcreteListenerObserverA("listener 1");
+  IListenerObserver* listener_2 = new ConcreteListenerObserverA("listener 2");
+  IListenerObserver* listener_3 = new ConcreteListenerObserverA("listener 3");
+  IListenerObserver* listener_4 = new ConcreteListenerObserverB("listener 4");
 
+  // Register observers to the subject
   btn->attach(listener_1);
   btn->attach(listener_2);
   btn->attach(listener_3);
   btn->attach(listener_4);
-  client::clientCode(btn);
 
-  std::cout << "Remove listener2\n";
+  // Notify all observers
+  client_code(btn, Event::kCreate);
+
+  // Unregister one observer
   btn->detach(listener_2);
-  client::clientCode(btn);
+
+  // Notify all observers
+  client_code(btn, Event::kUpdate);
 
   delete btn;
   delete listener_1;
