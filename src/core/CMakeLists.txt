@@ -56,6 +56,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/Directory.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/OutputFormatting.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/BinaryFileHandling.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/TerminalColor.cpp
 
     # STL containers and expressions
     ${CMAKE_CURRENT_SOURCE_DIR}/container/sequence/Array.cpp
