@@ -35,9 +35,12 @@ class Logger {
     char time_buf[9];
     std::strftime(time_buf, sizeof(time_buf), "%H:%M:%S", &tm);
 
+    constexpr const char* kGreen = "\033[32m";
+    constexpr const char* kReset = "\033[0m";
+
     std::cout << "[" << time_buf << "]" << "[" << level << "]" << "[" << file
               << ":" << loc.line() << "]" << "[" << loc.function_name() << "] "
-              << msg << '\n';
+              << kGreen << msg << kReset << '\n';
   }
 
   // Prevent copies
