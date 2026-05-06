@@ -12,8 +12,9 @@
 
 // UML: docs/uml/patterns_creational_factorymethod.drawio.svg
 
-#include <iostream>
 #include <string>
+#include "Logger.h"
+
 namespace {
 namespace factory_method {
 /**
@@ -32,23 +33,20 @@ class IGdbProduct {
 class LinuxGdbProduct : public IGdbProduct {
  public:
   void launch() const override {
-    std::cout
-        << "\tsudo apt update && sudo apt install -y gdb && gdb --version\n";
+    LOG("sudo apt update && sudo apt install -y gdb && gdb --version");
   }
 };
 
 class WindowsGdbProduct : public IGdbProduct {
  public:
   void launch() const override {
-    std::cout << "\tpacman -Syu mingw-w64-x86_64-gdb && gdb --version\n";
+    LOG("pacman -Syu mingw-w64-x86_64-gdb && gdb --version");
   }
 };
 
 class MacOsGdbProduct : public IGdbProduct {
  public:
-  void launch() const override {
-    std::cout << "\tbrew install gdb && gdb --version\n";
-  }
+  void launch() const override { LOG("brew install gdb && gdb --version"); }
 };
 
 // ===================================================================================
@@ -61,15 +59,15 @@ class MacOsGdbProduct : public IGdbProduct {
 class IGdbFactory {
  public:
   virtual ~IGdbFactory() = default;
-  virtual IGdbProduct* factoryMethod() = 0;
-  virtual void launchGdb() = 0;
+  virtual IGdbProduct* factory_method() = 0;
+  virtual void launch_gdb() = 0;
 };
 
 class AbstractGdbFactory : public IGdbFactory {
  public:
   // Call the factory method to create a Product object.
-  void launchGdb() final {
-    IGdbProduct* gdb = this->factoryMethod();
+  void launch_gdb() final {
+    IGdbProduct* gdb = this->factory_method();
     gdb->launch();
     delete gdb;
   }
@@ -81,34 +79,22 @@ class AbstractGdbFactory : public IGdbFactory {
  */
 class WindowsGdbFactory : public AbstractGdbFactory {
  public:
-  IGdbProduct* factoryMethod() override { return new WindowsGdbProduct(); }
+  IGdbProduct* factory_method() override { return new WindowsGdbProduct(); }
 };
 
 class LinuxGdbFactory : public AbstractGdbFactory {
  public:
-  IGdbProduct* factoryMethod() override { return new LinuxGdbProduct(); }
+  IGdbProduct* factory_method() override { return new LinuxGdbProduct(); }
 };
 
 class MacOsGdbFactory : public AbstractGdbFactory {
  public:
-  IGdbProduct* factoryMethod() override { return new MacOsGdbProduct(); }
+  IGdbProduct* factory_method() override { return new MacOsGdbProduct(); }
 };
 
 // ===================================================================================
 
-/**
- * The client code works with an instance of a concrete creator, albeit through
- * its base interface. As long as the client keeps working with the creator via
- * the base interface, you can pass it any creator's subclass.
- */
-namespace client_code {
-void clientCode(IGdbFactory* gdb) {
-  if (gdb != nullptr)
-    gdb->launchGdb();
-}
-}  // namespace client_code
-
-IGdbFactory* createGdbFactory(const std::string& os) {
+IGdbFactory* create_gdb_factory(const std::string& os) {
   if (os == "linux") {
     return new LinuxGdbFactory();
   }
@@ -118,15 +104,54 @@ IGdbFactory* createGdbFactory(const std::string& os) {
   if (os == "macos") {
     return new MacOsGdbFactory();
   }
-  std::cout << "OS not support yet - " << os << "\n";
+  LOG("OS not support yet - " + os);
   return nullptr;
 }
 
 void run() {
-  std::string os = "linux";
-  IGdbFactory* gdb = createGdbFactory(os);
-  client_code::clientCode(gdb);
-  delete gdb;
+  /**
+  * The client code works with an instance of a concrete creator, albeit through
+  * its base interface. As long as the client keeps working with the creator via
+  * the base interface, you can pass it any creator's subclass.
+  */
+  auto client_code = [](IGdbFactory* gdb) {
+    if (gdb != nullptr)
+      gdb->launch_gdb();
+  };
+
+  // Create factory base on the os
+  {
+    const std::string os = "linux";
+    IGdbFactory* gdb = create_gdb_factory(os);
+
+    client_code(gdb);
+
+    delete gdb;
+  }
+  {
+    const std::string os = "windows";
+    IGdbFactory* gdb = create_gdb_factory(os);
+
+    client_code(gdb);
+
+    delete gdb;
+  }
+  {
+    const std::string os = "macos";
+    IGdbFactory* gdb = create_gdb_factory(os);
+
+    client_code(gdb);
+
+    delete gdb;
+  }
+  {
+    const std::string os = "unknown";
+    IGdbFactory* gdb = create_gdb_factory(os);
+
+    client_code(gdb);
+
+    delete gdb;
+  }
 }
 }  // namespace factory_method
 }  // namespace
