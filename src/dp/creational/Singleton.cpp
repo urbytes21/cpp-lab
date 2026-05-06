@@ -10,7 +10,8 @@
 
 // UML: docs/uml/patterns_creational_singleton.drawio.svg
 
-#include <iostream>
+#include <string>
+#include "Logger.h"
 
 namespace {
 namespace singleton_pattern {
@@ -23,7 +24,7 @@ namespace singleton_pattern {
 class Singleton {
  private:
   static inline Singleton* instance_ = nullptr;
-  static inline int num_ = 0;
+  static inline int id_ = 0;
   int dummy_{};
   /**
    * The Singleton's constructor should always be private to prevent direct
@@ -38,33 +39,31 @@ class Singleton {
   // 2. Should not be assignable
   Singleton& operator=(const Singleton& other) = delete;
 
-  static Singleton* getInstance() {
+  static Singleton* get_instance() {
     if (instance_ == nullptr) {
       instance_ = new Singleton();
-      num_++;
+      id_++;
     }
-
+    LOG("id: " + std::to_string(id_));
     return instance_;
   }
 
   void operation() {
-    std::cout << "Singleton operating num:" << num_ << "\n";
+    LOG("id: " + std::to_string(id_));
     dummy_++;
   }
 };
 
-namespace client {
-void clientCode(Singleton* const s) {
-  s->operation();
-}
-}  // namespace client
-
 void run() {
-  Singleton* s1 = Singleton::getInstance();
-  client::clientCode(s1);
+  auto client_code = [](Singleton* s) {
+    s->operation();
+  };
 
-  Singleton* s2 = Singleton::getInstance();
-  client::clientCode(s2);
+  Singleton* s1 = Singleton::get_instance();
+  client_code(s1);
+
+  Singleton* s2 = Singleton::get_instance();
+  client_code(s2);
 
   // Singleton* s3 = new Singleton(); // ERROR
 }
