@@ -58,7 +58,7 @@ class Logger {
 #define LOG_S(expr)                       \
   do {                                    \
     std::ostringstream oss_;              \
-    oss_ << (expr);                       \
+    oss_ << expr;                         \
     std::string s_ = oss_.str();          \
     if (!s_.empty() && s_.back() == '\n') \
       s_.pop_back();                      \
