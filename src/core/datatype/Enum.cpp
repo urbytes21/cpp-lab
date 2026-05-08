@@ -50,4 +50,4 @@ class CEnum : public IExample {
   void execute() override { enums(); }
 };
 
-REGISTER_EXAMPLE(CEnum, "core/datatype", "Enum");
+REGISTER_EXAMPLE(CEnum);

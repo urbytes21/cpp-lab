@@ -136,4 +136,4 @@ class StateExample : public IExample {
   void execute() override { state::run(); }
 };
 
-REGISTER_EXAMPLE(StateExample, "dp/behavioral", "State");
+REGISTER_EXAMPLE(StateExample);

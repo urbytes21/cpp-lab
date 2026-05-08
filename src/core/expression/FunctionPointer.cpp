@@ -62,4 +62,4 @@ class FunctionPointer : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(FunctionPointer, "core/expression", "FunctionPointer");
+REGISTER_EXAMPLE(FunctionPointer);

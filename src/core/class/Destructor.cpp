@@ -69,4 +69,4 @@ class Destructor : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(Destructor, "core/class", "Destructor");
+REGISTER_EXAMPLE(Destructor);

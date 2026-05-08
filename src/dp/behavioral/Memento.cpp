@@ -207,4 +207,4 @@ class MementoExample : public IExample {
   void execute() override { memento::run(); }
 };
 
-REGISTER_EXAMPLE(MementoExample, "dp/behavioral", "Memento");
+REGISTER_EXAMPLE(MementoExample);

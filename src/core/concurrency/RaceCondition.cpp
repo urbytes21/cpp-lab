@@ -1,99 +1,85 @@
 #include <atomic>
-#include <chrono>
-#include <iostream>
 #include <mutex>
 #include <thread>
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
+template <typename F, typename T>
+void run_case(const std::string& name, F work, T& global) {
+  global = 0;
+  LOG(name + "Begin");
+  std::cout << "global_variable: " << global << '\n';
+
+  std::thread thread1(work);
+  std::thread thread2(work);
+
+  thread1.join();
+  thread2.join();
+
+  std::cout << "global_variable: " << global << '\n';
+  LOG(name + "End");
+}
+
+/**
+ * @brief Race Condition Problem
+ */
 namespace problem {
-int glo_var = 0;
-
-void f1() {
-  for (size_t i = 0; i < 100000; i++) {
-    glo_var += 1;
-  }
-}
-
-void f2() {
-  for (size_t i = 0; i < 100000; i++) {
-    glo_var += 1;
-  }
-}
+int global_variable = 0;
 
 void run() {
-  std::cout << "\n---Problem---\n";
-  std::cout << "glo_var: " << glo_var << '\n';
-  std::thread t1(f1);
-  std::thread t2(f2);
-  t1.join();
-  t2.join();
-  // expect: 200 ?
-  std::cout << "glo_var: " << glo_var << '\n';
+  auto work = []() {
+    for (int i = 0; i < 100000; ++i) {
+      global_variable++;
+    }
+  };
+  run_case("Problem", work, global_variable);
 }
 }  // namespace problem
 
+/**
+ * @brief Mutex Example
+ */
 namespace mutex {
-int glo_var = 0;
+int global_variable = 0;
 std::mutex g_mutex;
 
-void f1() {
-  for (size_t i = 0; i < 100000; i++) {
-    // anti pattern
-    g_mutex.lock();
-    glo_var += 1;
-    g_mutex.unlock();
-  }
-}
-
-void f2() {
-  for (size_t i = 0; i < 100000; i++) {
-    // use RAII
-    std::lock_guard<std::mutex> lock(g_mutex);
-    glo_var += 1;
-  }
-}
-
 void run() {
-  std::cout << "\n---Mutex---\n";
-  std::cout << "glo_var: " << glo_var << '\n';
-  std::thread t1(f1);
-  std::thread t2(f2);
-  t1.join();
-  t2.join();
-  // expect: 200 ?
-  std::cout << "glo_var: " << glo_var << '\n';
+  auto work = []() {
+    for (int i = 0; i < 100000; ++i) {
+      // // anti pattern
+      // g_mutex.lock();
+      // global_variable += 1;
+      // g_mutex.unlock();
+
+      // a RAII lock for mutex
+      std::lock_guard<std::mutex> log(g_mutex);
+      global_variable++;
+    }
+  };
+
+  run_case("Mutex", work, global_variable);
 }
 }  // namespace mutex
 
+/**
+ * @brief Atomic Example 
+ */
 namespace atomic {
-std::atomic<int> glo_var = 0;
-
-void f1() {
-  for (size_t i = 0; i < 100000; i++) {
-    glo_var += 1;
-  }
-}
-
-void f2() {
-  for (size_t i = 0; i < 100000; i++) {
-    glo_var += 1;
-  }
-}
+std::atomic<int> global_variable = 0;
 
 void run() {
-  std::cout << "\n---Atomic---\n";
-  std::cout << "glo_var: " << glo_var << '\n';
-  std::thread t1(f1);
-  std::thread t2(f2);
-  t1.join();
-  t2.join();
-  // expect: 200 ?
-  std::cout << "glo_var: " << glo_var << '\n';
+  auto work = []() {
+    for (int i = 0; i < 100000; ++i) {
+      global_variable++;
+    }
+  };
+
+  run_case("Atomic", work, global_variable);
 }
 }  // namespace atomic
 
 class RaceCondition : public IExample {
-
+ public:
   std::string group() const override { return "core/concurrency"; }
   std::string name() const override { return "RaceCondition"; }
   std::string description() const override {
@@ -107,4 +93,4 @@ class RaceCondition : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(RaceCondition, "core/concurrency", "RaceCondition");
+REGISTER_EXAMPLE(RaceCondition);

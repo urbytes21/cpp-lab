@@ -57,4 +57,4 @@ class Vector : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Vector, "core/container", "Vector");
+REGISTER_EXAMPLE(Vector);

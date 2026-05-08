@@ -1,28 +1,27 @@
 // cppcheck-suppress-file [unreadVariable]
 #include <iostream>
-using namespace std;
 
 #include "external/constants.h"
 #include "inline/constants.h"
 #include "internal/constants.h"
 
-namespace InternalWay {
+namespace internal_way {
 void run() {
-  std::cout << InternalConstants::avogadro << "\n";
+  std::cout << internal_constants::kAvogadro << "\n";
 }
-}  // namespace InternalWay
+}  // namespace internal_way
 
-namespace ExternalWay {
+namespace external_way {
 void run() {
-  std::cout << ExternalConstants::avogadro << "\n";
+  std::cout << external_constants::kAvogadro << "\n";
 }
-}  // namespace ExternalWay
+}  // namespace external_way
 
-namespace InlineWay {
+namespace inline_way {
 void run() {
-  std::cout << InlineConstants::avogadro << "\n";
+  std::cout << inline_constants::kAvogadro << "\n";
 }
-}  // namespace InlineWay
+}  // namespace inline_way
 
 #include "ExampleRegistry.h"
 
@@ -34,10 +33,10 @@ class Sharing : public IExample {
     return "SharingGlobalConstantsAcrossMultipleFiles";
   }
   void execute() override {
-    InternalWay::run();  // prefer 2
-    ExternalWay::run();
-    InlineWay::run();  // prefer 1
+    internal_way::run();  // prefer 2
+    external_way::run();
+    inline_way::run();  // prefer 1
   }
 };
 
-REGISTER_EXAMPLE(Sharing, "core", "Sharing");
+REGISTER_EXAMPLE(Sharing);

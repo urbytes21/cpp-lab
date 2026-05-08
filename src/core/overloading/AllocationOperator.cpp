@@ -96,4 +96,4 @@ class AllocationOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(AllocationOperator, "core/overloading", "AllocationOperator");
+REGISTER_EXAMPLE(AllocationOperator);

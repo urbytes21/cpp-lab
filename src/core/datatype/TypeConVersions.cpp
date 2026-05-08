@@ -177,4 +177,4 @@ class CTypeConversion : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(CTypeConversion, "core/datatype", "TypeConversion");
+REGISTER_EXAMPLE(CTypeConversion);

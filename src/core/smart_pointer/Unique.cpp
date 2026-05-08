@@ -1,55 +1,34 @@
 #include <cstring>
-#include <iostream>
-#include <memory>  // for smart ptr
+#include <memory>
+#include "Logger.h"
 
 namespace {
-class Model {
- private:
-  std::unique_ptr<char[]> cstring_;
-
+class Resource {
  public:
-  explicit Model(const char* s) : cstring_{nullptr} {
-    if (s) {
-      // allocate
-      cstring_ = std::make_unique<char[]>(std::strlen(s) + 1);
-      std::strcpy(cstring_.get(), s);  // populate
-    }
+  Resource() { std::cout << "Resource acquired\n"; }
+  ~Resource() { std::cout << "Resource destroyed\n"; }
+
+  void use() {
+    std::cout << "Using resource\n";
+    dummy_++;
   }
 
-  ~Model() { std::cout << "Model deleted :" << c_str() << "\n"; }
-  // Helper functions
-  const char* c_str() const  // accessor
-  {
-    return cstring_.get();
-  }
-
-  void set_first_char(char ch) {
-    if (cstring_)
-      cstring_[0] = ch;
-  }
+ private:
+  int dummy_{};
 };
 
 void run() {
-  std::cout << "\n\nProblem\n";
-  Model str1{"str1"};
-  Model str2(str1.c_str());
-  std::cout << "Before change:\n";
-  std::cout << "  str1 = " << str1.c_str() << "\n";
-  std::cout << "  str2 = " << str2.c_str() << "\n";
-
-  str2.set_first_char('X');
-  std::cout << "\nAfter modifying str2.set_first_char('X'):\n";
-  std::cout << "  str1 = " << str1.c_str() << "\n";
-  std::cout << "  str2 = " << str2.c_str() << "\n";
-
+  LOG("unique_ptr example");
   {
-    std::cout << "str1-model,str2-model in scope. \n";
-    std::unique_ptr<Model> ptr1 = std::make_unique<Model>("str1-model");
-    std::unique_ptr<Model> ptr2(new Model("str2-model"));
-    std::cout << "  str1-model = " << ptr1->c_str() << "\n";
-    std::cout << "  str2-model = " << ptr2->c_str() << "\n";
+    auto p1 = std::make_unique<Resource>();
+    p1->use();
+
+    // auto p2 = p1; // compile error -> copy not allow
+    auto p2 = std::move(p1);
+    std::cout << "p1 is " << (p1 ? "not null" : "null") << "\n";
+    p2->use();
   }
-  std::cout << "str1-model,str2-model out of scope. \n";
+  LOG("End scope. RAII");  // automatically deletes the object uinique_ptr owns
 }
 }  // namespace
 
@@ -63,4 +42,4 @@ class Unique : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Unique, "core/smart_pointer", "Unique");
+REGISTER_EXAMPLE(Unique);

@@ -32,4 +32,4 @@ class SimpleTCPServer : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(SimpleTCPServer, "socket/tcp", "SimpleTCPServer");
+REGISTER_EXAMPLE(SimpleTCPServer);

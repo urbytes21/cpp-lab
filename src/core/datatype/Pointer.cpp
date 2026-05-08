@@ -113,4 +113,4 @@ class CPointers : public IExample {
   void execute() override { pointers(); }
 };
 
-REGISTER_EXAMPLE(CPointers, "core/datatype", "Pointers");
+REGISTER_EXAMPLE(CPointers);

@@ -44,4 +44,4 @@ class ComparisonOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(ComparisonOperator, "core/overloading", "ComparisonOperator");
+REGISTER_EXAMPLE(ComparisonOperator);

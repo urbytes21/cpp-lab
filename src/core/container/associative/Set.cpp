@@ -30,4 +30,4 @@ class Set : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Set, "core/container", "Set");
+REGISTER_EXAMPLE(Set);

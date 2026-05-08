@@ -1,4 +1,3 @@
-#include <iostream>
 #include <string>
 
 #include <condition_variable>
@@ -6,50 +5,64 @@
 #include <thread>
 
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 namespace {
-
 std::mutex mutex;
 std::condition_variable cv;
+
 std::string data;
 bool ready = false;
 bool finish = false;
 
 void worker_thread() {
-  std::unique_lock g_mutex(mutex);
+  std::unique_lock lock(mutex);
 
-  std::cout << "worker_thread started. Waiting for data \n";
-  cv.wait(g_mutex, []() { return ready; });
-  std::cout << "worker_thread proccessing data \n";
+  LOG("Waiting for data");
+
+  // wait() temporarily unlocks the mutex and puts the thread to sleep, allowing other threads to modify 'ready'.
+  // When notified, it wakes up, re-locks the mutex, and re-checks the condition.
+  // The thread continues only when 'ready' becomes true.
+  cv.wait(lock, []() { return ready; });
+
+  LOG("Proccessing data");
+
   data += " after processing";
   finish = true;
+
+  LOG("cv.notify_one");
   cv.notify_one();
 }
 
 void run() {
+  LOG("Condition Example Begin");
   std::thread w_thread(worker_thread);
 
   // send data
-  std::cout << "main_thread signals data ready for processing\n";
+  LOG("Signals data ready for processing");
   {
-    std::unique_lock g_mutex(mutex);
-    data = "dummy data";
+    std::lock_guard<std::mutex> lock(mutex);
+    data = "THIS IS A PRIVATE KEY: ABCxyz123";
     ready = true;
   }
-  cv.notify_one();
 
-  // wait for worker
+  LOG("cv.notify_one");
+  cv.notify_one();  // wake up one thread waiting on this cv
+
   {
     std::unique_lock g_mutex(mutex);
+    LOG("Waiting for finishing");
     cv.wait(g_mutex, []() { return finish; });
   }
-  std::cout << "main_thread data: " << data << '\n';
+  LOG("data: " + data);
   w_thread.join();
+
+  LOG("Condition Example End");
 }
 }  // namespace
 
 class ConditionVariable : public IExample {
-
+ public:
   std::string group() const override { return "core/concurrency"; }
   std::string name() const override { return "ConditionVariable"; }
   std::string description() const override {
@@ -59,4 +72,4 @@ class ConditionVariable : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(ConditionVariable, "core/concurrency", "ConditionVariable");
+REGISTER_EXAMPLE(ConditionVariable);

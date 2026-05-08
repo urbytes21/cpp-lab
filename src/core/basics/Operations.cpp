@@ -19,7 +19,7 @@ class Operations : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(Operations, "core", "Operations");
+REGISTER_EXAMPLE(Operations);
 
 void arithmeticOperator() {
   std::cout << "\n--- ArithmeticOperator Examples ---\n";

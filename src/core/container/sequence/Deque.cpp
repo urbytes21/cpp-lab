@@ -45,4 +45,4 @@ class Deque : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Deque, "core/container", "Deque");
+REGISTER_EXAMPLE(Deque);

@@ -161,4 +161,4 @@ class AdapterExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(AdapterExample, "dp/structural", "Adapter");
+REGISTER_EXAMPLE(AdapterExample);

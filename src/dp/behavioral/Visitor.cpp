@@ -246,4 +246,4 @@ class VisitorExample : public IExample {
   void execute() override { visitor::run(); }
 };
 
-REGISTER_EXAMPLE(VisitorExample, "dp/behavioral", "Visitor");
+REGISTER_EXAMPLE(VisitorExample);

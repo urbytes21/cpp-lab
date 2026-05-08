@@ -116,4 +116,4 @@ class FileIO : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(FileIO, "core/filehandle", "FileIO");
+REGISTER_EXAMPLE(FileIO);

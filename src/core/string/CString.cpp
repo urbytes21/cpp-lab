@@ -208,4 +208,4 @@ class CString : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(CString, "core/string", "C-String");
+REGISTER_EXAMPLE(CString);

@@ -56,6 +56,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/Directory.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/OutputFormatting.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/BinaryFileHandling.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/filehandle/TerminalColor.cpp
 
     # STL containers and expressions
     ${CMAKE_CURRENT_SOURCE_DIR}/container/sequence/Array.cpp
@@ -98,8 +99,11 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/FuturePromise.cpp
 
     # Utils
-    ${CMAKE_CURRENT_SOURCE_DIR}/utils/StdAlgorithm.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/Algorithm.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/utils/TypeTrait.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/Optional.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/Variadic.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/utils/Regex.cpp
 )
 
 # Export CORE_SOURCES to the parent CMakeLists.txt

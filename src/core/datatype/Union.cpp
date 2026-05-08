@@ -47,4 +47,4 @@ class CUnion : public IExample {
   void execute() override { unionDemo(); }
 };
 
-REGISTER_EXAMPLE(CUnion, "core/datatype", "Union");
+REGISTER_EXAMPLE(CUnion);

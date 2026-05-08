@@ -45,4 +45,4 @@ class StringStream : public IExample {
   void execute() override { runStringStreamExample(); }
 };
 
-REGISTER_EXAMPLE(StringStream, "core/filehandle", "StringStream");
+REGISTER_EXAMPLE(StringStream);

@@ -55,7 +55,7 @@ void run() {
   // Powered Device destroyed
 }
 
-}  // namespace Problem
+}  // namespace problem
 
 namespace virtual_base_classes {
 class PoweredDevice {
@@ -108,10 +108,11 @@ void run() {
   // Scanner destroyed
   // Powered Device destroyed
 }
-}  // namespace VirtualBaseClasses
+}  // namespace virtual_base_classes
 }  // namespace
 
 class VirtualBase : public IExample {
+ public:
   std::string group() const override { return "core/class"; };
 
   std::string name() const override { return "VirtualBase"; };
@@ -123,4 +124,4 @@ class VirtualBase : public IExample {
   };
 };
 
-REGISTER_EXAMPLE(VirtualBase, "core/class", "VirtualBase");
+REGISTER_EXAMPLE(VirtualBase);

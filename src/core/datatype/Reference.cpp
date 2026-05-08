@@ -100,4 +100,4 @@ class CReferences : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(CReferences, "core/datatype", "References");
+REGISTER_EXAMPLE(CReferences);

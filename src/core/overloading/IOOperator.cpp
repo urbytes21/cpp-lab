@@ -61,4 +61,4 @@ class IOOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(IOOperator, "core/overloading", "IOOperator");
+REGISTER_EXAMPLE(IOOperator);

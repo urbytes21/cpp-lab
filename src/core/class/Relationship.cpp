@@ -141,6 +141,7 @@ class Car {
 }  // namespace
 
 class Relationship : public IExample {
+ public:
   std::string group() const override { return "core/class"; };
 
   std::string name() const override { return "Relationship"; };
@@ -154,4 +155,4 @@ class Relationship : public IExample {
   };
 };
 
-REGISTER_EXAMPLE(Relationship, "core/class", "Relationship");
+REGISTER_EXAMPLE(Relationship);

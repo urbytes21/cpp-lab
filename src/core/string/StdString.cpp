@@ -172,4 +172,4 @@ class StdString : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(StdString, "core/string", "StdString");
+REGISTER_EXAMPLE(StdString);

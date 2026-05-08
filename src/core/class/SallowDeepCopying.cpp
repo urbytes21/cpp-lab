@@ -164,4 +164,4 @@ class ShallowDeepCopying : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(ShallowDeepCopying, "core", "ShallowDeepCopying");
+REGISTER_EXAMPLE(ShallowDeepCopying);

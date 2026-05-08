@@ -1,11 +1,12 @@
 ## 1. Concurrency
-- Concurrency `refers to the ability` `to proccess` `multiple tasks` `at the same time.` 
+- **Concurrency** `refers to the ability` `to proccess` `multiple tasks` `at the same time.` 
 `On a single core`, it uses `context-switching`, `on multi-core systems`, it can run in parallel.
 - It's `used to improve` the `program performance` and `response time`.
 - In C/C++, we can archive concurrency by using `threads`.
 
-- `<chrono>` is a C++ header that provide `a collection of types and functions` to work with time.
+(`<chrono>` is a C++ header that provide `a collection of types and functions` to work with time.)
 
+---
 ## 2. Thread <thread>
 - Threads are `the basic unit of` multitasking.
 - There are many errors and risks associated with concurrency, including:
@@ -21,10 +22,9 @@
     - `Semaphore`: 
     - `Futures and Promises`: `<future>`, `<promise>` are used for the asynchronous task execution.
     - `Condition variable`: `<condition_variable>`
-
 ### 2.3. Thread Management
 - `thread`: an `OS thread` `managed by` the kernel.
-- Each `thread` has it own `call stack`, but all `threads` share the heap.
+- Each `thread` has it own `call stack`, but all `threads` share the **heap**.
 - `thread object`: refers to a C++ instance `that associated with` an `active thread` of execution in hardware level.
 - `std::thread(callable)`: request the kernel OS to create a thread.
 - `std::this_thread`: refer to the current thread
@@ -33,8 +33,6 @@ is throw before `join`, `std::terminate` might be called, and will kill the enti
 - `detach`: separates the `thread of the execution` from the `thread object`, allowing the execution to continue running.
 - `yield`: give priority to other threads, pause its execution
 - Use `return` to kill a thread.
-
-
 ### 2.4. Sharing Data
 - `Global/Static Variable`: can be accessed by all threads.
 - `Pass By Reference`: we need to explicitly wrap the args in `std::ref` to pass by reference and is the only way to properly get data out of a thread
@@ -87,7 +85,6 @@ int main()
 // Create your mutex here
 std::mutex my_mutex;
 
-// 
 thread_function()
 {
   my_mutex.lock(); // Acquire lock
@@ -103,10 +100,12 @@ thread_function()
     - `recursive_timed_mutex`
     - `shared_timed_mutex`
 
-- `Lock Guard Type` is a wrapper mutex that provides a convinient RAII-style mechanism.
+- **Lock Guard Type** is a wrapper mutex that provides a convinient RAII-style mechanism.
 - They are several `lock guard types`, including:
-    - `std::lock_guard`<mutex>, `std::scoped_lock`<mutex,mutex>
-    - `std::unique_lock`, `shared_lock`
+    - `std::lock_guard`<mutex>: basic RAII lock for a single mutex. Locks immediately on construction, unlocks on destruction.
+    - `std::scoped_lock`<mutex1,mutex2,...>:  RAII lock for multiple mutexes
+    - `std::unique_lock`<mutex>: Flexible RAII lock for a single mutex. Supports deferred/manual locking, unlocking, and use with condition variables, has unlock() / lock()
+    - `shared_lock`: RAII lock for shared access (readers) on a std::shared_mutex. Allows multiple concurrent readers.
 
 ### 2.7. Condition Variable for event handling - <condition_variable>
 - `std::condition_variable` is a synchronization primitive used with a `std::mutex` to block one or more threads until another thread both modifies a `shared variable` (the condition) and `notifies` the `std::condition_variable`.
@@ -175,6 +174,7 @@ Worker thread signals data processing completed
 Back in main(), data = Example data after processing
 ```
 
+---
 ## 3. Task
 - A `task` is a unit of asynchronous work that can be scheduled for execution.
 - It is a higher-level abstraction than a thread.

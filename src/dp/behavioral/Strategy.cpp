@@ -14,6 +14,8 @@
 #include <iostream>
 #include <string>
 #include <utility>
+#include "Logger.h"
+
 namespace {
 namespace strategy {
 class IExportStrategy {
@@ -32,7 +34,7 @@ class ExportContext {
 
   explicit ExportContext(std::string content,
                          IExportStrategy* const strategy = nullptr)
-      : content_{std::move(content)}, strategy_{strategy} {}
+      : content_(std::move(content)), strategy_(strategy) {}
 
   void setExportStrategy(IExportStrategy* const strategy) {
     delete strategy_;
@@ -59,7 +61,8 @@ class ExportContext {
     if (strategy_ != nullptr) {
       return this->strategy_->executeExportData(this->content_);
     }
-    std::cout << "Context: Strategy isn't set\n";
+
+    LOG("Strategy isn't set");
     return "";
   }
 };
@@ -78,23 +81,21 @@ class HtmlExportStrategy : public IExportStrategy {
   }
 };
 
-namespace client {
-void clientCode(const ExportContext* ctx) {
-  std::cout << ctx->exportDocument();
-  std::cout << "\n";
-}
-}  // namespace client
 void run() {
-  auto* ctx = new ExportContext{"This is the report content."};
-  client::clientCode(ctx);
+  auto client_code = [](const ExportContext& ctx) {
+    LOG(ctx.exportDocument());
+  };
 
-  std::cout << " ===HTML Export ===\n";
+  auto* ctx = new ExportContext("This is the report content.");
+  client_code(*ctx);
+
+  LOG("===HTML Export===");
   ctx->setExportStrategy(new HtmlExportStrategy());
-  client::clientCode(ctx);
+  client_code(*ctx);
 
-  std::cout << " ===JSON Export ===\n";
+  LOG("===JSON Export===");
   ctx->setExportStrategy(new JsonExportStrategy());
-  client::clientCode(ctx);
+  client_code(*ctx);
 
   delete ctx;
 }
@@ -113,4 +114,4 @@ class StrategyExample : public IExample {
   void execute() override { strategy::run(); }
 };
 
-REGISTER_EXAMPLE(StrategyExample, "dp/behavioral", "Strategy");
+REGISTER_EXAMPLE(StrategyExample);

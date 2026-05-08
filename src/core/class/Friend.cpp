@@ -60,7 +60,7 @@ class Accumulator {
   friend void Display::f_display(const Accumulator& acc) const;
 };
 
-void Display::f_display(const Accumulator& acc) const{
+void Display::f_display(const Accumulator& acc) const {
   std::cout << "S4: " << acc.value_ << "\n";
 }
 
@@ -109,6 +109,7 @@ void run() {
 }  // namespace Class
 
 class Friend : public IExample {
+ public:
   std::string group() const override { return "core/class"; };
 
   std::string name() const override { return "Friend"; };
@@ -121,4 +122,4 @@ class Friend : public IExample {
   };
 };
 
-REGISTER_EXAMPLE(Friend, "core/class", "Friend");
+REGISTER_EXAMPLE(Friend);

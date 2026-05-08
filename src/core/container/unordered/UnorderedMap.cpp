@@ -80,4 +80,4 @@ class UnorderedMap : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(UnorderedMap, "core/container", "UnorderedMap");
+REGISTER_EXAMPLE(UnorderedMap);

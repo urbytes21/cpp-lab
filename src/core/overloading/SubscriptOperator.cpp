@@ -41,4 +41,4 @@ class SubscriptOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(SubscriptOperator, "core/overloading", "SubscriptOperator");
+REGISTER_EXAMPLE(SubscriptOperator);

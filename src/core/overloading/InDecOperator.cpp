@@ -63,4 +63,4 @@ class InDecOperator : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(InDecOperator, "core/overloading", "InDecOperator");
+REGISTER_EXAMPLE(InDecOperator);

@@ -58,4 +58,4 @@ class TypeCast : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(TypeCast, "core/overloading", "TypeCast");
+REGISTER_EXAMPLE(TypeCast);

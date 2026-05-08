@@ -174,5 +174,5 @@ class BridgeExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(BridgeExample, "dp/structural", "Bridge");
+REGISTER_EXAMPLE(BridgeExample);
 }  // namespace

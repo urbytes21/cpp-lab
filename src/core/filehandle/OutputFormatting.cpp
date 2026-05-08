@@ -71,4 +71,4 @@ class OutputFormatting : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(OutputFormatting, "core/filehandle", "OutputFormatting");
+REGISTER_EXAMPLE(OutputFormatting);

@@ -230,5 +230,5 @@ class ProxyExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(ProxyExample, "dp/structural", "Proxy");
+REGISTER_EXAMPLE(ProxyExample);
 }  // namespace

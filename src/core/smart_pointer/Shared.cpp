@@ -42,25 +42,40 @@ class Logger {
     std::cout << "Logging enabled for " << config_->server << "\n";
   }
 
+  ~Logger() { std::cout << "Logger destroyed\n"; }
+
  private:
   std::shared_ptr<const AppConfig> config_;
 };
 
 void run() {
-  // auto config = std::make_shared<AppConfig>("api.example.com", 443);
-  std::shared_ptr<AppConfig> config =
-      std::make_shared<AppConfig>("test.server.com", 80);
+  {
+    // auto config = std::make_shared<AppConfig>("api.example.com", 443);
+    std::shared_ptr<AppConfig> config =
+        std::make_shared<AppConfig>("test.server.com", 80);
 
-  NetworkManager net(config);
-  Logger logger(config);
+    {
+      NetworkManager net(config);
 
-  net.connect();
-  logger.log_start();
+      {
+        Logger logger(config);
 
-  std::cout << "use_count = " << config.use_count() << "\n";
-  config->setPort(8080);
-  net.connect();
-  logger.log_start();
+        net.connect();
+        logger.log_start();
+
+        std::cout << "The number of owners (shared_ptr) - use_count: "
+                  << config.use_count() << "\n";
+        config->setPort(8080);
+        net.connect();
+        logger.log_start();
+      }
+
+      std::cout << "The number of owners (shared_ptr) - use_count: "
+                << config.use_count() << "\n";
+    }
+    std::cout << "The number of owners (shared_ptr) - use_count: "
+              << config.use_count() << "\n";
+  }
 }
 
 }  // namespace
@@ -75,4 +90,4 @@ class Shared : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Shared, "core/smart_pointer", "Shared");
+REGISTER_EXAMPLE(Shared);

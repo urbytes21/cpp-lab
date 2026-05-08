@@ -11,9 +11,11 @@
 //      primary responsibility.
 
 // UML: docs/uml/patterns_creational_abstractfactory.drawio.svg
-
-#include <iostream>
+#include <memory>
 #include <string>
+#include "ExampleRegistry.h"
+#include "Logger.h"
+
 namespace {
 namespace abstract_factory {
 /**
@@ -32,23 +34,20 @@ class IGdbProduct {
 class LinuxGdbProduct : public IGdbProduct {
  public:
   void launch() const override {
-    std::cout
-        << "\tsudo apt update && sudo apt install -y gdb && gdb --version\n";
+    LOG("sudo apt update && sudo apt install -y gdb && gdb --version");
   }
 };
 
 class WindowsGdbProduct : public IGdbProduct {
  public:
   void launch() const override {
-    std::cout << "\tpacman -Syu mingw-w64-x86_64-gdb && gdb --version\n";
+    LOG("pacman -Syu mingw-w64-x86_64-gdb && gdb --version");
   }
 };
 
 class MacOsGdbProduct : public IGdbProduct {
  public:
-  void launch() const override {
-    std::cout << "\tbrew install gdb && gdb --version\n";
-  }
+  void launch() const override { LOG("brew install gdb && gdb --version"); }
 };
 
 class ICMakeProduct {
@@ -60,22 +59,19 @@ class ICMakeProduct {
 class LinuxCMakeProduct : public ICMakeProduct {
  public:
   void launch() const override {
-    std::cout << "\tsudo apt update && sudo apt install -y cmake && cmake "
-                 "--version\n";
+    LOG("sudo apt update && sudo apt install -y cmake && cmake --version");
   }
 };
 
 class WindowsCMakeProduct : public ICMakeProduct {
  public:
-  void launch() const override {
-    std::cout << "\tpacman -Syu cmake && cmake --version\n";
-  }
+  void launch() const override { LOG("pacman -Syu cmake && cmake --version"); }
 };
 
 class MacOsCMakeProduct : public ICMakeProduct {
  public:
   void launch() const override {
-    std::cout << "\tbrew install cmake && cmake --version\n";
+    LOG("\tbrew install cmake && cmake --version");
   }
 };
 
@@ -88,8 +84,8 @@ class MacOsCMakeProduct : public ICMakeProduct {
 class IProductAbstractFactory {
  public:
   virtual ~IProductAbstractFactory() = default;
-  virtual IGdbProduct* createGdbProduct() = 0;
-  virtual ICMakeProduct* createCMakeProduct() = 0;
+  virtual IGdbProduct* create_gdb_product() = 0;
+  virtual ICMakeProduct* create_cmake_product() = 0;
 };
 
 /*
@@ -99,49 +95,32 @@ class IProductAbstractFactory {
  */
 class WindowsProductFactory : public IProductAbstractFactory {
  public:
-  IGdbProduct* createGdbProduct() override { return new WindowsGdbProduct(); }
-  ICMakeProduct* createCMakeProduct() override {
+  IGdbProduct* create_gdb_product() override { return new WindowsGdbProduct(); }
+  ICMakeProduct* create_cmake_product() override {
     return new WindowsCMakeProduct();
   }
 };
 
 class LinuxProductFactory : public IProductAbstractFactory {
  public:
-  IGdbProduct* createGdbProduct() override { return new LinuxGdbProduct(); }
-  ICMakeProduct* createCMakeProduct() override {
+  IGdbProduct* create_gdb_product() override { return new LinuxGdbProduct(); }
+  ICMakeProduct* create_cmake_product() override {
     return new LinuxCMakeProduct();
   }
 };
 
 class MacOsProductFactory : public IProductAbstractFactory {
  public:
-  IGdbProduct* createGdbProduct() override { return new MacOsGdbProduct(); }
-  ICMakeProduct* createCMakeProduct() override {
+  IGdbProduct* create_gdb_product() override { return new MacOsGdbProduct(); }
+  ICMakeProduct* create_cmake_product() override {
     return new MacOsCMakeProduct();
   }
 };
 
 // ===================================================================================
 
-/**
- * The client code works with factories and products only through abstract
- * types: AbstractFactory and AbstractProduct. This lets you pass any factory or
- * product subclass to the client code without breaking it.
- */
-namespace client_code {
-void clientCode(IProductAbstractFactory* f) {
-  ICMakeProduct* cmake = f->createCMakeProduct();
-  IGdbProduct* gdb = f->createGdbProduct();
-  cmake->launch();
-  gdb->launch();
-
-  delete cmake;
-  delete gdb;
-}
-}  // namespace client_code
-
 // static redudant inside anonymous namespace
-IProductAbstractFactory* createProductFactory(const std::string& os) {
+IProductAbstractFactory* create_product_factory(const std::string& os) {
   if (os == "linux") {
     return new LinuxProductFactory();
   }
@@ -151,20 +130,36 @@ IProductAbstractFactory* createProductFactory(const std::string& os) {
   if (os == "macos") {
     return new MacOsProductFactory();
   }
-  std::cout << "OS not support yet - " << os << "\n";
+  LOG("OS not support yet - " + os);
+
   return nullptr;
 }
 
 void run() {
+  LOG("Abstract Factory Pattern Example");
+
+  /**
+  * The client code works with factories and products only through abstract
+  * types: AbstractFactory and AbstractProduct. This lets you pass any factory or
+  * product subclass to the client code without breaking it.
+  */
+  auto client_code = [](IProductAbstractFactory* f) {
+    ICMakeProduct* cmake = f->create_cmake_product();
+    IGdbProduct* gdb = f->create_gdb_product();
+    cmake->launch();
+    gdb->launch();
+
+    delete cmake;
+    delete gdb;
+  };
+
   std::string os = "linux";
-  IProductAbstractFactory* factory = createProductFactory(os);
-  client_code::clientCode(factory);
+  IProductAbstractFactory* factory = create_product_factory(os);
+  client_code(factory);
   delete factory;
 }
 }  // namespace abstract_factory
 }  // namespace
-
-#include "ExampleRegistry.h"
 
 class AbstractFactoryExample : public IExample {
  public:
@@ -176,4 +171,4 @@ class AbstractFactoryExample : public IExample {
   void execute() override { abstract_factory::run(); }
 };
 
-REGISTER_EXAMPLE(AbstractFactoryExample, "dp/creational", "AbstractFactory");
+REGISTER_EXAMPLE(AbstractFactoryExample);

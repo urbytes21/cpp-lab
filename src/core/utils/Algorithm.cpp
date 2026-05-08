@@ -1,33 +1,33 @@
 #include <algorithm>
-#include <iostream>
-
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 namespace find_if_example {
 void run() {
-  std::cout << "std::find_if example\n";
+  LOG("std::find_if example");
   std::vector<int> v{1, 2, 3, 4, 5};
   auto it = std::find_if(v.begin(), v.end(), [](int i) { return i % 2 == 0; });
   if (it != v.end()) {
-    std::cout << "First even number: " << *it << '\n';
+    LOG("First even number: " + std::to_string(*it));
   } else {
-    std::cout << "No even number found\n";
+    LOG("No even number found");
   }
 
-  std::cout << "std::find_if_not example\n";
+  LOG("std::find_if_not example");
   auto it_not =
       std::find_if_not(v.begin(), v.end(), [](int i) { return i % 2 == 0; });
   if (it_not != v.end()) {
-    std::cout << "First odd number: " << *it_not << '\n';
+    LOG("First odd number: " + std::to_string(*it_not));
   } else {
-    std::cout << "No odd number found\n";
+    LOG("No odd number found");
   }
 }
-}  // namespace FindIfExample
+}  // namespace find_if_example
 
-class StdAlgorithm : public IExample {
+class Algorithm : public IExample {
+ public:
   std::string group() const override { return "core/utils"; }
-  std::string name() const override { return "StdAlgorithm"; }
+  std::string name() const override { return "std::algorithm"; }
   std::string description() const override {
     return "The examples for <algorithm> header";
   }
@@ -35,4 +35,4 @@ class StdAlgorithm : public IExample {
   void execute() override { find_if_example::run(); }
 };
 
-REGISTER_EXAMPLE(StdAlgorithm, "core/utils", "StdAlgorithm");
+REGISTER_EXAMPLE(Algorithm);

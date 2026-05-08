@@ -148,4 +148,4 @@ class CommandExample : public IExample {
   void execute() override { command::run(); }
 };
 
-REGISTER_EXAMPLE(CommandExample, "dp/behavioral", "Command");
+REGISTER_EXAMPLE(CommandExample);

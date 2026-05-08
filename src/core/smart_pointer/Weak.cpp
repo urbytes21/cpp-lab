@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include "Logger.h"
+
 namespace {
 // Shared resource rather than copy to optimize memory
 struct AppConfig {
@@ -16,36 +18,38 @@ struct AppConfig {
   ~AppConfig() { std::cout << "Config destroyed\n"; }
 };
 
-void run() {
-  std::weak_ptr<const AppConfig> observe_config;
-  {
-    std::shared_ptr<AppConfig> config =
-        std::make_shared<AppConfig>("test.server.com", 80);
-
-    // check lock() to determine if pointer is valid
-    observe_config = config;
-    if (auto tmp_config = observe_config.lock()) {
-      std::cout << "[O] config value is: " << tmp_config->port << " "
-                << tmp_config->server << '\n';
-    } else {
-      std::cout << "[O] config is expired\n";
-    }
-  }
-
-  if (auto tmp_config = observe_config.lock()) {
-    std::cout << "[O] config value is: " << tmp_config->port << " "
-              << tmp_config->server << '\n';
+void validatePointer(const std::weak_ptr<AppConfig>& wp) {
+  if (auto tmp = wp.lock()) {
+    LOG("config value is: " + std::to_string(tmp->port) + " " + tmp->server);
   } else {
-    std::cout << "[O] config is expired\n";
+    LOG("config is expired");
   }
 }
-
-}  // namespace
 
 /**
  * wp.expired() == false // at least one shared_ptr still owns it
  * wp.lock() != nullptr  // same condition
  */
+void run() {
+  std::weak_ptr<AppConfig> observer;
+  {
+    std::shared_ptr<AppConfig> config =
+        std::make_shared<AppConfig>("test.server.com", 80);
+
+    // check lock() to determine if pointer is valid
+    observer = config;
+    std::cout << "use_count: " << config.use_count() << "\n";
+    std::cout << "expired? " << std::boolalpha << observer.expired() << "\n";
+    validatePointer(observer);
+  }
+
+  // now the config is expired
+  std::cout << "expired? " << std::boolalpha << observer.expired() << "\n";
+  validatePointer(observer);
+}
+
+}  // namespace
+
 #include "ExampleRegistry.h"
 
 class Weak : public IExample {
@@ -56,4 +60,4 @@ class Weak : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(Weak, "core/smart_pointer", "Weak");
+REGISTER_EXAMPLE(Weak);

@@ -343,4 +343,4 @@ class FlyweightExample : public IExample {
   }
 };
 
-REGISTER_EXAMPLE(FlyweightExample, "dp/structural", "Flyweight");
+REGISTER_EXAMPLE(FlyweightExample);

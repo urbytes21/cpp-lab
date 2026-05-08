@@ -118,4 +118,4 @@ class BinaryFileHandling : public IExample {
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(BinaryFileHandling, "core/filehandle", "BinaryFileHandling");
+REGISTER_EXAMPLE(BinaryFileHandling);

@@ -9,9 +9,11 @@
 
 // UML: docs/uml/patterns_behavioral_iterator.drawio.svg
 
-#include <iostream>
+#include <ostream>
+#include <sstream>
 #include <string>
 #include <vector>
+#include "Logger.h"
 
 namespace {
 namespace builder_pattern {
@@ -20,16 +22,18 @@ class Product {
   std::vector<std::string> parts_;
 
  public:
-  void addPart(const std::string& part) { parts_.push_back(part); }
+  void add_part(const std::string& part) { parts_.push_back(part); }
 
   void print() const {
-    std::cout << "Product parts: ";
+    LOG("Product parts: ");
+    std::ostringstream oss;
     for (size_t i = 0; i < parts_.size(); ++i) {
-      std::cout << parts_[i];
-      if (i + 1 < parts_.size())
-        std::cout << ", ";
+      oss << parts_[i];
+      if (i + 1 < parts_.size()) {
+        oss << ", ";
+      }
     }
-    std::cout << "\n\n";
+    LOG(oss.str());
   }
 };
 
@@ -41,9 +45,9 @@ class IBuilder {
  public:
   virtual ~IBuilder() = default;
   virtual IBuilder& reset() = 0;
-  virtual IBuilder& producePart1() = 0;
-  virtual IBuilder& producePart2() = 0;
-  virtual IBuilder& producePart3() = 0;
+  virtual IBuilder& produce_part_1() = 0;
+  virtual IBuilder& produce_part_2() = 0;
+  virtual IBuilder& produce_part_3() = 0;
 
   virtual Product* build() = 0;
 };
@@ -94,18 +98,18 @@ class AbstractBuilder : public IBuilder {
  */
 class SimpleBuilder : public AbstractBuilder {
  public:
-  IBuilder& producePart1() override {
-    product_->addPart("PART1");
+  IBuilder& produce_part_1() override {
+    product_->add_part("PART1");
     return *this;
   }
 
-  IBuilder& producePart2() override {
-    product_->addPart("PART2");
+  IBuilder& produce_part_2() override {
+    product_->add_part("PART2");
     return *this;
   }
 
-  IBuilder& producePart3() override {
-    product_->addPart("PART3");
+  IBuilder& produce_part_3() override {
+    product_->add_part("PART3");
     return *this;
   }
 
@@ -114,46 +118,43 @@ class SimpleBuilder : public AbstractBuilder {
 
 class ComplexBuilder : public AbstractBuilder {
  public:
-  IBuilder& producePart1() override {
-    product_->addPart("PART_1-X9a7Fq!2@Lm#48Z");
+  IBuilder& produce_part_1() override {
+    product_->add_part("PART_1-X9a7Fq!2@Lm#48Z");
     return *this;
   }
 
-  IBuilder& producePart2() override {
-    product_->addPart("PART_2-X9a7Fq!2@Lm#48Z");
+  IBuilder& produce_part_2() override {
+    product_->add_part("PART_2-X9a7Fq!2@Lm#48Z");
     return *this;
   }
 
-  IBuilder& producePart3() override {
-    product_->addPart("PART_3-X9a7Fq!2@Lm#48Z");
+  IBuilder& produce_part_3() override {
+    product_->add_part("PART_3-X9a7Fq!2@Lm#48Z");
     return *this;
   }
 
   Product* build() override { return product_; }
 };
 
-namespace client {
-void clientCode(IBuilder* const builder) {
-  const Product* product1 =
-      (*builder).producePart1().producePart2().producePart3().build();
-  product1->print();
-
-  const Product* product2 = (*builder).reset().producePart1().build();
-  product2->print();
-}
-}  // namespace Client
-
 void run() {
+  auto client_code = [](IBuilder* const builder) {
+    const Product* p1 =
+        (*builder).produce_part_1().produce_part_2().produce_part_3().build();
+    p1->print();
+    const Product* p2 = (*builder).reset().produce_part_1().build();
+    p2->print();
+  };
+
   {
-    std::cout << "ConcreteBuilder: Simple\n";
+    LOG("ConcreteBuilder: Simple");
     IBuilder* builder = new SimpleBuilder();
-    client::clientCode(builder);
+    client_code(builder);
     delete builder;
   }
   {
-    std::cout << "ConcreteBuilder: Complex\n";
+    LOG("ConcreteBuilder: Complex");
     IBuilder* builder = new ComplexBuilder();
-    client::clientCode(builder);
+    client_code(builder);
     delete builder;
   }
 }
@@ -170,4 +171,4 @@ class BuilderExample : public IExample {
   void execute() override { builder_pattern::run(); }
 };
 
-REGISTER_EXAMPLE(BuilderExample, "dp/creational", "Builder");
+REGISTER_EXAMPLE(BuilderExample);

@@ -2,6 +2,7 @@
 #define LOGGER_H_
 
 #include <iostream>
+#include <sstream>
 
 #ifndef NDEBUG
 #include <mutex>
@@ -35,9 +36,12 @@ class Logger {
     char time_buf[9];
     std::strftime(time_buf, sizeof(time_buf), "%H:%M:%S", &tm);
 
+    constexpr const char* kGreen = "\033[32m";
+    constexpr const char* kReset = "\033[0m";
+
     std::cout << "[" << time_buf << "]" << "[" << level << "]" << "[" << file
               << ":" << loc.line() << "]" << "[" << loc.function_name() << "] "
-              << msg << '\n';
+              << kGreen << msg << kReset << '\n';
   }
 
   // Prevent copies
@@ -51,11 +55,35 @@ class Logger {
 
 #define LOG(msg) Logger::instance().log(msg)
 
+#define LOG_S(expr)                       \
+  do {                                    \
+    std::ostringstream oss_;              \
+    oss_ << expr;                         \
+    std::string s_ = oss_.str();          \
+    if (!s_.empty() && s_.back() == '\n') \
+      s_.pop_back();                      \
+    Logger::instance().log(s_);           \
+  } while (0)
+
 #else
 
 inline void LOG(const std::string& msg) {
   std::cout << msg << '\n';
 }
+
+inline void LOG_S_IMPL(std::ostringstream& oss) {
+  std::string s = oss.str();
+  if (!s.empty() && s.back() == '\n')
+    s.pop_back();
+  std::cout << s << '\n';
+}
+
+#define LOG_S(expr)          \
+  do {                       \
+    std::ostringstream oss_; \
+    oss_ << expr;            \
+    LOG_S_IMPL(oss_);        \
+  } while (0)
 
 #endif
 #endif
