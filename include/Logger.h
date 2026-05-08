@@ -2,6 +2,7 @@
 #define LOGGER_H_
 
 #include <iostream>
+#include <sstream>
 
 #ifndef NDEBUG
 #include <mutex>
@@ -54,11 +55,35 @@ class Logger {
 
 #define LOG(msg) Logger::instance().log(msg)
 
+#define LOG_S(expr)                       \
+  do {                                    \
+    std::ostringstream oss_;              \
+    oss_ << (expr);                       \
+    std::string s_ = oss_.str();          \
+    if (!s_.empty() && s_.back() == '\n') \
+      s_.pop_back();                      \
+    Logger::instance().log(s_);           \
+  } while (0)
+
 #else
 
 inline void LOG(const std::string& msg) {
   std::cout << msg << '\n';
 }
+
+inline void LOG_S_IMPL(std::ostringstream& oss) {
+  std::string s = oss.str();
+  if (!s.empty() && s.back() == '\n')
+    s.pop_back();
+  std::cout << s << '\n';
+}
+
+#define LOG_S(expr)          \
+  do {                       \
+    std::ostringstream oss_; \
+    oss_ << expr;            \
+    LOG_S_IMPL(oss_);        \
+  } while (0)
 
 #endif
 #endif
