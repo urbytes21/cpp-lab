@@ -11,9 +11,9 @@
 
 // UML: docs/uml/patterns_behavioral_command.drawio.svg
 
-#include <iostream>
 #include <string>
 #include <utility>
+#include "Logger.h"
 
 namespace {
 namespace command {
@@ -37,17 +37,17 @@ class ICommand {
 class Receiver {
  public:
   void doCheck() {
-    std::cout << "Receiver checking... \n";
+    LOG("Receiver checking... ");
     dummy_++;
   };
 
   void doInit() {
-    std::cout << "Receiver initializing... \n";
+    LOG("Receiver initializing... ");
     dummy_++;
   };
 
   void doLaunch(const std::string& arg) {
-    std::cout << "Receiver launching... \n\t" << arg << "\n";
+    LOG("Receiver launching...  \n\t" + arg);
     dummy_++;
   };
 
@@ -63,7 +63,7 @@ class Receiver {
  */
 class SimpleConcreteCommand : public ICommand {
  public:
-  void execute() const override { std::cout << "\t SimpleCommand executed \n"; }
+  void execute() const override { LOG("executed"); }
 };
 
 class ComplexConcreteCommand : public ICommand {
@@ -76,7 +76,7 @@ class ComplexConcreteCommand : public ICommand {
       : receiver_{receiver}, payload_{std::move(payload)} {};
 
   void execute() const override {
-    std::cout << "\t ComplexCommand executed \n";
+    LOG("executed");
     this->receiver_->doCheck();
     this->receiver_->doInit();
     this->receiver_->doLaunch(payload_);
@@ -109,6 +109,7 @@ class Invoker {
   void setOnFinish(ICommand* command) { this->on_finish_ = command; }
 
   void invoke() const {
+    LOG("executed");
     if (on_start_ != nullptr) {
       on_start_->execute();
     }
@@ -119,20 +120,20 @@ class Invoker {
   }
 };
 
-namespace client {
-void clientCode(const Invoker* invoker) {
-  invoker->invoke();
-}
-
-}  // namespace client
-
 void run() {
+  auto client_code = [](const Invoker* invoker) {
+    invoker->invoke();
+  };
+
+  // Receiver: UI
   auto* ui = new Receiver();
+
   // How to execute these command when something triggered
   auto* invoker = new Invoker();
   invoker->setOnStart(new SimpleConcreteCommand());
   invoker->setOnFinish(new ComplexConcreteCommand(ui, "cmd --version"));
-  client::clientCode(invoker);
+
+  client_code(invoker);
   delete ui;
 }
 }  // namespace command

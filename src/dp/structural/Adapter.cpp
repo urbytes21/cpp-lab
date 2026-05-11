@@ -7,7 +7,7 @@
 
 // UML: docs/uml/patterns_structural_adapter.drawio.svg
 
-#include <iostream>
+#include "Logger.h"
 
 namespace adapter_pattern {
 /**
@@ -17,9 +17,9 @@ namespace adapter_pattern {
  */
 class Adaptee {
  public:
-  std::string specificRequest() {
+  void specific_request() {
     dummy_++;
-    return "Adaptee: The adaptee's behavior.";
+    LOG("executed");
   }
 
  private:
@@ -31,7 +31,7 @@ class Adaptee {
  */
 class Target {
  public:
-  virtual std::string request() { return "   Target: The target's behavior."; }
+  virtual void request() { LOG("executed"); }
 };
 
 // ============================================================================================================
@@ -49,40 +49,31 @@ class Adapter : public Target {
   Adaptee* adaptee_;
 
  public:
-  explicit Adapter(Adaptee* adaptee) : adaptee_{adaptee} {
-    std::cout << "Adapter constructer.\n";
-  }
+  explicit Adapter(Adaptee* adaptee) : adaptee_{adaptee} { LOG("constructed"); }
 
-  std::string request() override { return adaptee_->specificRequest(); }
+  void request() override { return adaptee_->specific_request(); }
 };
 
-/**
- * The client code supports all classes that follow the Target interface.
- */
-
-namespace client {
-void clientCode(Target* const target) {
-  if (target != nullptr)
-    std::cout << "Output: " << target->request() << "\n";
-}
-}  // namespace client
-
 void run() {
-  std::cout << "Client: Can work just fine with the Target objects:\n";
-  Target target = Target();
-  std::cout << "Target: " << target.request() << "\n";
-  client::clientCode(&target);
-  std::cout << "\n\n";
+  LOG("Adapter Example");
 
-  std::cout << "Client: Cannot work with the Adaptee objects:\n";
+  // The client code supports all classes that follow the Target interface.
+  auto client_code = [](Target* target) {
+    LOG("executed");
+    target->request();
+  };
+
+  LOG("Client: Can work just fine with the Target objects:");
+  Target target = Target();
+  client_code(&target);
+
+  LOG("Client: Cannot work with the Adaptee objects:");
   Adaptee adaptee = Adaptee();
-  std::cout << "Adaptee: " << adaptee.specificRequest() << "\n";
   // Client::clientCode(&adaptee); // error
 
-  std::cout << "Client: But can work with it via the Adapter:\n";
+  LOG("Client: But can work with it via the Adapter:");
   auto adapter = Adapter(&adaptee);
-  client::clientCode(&adapter);
-  std::cout << "\n";
+  client_code(&adapter);
 }
 }  // namespace adapter_pattern
 
@@ -90,8 +81,8 @@ namespace case_study {
 // Target interface expected by the existing system
 class PaymentSystem {
  public:
-  virtual void payWithCard(const std::string& cardNumber) {
-    std::cout << "Payment using card: " << cardNumber << "\n";
+  virtual void pay_with_card(const std::string& card_number) {
+    LOG_S("Payment using card: " << card_number);
   }
 
   virtual ~PaymentSystem() = default;
@@ -100,8 +91,8 @@ class PaymentSystem {
 // Adaptee: a new payment API with an incompatible interface
 class PayPalAPI {
  public:
-  void sendPayment(const std::string& email) {
-    std::cout << "Payment sent via PayPal to " << email << "\n";
+  void send_payment(const std::string& email) {
+    LOG_S("Payment sent via PayPal to " << email);
     dummy_++;
   }
 
@@ -115,14 +106,15 @@ class PayPalAdapter : public PaymentSystem {
   PayPalAPI paypal_;
 
  public:
-  void payWithCard(const std::string& cardNumber) override {
+  void pay_with_card(const std::string& cardNumber) override {
     // Treat the cardNumber parameter as a PayPal email
-    paypal_.sendPayment(cardNumber);
+    paypal_.send_payment(cardNumber);
   }
 };
 
 // Client code: uses the old interface without modification
 void run() {
+  LOG("Case Study Example");
   std::string method;
   std::string input;
   method = std::string("card") + std::string("");
@@ -130,18 +122,18 @@ void run() {
   // method = std::string("paypal") + std::string("");input =
   // "user@example.com";
 
-  std::cout << "Choose payment method (card/paypal): " << method << "\n";
+  LOG_S("Choose payment method (card/paypal): " << method);
 
   PaymentSystem* payment_system = nullptr;
 
   if (method == "card") {
     payment_system = new PaymentSystem();
-    payment_system->payWithCard(input);
+    payment_system->pay_with_card(input);
   } else if (method == "paypal") {
     payment_system = new PayPalAdapter();
-    payment_system->payWithCard(input);
+    payment_system->pay_with_card(input);
   } else {
-    std::cout << "Unsupported payment method!\n";
+    LOG("Unsupported payment method!");
   }
 
   delete payment_system;

@@ -11,70 +11,77 @@
 
 // UML: docs/uml/patterns_structural_bridge.drawio.svg
 
-#include <iostream>
-
+#include <memory>
+#include <utility>
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 namespace {
 namespace problem {
 class Widget {
  public:
   virtual ~Widget() = default;
-  virtual std::string clickOn() const = 0;
+  virtual void click_on() const = 0;
 };
 
 /* Concrete variations for Button */
 class Button : public Widget {
  public:
-  std::string clickOn() const override { return "Click on: Button\n"; }
+  void click_on() const override { LOG("executed"); }
 };
 
 class ButtonWindows : public Button {
  public:
-  std::string clickOn() const override { return "[Linux]" + Button::clickOn(); }
+  void click_on() const override {
+    LOG("executed");
+    Button::click_on();
+  }
 };
 
 class ButtonLinux : public Button {
  public:
-  std::string clickOn() const override {
-    return "[Windows]" + Button::clickOn();
+  void click_on() const override {
+    LOG("executed");
+    Button::click_on();
   }
 };
 
 /* Concrete variations for Label */
 class Label : public Widget {
  public:
-  std::string clickOn() const override { return "Click on: Label\n"; }
+  void click_on() const override { LOG("executed"); }
 };
 
 class LabelWindows : public Label {
  public:
-  std::string clickOn() const override {
-    return "[Windows]" + Label::clickOn();
+  void click_on() const override {
+    LOG("executed");
+    Label::click_on();
   }
 };
 
 class LabelLinux : public Label {
  public:
-  std::string clickOn() const override { return "[Linux]" + Label::clickOn(); }
+  void click_on() const override {
+    LOG("executed");
+    Label::click_on();
+  }
 };
 
-/* Concrete variations for others widgets like Text,CCombo  or new platform
- * macOS etc*/
-// [Problem 1] We have to write the Text/TextLinux ...
-
-namespace client {
-void clientCode(const Widget* widget) {
-  if (widget != nullptr)
-    std::cout << widget->clickOn();
-}
-}  // namespace client
-
 void run() {
+  LOG("Problem");
+  /* Concrete variations for others widgets like Text,CCombo  or new platform
+ * macOS etc*/
+  // [Problem 1] We have to write the Text/TextLinux ...
+  auto client_code = [](const Widget* widget) {
+    if (widget != nullptr)
+      widget->click_on();
+  };
+
   // [Problem 2] : Use the Bridge if you need to be able to switch
   // implementations at runtime. how to exmaple for this still don't know
   Widget* button = new ButtonWindows();
-  client::clientCode(button);
+  client_code(button);
   delete button;
 }
 }  // namespace problem
@@ -89,18 +96,18 @@ namespace bridge_pattern {
  */
 class OsImplemetation {
  public:
-  virtual std::string clickOnImplement() const = 0;
+  virtual void click_on_ipl() const = 0;
   virtual ~OsImplemetation() = default;
 };
 
 class WindowsImplemetation : public OsImplemetation {
  public:
-  std::string clickOnImplement() const override { return "[Windows]"; }
+  void click_on_ipl() const override { LOG("[Windows]"); }
 };
 
 class LinuxImplemetation : public OsImplemetation {
  public:
-  std::string clickOnImplement() const override { return "[Linux]"; }
+  void click_on_ipl() const override { LOG("[Linux]"); }
 };
 
 /**
@@ -110,14 +117,14 @@ class LinuxImplemetation : public OsImplemetation {
  */
 class WidgetAbstraction {
  protected:
-  OsImplemetation* implementation_;
+  std::shared_ptr<OsImplemetation> implementation_;
 
  public:
-  explicit WidgetAbstraction(OsImplemetation* implemetation)
-      : implementation_{implemetation} {}
+  explicit WidgetAbstraction(std::shared_ptr<OsImplemetation> implemetation)
+      : implementation_{std::move(implemetation)} {}
   virtual ~WidgetAbstraction() = default;
 
-  virtual std::string clickOn() const = 0;
+  virtual void click_on() const = 0;
 };
 
 /**
@@ -125,40 +132,40 @@ class WidgetAbstraction {
  */
 class ButtonAbstraction : public WidgetAbstraction {
  public:
-  explicit ButtonAbstraction(OsImplemetation* implemetation)
-      : WidgetAbstraction{implemetation} {}
-  std::string clickOn() const override {
-    return this->implementation_->clickOnImplement() + "Click on: Button\n";
+  explicit ButtonAbstraction(std::shared_ptr<OsImplemetation> implemetation)
+      : WidgetAbstraction{std::move(implemetation)} {}
+  void click_on() const override {
+    LOG("executed");
+    this->implementation_->click_on_ipl();
   }
 };
 
 class LabelAbstraction : public WidgetAbstraction {
  public:
-  explicit LabelAbstraction(OsImplemetation* implemetation)
-      : WidgetAbstraction{implemetation} {}
-  std::string clickOn() const override {
-    return this->implementation_->clickOnImplement() + "Click on: Label\n";
+  explicit LabelAbstraction(std::shared_ptr<OsImplemetation> implemetation)
+      : WidgetAbstraction{std::move(implemetation)} {}
+  void click_on() const override {
+    LOG("executed");
+    this->implementation_->click_on_ipl();
   }
 };
 
-namespace client {
-void clientCode(const WidgetAbstraction* widget) {
-  if (widget != nullptr)
-    std::cout << widget->clickOn();
-}
-}  // namespace client
-
 void run() {
-  // TODO(phong-nguyen): check memory leak here
-  OsImplemetation* os = new WindowsImplemetation();
+  LOG("Bridge Example");
+  auto client_code = [](const WidgetAbstraction* widget) {
+    if (widget != nullptr)
+      widget->click_on();
+  };
+
+  std::shared_ptr<OsImplemetation> os =
+      std::make_shared<WindowsImplemetation>();
   WidgetAbstraction* widget = new ButtonAbstraction(os);
-  client::clientCode(widget);
+  client_code(widget);
 
-  os = new LinuxImplemetation();
+  os = std::make_shared<LinuxImplemetation>();
   widget = new LabelAbstraction(os);
-  client::clientCode(widget);
+  client_code(widget);
 
-  delete os;
   delete widget;
 }
 }  // namespace bridge_pattern

@@ -7,11 +7,14 @@
 
 // UML: docs/uml/patterns_behavioral_prototype.drawio.svg
 
-#include <iostream>
 #include <unordered_map>
 #include <utility>
+#include "Logger.h"
 namespace {
 namespace prototy {
+
+constexpr std::string_view kLoggerEtxId = "logger";
+constexpr std::string_view kAnalyzeId = "analyze";
 
 /*
  * Prototype interface declares the cloning methods.
@@ -32,17 +35,15 @@ class IExtensionPrototype {
  */
 class LoggerExtension : public IExtensionPrototype {
  private:
-  std::string logLevel_;
+  std::string log_level_;
 
  public:
   explicit LoggerExtension(std::string level = "DEBUG")
-      : logLevel_{std::move(level)} {}
+      : log_level_{std::move(level)} {}
 
   IExtensionPrototype* clone() override { return new LoggerExtension(*this); }
 
-  void execute() const override {
-    std::cout << "[Logger] log level: " << logLevel_ << "\n";
-  }
+  void execute() const override { LOG("log level: " + log_level_); }
 };
 
 class AnalyticsExtension : public IExtensionPrototype {
@@ -56,9 +57,7 @@ class AnalyticsExtension : public IExtensionPrototype {
     return new AnalyticsExtension(*this);
   }
 
-  void execute() const override {
-    std::cout << "[Analytics] sampling rate: " << sRate_ << "\n";
-  }
+  void execute() const override { LOG_S("sampling rate: " << sRate_); }
 };
 
 /**
@@ -78,12 +77,14 @@ class ExtensionPrototypeRegistry {
       it = prototypes_.erase(it);  // erase and move to next
     }
   }
-  void registerExtension(const std::string& id, IExtensionPrototype* proto) {
-    prototypes_[id] = proto;
+  void register_extension(const std::string_view& id,
+                          IExtensionPrototype* proto) {
+    LOG(id);
+    prototypes_[std::string(id)] = proto;
   }
 
-  IExtensionPrototype* create(const std::string& id) const {
-    auto it = prototypes_.find(id);
+  IExtensionPrototype* create(const std::string_view& id) const {
+    auto it = prototypes_.find(std::string(id));
     if (it != prototypes_.end()) {
       return it->second->clone();
     }
@@ -91,27 +92,28 @@ class ExtensionPrototypeRegistry {
   }
 };
 
-/*
- * Client creates a new object by asking a prototype to clone itself
- */
-namespace client {
-void clientCode(const ExtensionPrototypeRegistry* const registry) {
-  IExtensionPrototype* logger_etx = registry->create("logger");
-  logger_etx->execute();
-  IExtensionPrototype* analyx_etx = registry->create("analyze");
-  analyx_etx->execute();
-
-  delete logger_etx;
-  delete analyx_etx;
-}
-
-}  // namespace client
-
 void run() {
+  // Client creates a new object by asking a prototype to clone itself
+  auto client_code = [](const ExtensionPrototypeRegistry* const registry) {
+    IExtensionPrototype* logger_etx = registry->create(prototy::kLoggerEtxId);
+    logger_etx->execute();
+    IExtensionPrototype* analyx_etx = registry->create(prototy::kAnalyzeId);
+    analyx_etx->execute();
+
+    delete logger_etx;
+    delete analyx_etx;
+  };
+
+  // Create a registry
   auto* registry = new ExtensionPrototypeRegistry();
-  registry->registerExtension("logger", new LoggerExtension("DEBUG"));
-  registry->registerExtension("analyze", new AnalyticsExtension(1200));
-  client::clientCode(registry);
+
+  // Register extensions
+  registry->register_extension(prototy::kLoggerEtxId,
+                               new LoggerExtension("DEBUG"));
+  registry->register_extension(prototy::kAnalyzeId,
+                               new AnalyticsExtension(1200));
+
+  client_code(registry);
 
   delete registry;
 }
