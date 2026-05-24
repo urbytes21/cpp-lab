@@ -97,6 +97,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/RaceCondition.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/ConditionVariable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/FuturePromise.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/Timing.cpp
 
     # Utils
     ${CMAKE_CURRENT_SOURCE_DIR}/utils/Algorithm.cpp

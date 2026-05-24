@@ -228,3 +228,10 @@ auto future = std::async(std::launch::async, SomeFunctionObject(), arg_1);
 // Lambda function
 auto future = std::async(std::launch::async, [](){});
 ```
+
+## 4. Date and time library
+- The `chrono` (since c++11) library defines several main types as well as utility functions and common typedefs:
+  - clocks
+  - time points
+  - durations
+  - calender/timezone (c++ 20);
