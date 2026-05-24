@@ -1,7 +1,7 @@
-#include <iostream>
 #include <bitset>
 
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 void arithmeticOperator();
 void logicalOperator();
@@ -9,7 +9,7 @@ void bitWiseOperator();
 
 class Operations : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/basics"; }
   std::string name() const override { return "Operations"; }
   std::string description() const override { return "Operation"; }
   void execute() override {
@@ -22,107 +22,105 @@ class Operations : public IExample {
 REGISTER_EXAMPLE(Operations);
 
 void arithmeticOperator() {
-  std::cout << "\n--- ArithmeticOperator Examples ---\n";
+  LOG_S("\n--- ArithmeticOperator Examples ---\n");
   int a{100};
   int b{200};
 
   // Addition
-  std::cout << "a = " << a << ", b = " << b << "\n";
+  LOG_S("a = " << a << ", b = " << b);
   int sum = a + b;
-  std::cout << "sum = " << sum << "\n";
+  LOG_S("sum = " << sum);
 
   // Subtraction
-  std::cout << "a = " << a << ", b = " << b << "\n";
-  int different = a - b;
-  std::cout << "different = " << different << "\n";
+  LOG_S("a = " << a << ", b = " << b);
+  uint32_t different = a - b;
+  LOG_S("different = " << different);
 
   // Multiplication
-  std::cout << "a = " << a << ", b = " << b << "\n";
+  LOG_S("a = " << a << ", b = " << b);
   int product = a * b;
-  std::cout << "product = " << product << "\n";
+  LOG_S("product = " << product);
 
   // Division
-  std::cout << "a = " << a << ", b = " << b << "\n";
+  LOG_S("a = " << a << ", b = " << b);
   int quotient = a / b;
-  std::cout << "quotient = " << quotient << "\n";
+  LOG_S("quotient = " << quotient);
 
   // Modulus
-  std::cout << "a = " << a << ", b = " << b << "\n";
+  LOG_S("a = " << a << ", b = " << b);
   int remainder = a % b;
-  std::cout << "remainder = " << remainder << "\n";
+  LOG_S("remainder = " << remainder);
 
   // Increment
-  std::cout << "a = " << a << "\n";
+  LOG_S("a = " << a);
   int pre_in = ++a;  // increase a, return a
-  std::cout << "preIn = " << pre_in << "\n";
+  LOG_S("preIn = " << pre_in);
 
-  std::cout << "a = " << a << "\n";
+  LOG_S("a = " << a);
   int post_in = a++;  // copy a to a copy, then increase a, return copy
-  std::cout << "postIn = " << post_in << "\n";
+  LOG_S("postIn = " << post_in);
 
   // Decrement
-  std::cout << "b = " << b << "\n";
+  LOG_S("b = " << b);
   int pre_de = --b;
-  std::cout << "preDe = " << pre_de << "\n";
+  LOG_S("preDe = " << pre_de);
 
-  std::cout << "b = " << b << "\n";
+  LOG_S("b = " << b);
   int post_de = b--;
-  std::cout << "postDe = " << post_de << "\n";
+  LOG_S("postDe = " << post_de);
 
   // Comma:
   int value = (a++, b);  // a is incremented, then b is returned
-  std::cout << "a = " << a << ", b = " << b << "\n";
-  std::cout << "comma(a++, b) = " << value << "\n";
+  LOG_S("a = " << a << ", b = " << b);
+  LOG_S("comma(a++, b) = " << value);
 }
 
-void logicalOperator() {
-  std::cout << "\n--- LogicalOperator Examples ---\n";
+void LOG_SicalOperator() {
+  LOG("\n--- LOG_SicalOperator Examples ---");
   bool a = true;
   bool b = false;
   bool c = true;
 
-  std::cout << std::boolalpha;  // show true/false instead of 1/0
-  std::cout << "a = " << a << ", b = " << b << ", c = " << c << "\n\n";
+  // show true/false instead of 1/0
+  LOG_S(std::boolalpha << "a = " << a << ", b = " << b << ", c = " << c);
 
   // AND (&&)
-  std::cout << "[AND] a && b = " << (a && b) << "\n";
+  LOG_S("[AND] a && b = " << (a && b));
 
   // OR (||)
-  std::cout << "[OR ] a || b = " << (a || b) << "\n";
+  LOG_S("[OR ] a || b = " << (a || b));
 
   // NOT (!)
-  std::cout << "[NOT] !c = " << (!c) << "\n";
+  LOG_S("[NOT] !c = " << (!c));
 }
 
 void bitWiseOperator() {
-  std::cout << "\n--- BitWiseOperator Examples ---\n";
-  std::bitset<8> bits_a {0b1111'1111};
-  std::bitset<8> bits_b {0b1111'0000};
+  LOG("\n--- BitWiseOperator Examples ---");
+  std::bitset<8> bits_a = 0b1111'1111;  std::bitset<8> bits_b = 0b1111'0000;
 
-  std::cout
-  << "bitA = " << bits_a << ", bitB = " << bits_b << "\n";
+  LOG_S("bitA = " << bits_a << ", bitB = " << bits_b);
 
   // AND
   std::bitset<8> result = bits_a & bits_b;
-  std::cout << "bitA && bitB= " << result << "\n";
+  LOG_S("bitA && bitB= " << result);
 
   // OR
   result = bits_a | bits_b;
-  std::cout << "bitA | bitB= " << result << "\n";
+  LOG_S("bitA | bitB= " << result);
 
   // XOR
   result = bits_a ^ bits_b;
-  std::cout << "bitA ^ bitB= " << result << "\n";
+  LOG_S("bitA ^ bitB= " << result);
 
   // NOT
   result = ~bits_a;
-  std::cout << "~bitA = " << result << "\n";
+  LOG_S("~bitA = " << result);
 
   // LEFT SHIFT
   result = bits_a << 1;
-  std::cout << "bitA << 1 = " << result << "\n";
+  LOG_S("bitA << 1 = " << result);
 
   // RIGHT SHIFT
   result = bits_a >> 1;
-  std::cout << "bitA >> 1 = " << result << "\n";
+  LOG_S("bitA >> 1 = " << result);
 }

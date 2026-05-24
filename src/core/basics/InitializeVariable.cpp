@@ -1,38 +1,39 @@
 // cppcheck-suppress-file [unreadVariable, unusedVariable, functionStatic]
-#include <iostream>
 
+#include "Logger.h"
 #include "ExampleRegistry.h"
 
 void initialize_variable();
 
 class InitializeVariable : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/basics"; }
   std::string name() const override { return "InitializeVariable"; }
   std::string description() const override { return "InitializeVariable"; }
+
   void execute() override { initialize_variable(); }
 };
 
 REGISTER_EXAMPLE(InitializeVariable);
 
 struct Foo {
-  Foo() { std::cout << "Default constructor/ default init\n"; }
+  Foo() { LOG("Default constructor/ default init"); }
 
   // Foo(int)
   explicit Foo(int) {
-    std::cout << "Constructor called with int / copy init\n";
+    LOG( "Constructor called with int / copy init");
   }
 
   Foo(const Foo& other) {
     other.dump();
-    std::cout << "Copy constructor called\n";
+    LOG( "Copy constructor called");
   }
 
   void dump() const {}
 };
 
 void initialize_variable() {
-  std::cout << "\n--- Variable Initialization Examples ---\n";
+  LOG( "\n--- Variable Initialization Examples ---");
   // * 1) Default-initialization
   int init_default_var;
   Foo init_default_obj;

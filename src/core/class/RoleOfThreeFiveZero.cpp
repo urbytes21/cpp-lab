@@ -276,7 +276,7 @@ void run() {
 
 class RoleOfThreeFiveZero : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/class"; }
   std::string name() const override { return "RoleOfThreeFiveZero"; }
   std::string description() const override { return ""; }
   void execute() override {

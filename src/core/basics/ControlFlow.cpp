@@ -119,7 +119,7 @@ void exceptions() {
 
 class ControlFlow : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/basics"; }
   std::string name() const override { return "ControlFlow"; }
   std::string description() const override { return "ControlFlow"; }
   void execute() override {
