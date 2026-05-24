@@ -25,7 +25,7 @@ void worker_thread() {
   // The thread continues only when 'ready' becomes true.
   cv.wait(lock, []() { return ready; });
 
-  LOG("Proccessing data");
+  LOG("Processing data");
 
   data += " after processing";
   finish = true;
