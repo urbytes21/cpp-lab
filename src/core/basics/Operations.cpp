@@ -75,7 +75,7 @@ void arithmeticOperator() {
   LOG_S("comma(a++, b) = " << value);
 }
 
-void LOG_SicalOperator() {
+void logicalOperator() {
   LOG("\n--- LOG_SicalOperator Examples ---");
   bool a = true;
   bool b = false;

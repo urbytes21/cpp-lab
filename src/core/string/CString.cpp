@@ -1,12 +1,14 @@
 #include <string.h>  // C-String
-#include <iostream>
+#include "Logger.h"
 
 namespace {
+void log_string_info(const char* label, const char* str, size_t size) {
+  LOG_S(label << ": \"" << str << "\"" << " | size=" << size
+              << " | length=" << strlen(str));
+}
 
-namespace initialize_string {
-
-// Memory layout (addresses are illustrative):
-// Stack (modifiable array)
+namespace create {
+/// @brief Stack (modifiable array)
 // 0x7fffc000: str2[0] = 'H'
 // 0x7fffc001: str2[1] = 'e'
 // 0x7fffc002: str2[2] = 'l'
@@ -15,7 +17,7 @@ namespace initialize_string {
 // 0x7fffc005: str2[5] = '\0'
 // (str2 starts at 0x7fffc000)
 
-// Data / Read-only segment (string literal)
+/// @brief String literal (Data / Read-only segment)
 // 0x00403000: 'H'
 // 0x00403001: 'e'
 // 0x00403002: 'l'
@@ -27,165 +29,177 @@ namespace initialize_string {
 // Pointer variable
 // 0x7fffbff0: str1 = 0x00403000   // str1 holds address of string literal
 void run() {
-  // **1. As a character array (modifiable)**
-  char str_array[] = "this is a strArray literal";
-  std::cout << str_array << " - size " << sizeof(str_array) << " - length "
-            << strlen(str_array) << "\n";
-  str_array[0] ^= ' ';
-  std::cout << str_array << "\n";
+  LOG("=== create ===");
 
-  // **2. As a a pointer to a string literal const (read-only)**
-  // Literal is const char*
-  char* str_ptr = "this is a strPtr literal";
-  std::cout << str_ptr << " - size " << sizeof(str_ptr) << " - length "
-            << strlen(str_ptr) << "\n";
-  //   strPtr[0] ^= ' '; // ERROR
+  /// @brief Create a string as a character array (modifiable)
+  char str_array[] = "this is a string array literal";
+  log_string_info("str_array", str_array, sizeof(str_array));
+  str_array[0] ^= ' ';  // modify first character
+  log_string_info("modified str_array", str_array, sizeof(str_array));
 
-  // **3. Using sprintf / snprintf (string formatting)**
+  /// @brief Create a pointer to a string literal const (read-only)
+  const char* str_ptr = "this is a strPtr literal";
+  log_string_info("str_ptr", str_ptr, sizeof(str_ptr));
+  // str_ptr[0] ^= ' '; // ERROR
+
+  /// @brief Create a string using sprintf / snprintf
   char str_formatted[50];
   int num_var = 21;
+  const char text[] = "example";
 
-  // sprintf (unsafe if buffer too small)
-  sprintf(str_formatted, "sprintf: %d", num_var);
-  std::cout << str_formatted << " - size " << sizeof(str_formatted)
-            << " - length " << strlen(str_formatted) << "\n";
+  sprintf(str_formatted, "sprintf: %d",
+          num_var);  // sprintf (unsafe if buffer too small)
+  log_string_info("sprintf", str_formatted, sizeof(str_formatted));
 
-  // snprintf (safer, limits buffer size)
-  snprintf(str_formatted, sizeof(str_formatted), "snprintf %s %d", str_array,
-           num_var);
-  std::cout << str_formatted << " - size " << sizeof(str_formatted)
-            << " - length " << strlen(str_formatted) << "\n";
+  snprintf(str_formatted, sizeof(str_formatted), "snprintf %s %d", text,
+           num_var);  // snprintf (safer, limits buffer size)
+  log_string_info("snprintf", str_formatted, sizeof(str_formatted));
 }
-}  // namespace initialize_string
+}  // namespace create
 
-namespace copy_string {
+namespace copy {
 void run() {
+  LOG("=== copy ===");
+
   const char src[] = "CopyStr";
   char dst[50];
 
-  // **1. Copy full string**
+  /// @brief Copy full string
   strcpy(dst, src);
+  log_string_info("strcpy", dst, sizeof(dst));
 
-  std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
-            << "\n";
-
-  // **2. Copy the number of charactor**
+  /// @brief Copy first N characters
   strncpy(dst, "Hello123", 5);
-  dst[5] = '\0';  // ensure null-termination
-
-  std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
-            << "\n";
+  dst[5] = '\0';  // strncpy may not append '\0'
+  log_string_info("strncpy", dst, sizeof(dst));
 }
-}  // namespace copy_string
+}  // namespace copy
 
-namespace concat_string {
+namespace concat {
 void run() {
+  LOG("=== concat ===");
+
   const char part1[] = "Hello";
   const char part2[] = "World";
   char dst[50] = "";
 
-  // **1. Append full str**
+  /// @brief Append full strings
   strcat(dst, part1);
   strcat(dst, part2);
   strcat(dst, " !!");
-  std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
-            << "\n";
+  log_string_info("strcat", dst, sizeof(dst));
 
-  // **2. Append the number of charactors**
+  /// @brief Append first N characters
   strncat(dst, "1234", 3);
-  std::cout << dst << " - size " << sizeof(dst) << " - length " << strlen(dst)
-            << "\n";
+  log_string_info("strncat", dst, sizeof(dst));
 }
-}  // namespace concat_string
+}  // namespace concat
 
-namespace compare_string {
+namespace compare {
 void run() {
+  LOG("=== compare ===");
+
   const char str1[] = "abc";
   const char str2[] = "abcde";
-  // **0. Compare memory**
-  // int memcmp ( const void * ptr1, const void * ptr2, size_t num );
-  int result0 = memcmp(str1, str2, sizeof(str1));
-  std::cout << "strcmp(str1, \"abcde\") = " << result0 << "\n";
 
-  // **1. Compare full str**
+  /// @brief Compare memory
+  // int memcmp(const void* ptr1, const void* ptr2, size_t num);
+  int result0 = memcmp(str1, str2, sizeof(str1));
+  LOG_S("memcmp(str1, str2, sizeof(str1)) = " << result0);
+
+  /// @brief Compare full string
   int result1 = strcmp(str1, "abc");
   int result2 = strcmp(str1, str2);
-  std::cout << "strcmp(str1, \"abc\") = " << result1 << "\n";
-  std::cout << "strcmp(str1, str2) = " << result2 << "\n";
+  LOG_S("strcmp(str1, \"abc\") = " << result1);
+  LOG_S("strcmp(str1, str2) = " << result2);
 
-  // **2. Compare first N characters**
+  /// @brief Compare first N characters
   int result3 = strncmp(str1, str2, 3);
-  std::cout << "strncmp(str1, str2, 3) = " << result3 << "\n";
+  LOG_S("strncmp(str1, str2, 3) = " << result3);
 }
-}  // namespace compare_string
+}  // namespace compare
 
-namespace parse_string {
+namespace parse {
 void run() {
-  char str[] = "A,B,C,D,";  // OK
-                            //   char* str = "A,B,C,D,"; // ERROR - const
+  LOG("=== compare ===");
 
-  // **1. Splitting a string by some delimiter**
-  // 1.1. strtok - not safe
-  char* delimiter = ",";
+  char str[] = "A,B,C,D,";
+  // char* str = "A,B,C,D,"; // ERROR - string literal is read-only
+
+  const char* delimiter = ",";
+
+  /// @brief strtok (NOT thread-safe)
+  LOG_S("=== strtok ===");
   const char* token = strtok(str, delimiter);
   while (token != nullptr) {
-    std::cout << "strtok - token :" << token << "\n";
+    LOG_S("token = " << token);
+
     token = strtok(nullptr, delimiter);
   }
+
+  /// @brief strtok problem example
   {
-    std::cout << " === problem === \n";
+    LOG_S("=== strtok problem example ===");
+
     char str1[] = "a,b,c";
     char str2[] = "1,2,3";
 
     // Parse str1
-    const char* token1 = strtok(str1, delimiter);  // token1 = "a"
-    std::cout << "str1 first token: " << token1 << "\n";
+    const char* token1 = strtok(str1, delimiter);
+    LOG_S("str1 first token  = " << token1);
 
     // Parse str2
-    const char* token2 = strtok(str2, delimiter);  // token2 = "1"
-    std::cout << "str2 first token: " << token2 << "\n";
+    const char* token2 = strtok(str2, delimiter);
+    LOG_S("str2 first token  = " << token2);
 
     // Continue parsing str1
-    token1 = strtok(nullptr, delimiter);  //  Unexpected!
-    std::cout << "str1 second token: " << token1 << "\n";
+    token1 = strtok(nullptr, delimiter);
+    LOG_S("str1 second token = " << token1 << " (unexpected)");
   }
 
-  // Have to Reset string for the next handle because strtok
+  /// @brief strtok_r (thread-safe / reentrant)
+  LOG_S("=== strtok_r ===");
+
   char str2[] = "one,two,three";
-  // 1.2. strtok_r - safe
   char* saveptr;
   const char* token2 = strtok_r(str2, delimiter, &saveptr);
+
   while (token2 != nullptr) {
-    std::cout << "strtok - token :" << token2 << "\n";
+    LOG_S("token = " << token2);
     token2 = strtok_r(nullptr, delimiter, &saveptr);
   }
 
-  // **2. strcspn: find first occurrence of any chars in reject set**
-  const char sample[] = "hello123world";
-  size_t pos = strcspn(sample, "0123456789");  // pos = 5
+  /// @brief strcspn
+  // Find first occurrence of any character in reject set
+  LOG_S("=== strcspn ===");
 
-  std::cout << "Sample string: " << sample << "\n";
-  std::cout << "First digit from \"0123456789\" found at index: " << pos
-            << "\n";
-  std::cout << "The digit is: " << sample[pos] << "\n";
+  const char sample[] = "hello123world";
+  size_t pos = strcspn(sample, "0123456789");
+  LOG_S("sample = " << sample);
+  LOG_S("first digit index = " << pos);
+  LOG_S("digit = " << sample[pos]);
 }
-}  // namespace parse_string
+}  // namespace parse
 
 namespace number_conversion {
 void run() {
-  // **1. string to integer**
+  LOG_S("=== number_conversion ===");
+
+  /// @brief String to integer
   const char str_num[] = "100";
   int num = atoi(str_num);
-  std::cout << num << "\n";
+  LOG_S("atoi(\"100\") = " << num);
 
-  // **2. string to double**
+  /// @brief String to double
   const char str_num_d[] = "100.1234__123";
   double num_d = atof(str_num_d);
-  std::cout << num_d << "\n";
+  LOG_S("atof(\"100.1234__123\") = " << num_d);
 
+  /// @brief strtod
   char* end;
   num_d = strtod(str_num_d, &end);
-  std::cout << num_d << " end part:" << end << "\n";
+  LOG_S("strtod = " << num_d);
+  LOG_S("remaining string = " << end);
 }
 }  // namespace number_conversion
 }  // namespace
@@ -198,12 +212,11 @@ class CString : public IExample {
   std::string name() const override { return "C-String"; }
   std::string description() const override { return "C-String Example"; }
   void execute() override {
-    initialize_string::run();
-    copy_string::run();
-    concat_string::run();
-    compare_string::run();
-    parse_string::run();
-
+    create::run();
+    copy::run();
+    concat::run();
+    compare::run();
+    parse::run();
     number_conversion::run();
   }
 };
