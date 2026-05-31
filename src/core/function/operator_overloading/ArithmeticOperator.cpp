@@ -72,7 +72,7 @@ void run() {
 
 class ArithmeticOperator : public IExample {
  public:
-  std::string group() const override { return "core/overloading"; }
+  std::string group() const override { return "core/overloading_operator"; }
   std::string name() const override { return "ArithmeticOperator"; }
   std::string description() const override { return ""; }
 

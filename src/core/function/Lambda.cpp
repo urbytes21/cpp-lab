@@ -5,34 +5,36 @@
 // custom (2)
 // template <class RandomAccessIterator, class Compare>  void sort (RandomAccessIterator first, RandomAccessIterator last, Compare comp);
 
-#include <iostream>
+#include <sstream>
 #include <vector>
+#include "Logger.h"
 
 namespace {
 void run() {
   std::vector<int> vect{-1, -6, 4, 2, 0, 6, 3, 9, -5};
-
   auto f_print = [](const std::vector<int>& vec) {
+    std::ostringstream oss;
     for (const auto& e : vec) {
-      std::cout << e << " ";
+      oss << e << " ";
     }
-    std::cout << "\n";
+    LOG(oss.str());
   };
 
-  std::cout << "Before sorting : \n";
+  LOG("Before sorting : ");
   f_print(vect);
 
-  std::cout << "Sorting in descending " << "order \n";
+  LOG("Sorting in descending order");
   std::sort(vect.begin(), vect.end(), [](int a, int b) { return a > b; });
 
   f_print(vect);
 
-  std::cout << "Sorting with absolute " << "value as parameter\n ";
+  LOG("Sorting with absolute value as parameter");
   std::sort(vect.begin(), vect.end(), [](int a, int b) { return a < b; });
 
+  std::ostringstream oss;
   for (auto i : vect)
-    std::cout << i << " ";
-  std::cout << "\n";
+    oss << i << " ";
+  LOG(oss.str());
 }
 }  // namespace
 
@@ -40,7 +42,7 @@ void run() {
 
 class Lambda : public IExample {
  public:
-  std::string group() const override { return "core/expression"; }
+  std::string group() const override { return "core/function"; }
   std::string name() const override { return "Lambda"; }
   std::string description() const override {
     return "Lambda Expression Example";

@@ -1,14 +1,16 @@
 #include <algorithm>
-#include <iostream>
 #include <vector>
+#include "Logger.h"
 
 namespace {
 
 int increase(int a, int b) {
+  LOG("");
   return static_cast<int>(a > b);
 }
 
 int decrease(int a, int b) {
+  LOG("");
   return static_cast<int>(a < b);
 }
 
@@ -16,37 +18,39 @@ int decrease(int a, int b) {
 // // Declaring
 // return_type (*FuncPtr) (parameter type, ....);
 // typedef int (*SortFcn)(int a, int b);
-using SortFcn = int (*)(int, int);
+
+/// @brief Function Pointer
+using sort_function_ptr = int (*)(int, int);
 
 void run() {
-  std::vector<int> vect{1, 6, 4, 22, 0, 6, 33, 39, -5};
-
+  std::vector<int> vect{-1, -6, 4, 2, 0, 6, 3, 9, -5};
   auto f_print = [](const std::vector<int>& vec) {
+    std::ostringstream oss;
     for (const auto& e : vec) {
-      std::cout << e << " ";
+      oss << e << " ";
     }
-    std::cout << "\n";
+    LOG(oss.str());
   };
 
-  std::cout << "Before sorting : \n";
+  LOG("Before sorting : ");
   f_print(vect);
 
-  std::cout << "Sorting in descending " << "order \n";
-
+  LOG("Sorting in descending order");
   // Use auto
   auto sort_type_auto = increase;
   std::sort(vect.begin(), vect.end(), sort_type_auto);
 
   // Use pointer
-  SortFcn sort_type_ptr = decrease;
+  sort_function_ptr sort_type_ptr = decrease;
   f_print(vect);
 
-  std::cout << "Sorting with absolute " << "value as parameter\n ";
+  LOG("Sorting with absolute value as parameter");
   std::sort(vect.begin(), vect.end(), sort_type_ptr);
 
+  std::ostringstream oss;
   for (auto i : vect)
-    std::cout << i << " ";
-  std::cout << "\n";
+    oss << i << " ";
+  LOG(oss.str());
 }
 }  // namespace
 
@@ -54,7 +58,7 @@ void run() {
 
 class FunctionPointer : public IExample {
  public:
-  std::string group() const override { return "core/expression"; }
+  std::string group() const override { return "core/function"; }
   std::string name() const override { return "FunctionPointer"; }
   std::string description() const override {
     return "Function Pointer Example";

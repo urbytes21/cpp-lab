@@ -37,7 +37,7 @@ void run() {
 
 class ComparisonOperator : public IExample {
  public:
-  std::string group() const override { return "core/overloading"; }
+  std::string group() const override { return "core/overloading_operator"; }
   std::string name() const override { return "ComparisonOperator"; }
   std::string description() const override { return ""; }
 

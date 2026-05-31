@@ -54,7 +54,7 @@ void run() {
 
 class ClassMemberAccessOperator : public IExample {
  public:
-  std::string group() const override { return "core/overloading"; }
+  std::string group() const override { return "core/overloading_operator"; }
   std::string name() const override { return "ClassMemberAccessOperator"; }
   std::string description() const override { return ""; }
 

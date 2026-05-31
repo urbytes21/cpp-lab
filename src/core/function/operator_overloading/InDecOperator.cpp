@@ -1,17 +1,14 @@
 // cppcheck-suppress-file [postfixOperator]
 
 // prefix/posfix
-#include <iostream>
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 namespace {
 class Cents {
- private:
-  int m_cents_{};
-
  public:
-  explicit Cents(int cents) : m_cents_{cents} {}
-  int getCents() const { return m_cents_; }
+  explicit Cents(int cents) : cents_{cents} {}
+  int getCents() const { return cents_; }
 
   // pre: inc -> return new
   Cents& operator++();
@@ -20,25 +17,36 @@ class Cents {
   // return old -> inc
   Cents operator++(int);
   Cents operator--(int);
+
+ private:
+  int cents_{};
 };
 
-// pre ++x/--x
+/// @brief pre ++x
 Cents& Cents::operator++() {
-  ++m_cents_;
-  return *this;
-}
-Cents& Cents::operator--() {
-  --m_cents_;
+  LOG("");
+  ++cents_;
   return *this;
 }
 
-// pos x++/x--
+/// @brief pre ++x
+Cents& Cents::operator--() {
+  LOG("");
+  --cents_;
+  return *this;
+}
+
+/// @brief pos x++
 Cents Cents::operator++(int) {
+  LOG("");
   Cents temp{*this};  // create copy
   ++(*this);          // increase origin
   return temp;        // return old
 }
+
+/// @brief pos x--
 Cents Cents::operator--(int) {
+  LOG("");
   Cents temp{*this};
   --(*this);
   return temp;
@@ -50,13 +58,13 @@ void run() {
   ++cent;
   cent--;
   --cent;
-  std::cout << cent.getCents() << "\n";
+  LOG_S(cent.getCents());
 }
 }  // namespace
 
 class InDecOperator : public IExample {
  public:
-  std::string group() const override { return "core/overloading"; }
+  std::string group() const override { return "core/overloading_operator"; }
   std::string name() const override { return "InDecOperator"; }
   std::string description() const override { return ""; }
 
