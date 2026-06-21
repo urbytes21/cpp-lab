@@ -146,6 +146,7 @@ A microcontroller does not start executing from `main()` after power-up or reset
                                       +----------------------+
                                       | Copy .data           |
                                       | Flash --> SRAM       |
+                                      +----------------------+
                                       v
                 +--------------------------------------------------+
                 |                    STM32 SRAM                    |
