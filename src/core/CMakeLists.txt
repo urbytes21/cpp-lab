@@ -7,7 +7,7 @@
 set(CORE_SOURCES
 
     # Basic C++ language features
-    ${CMAKE_CURRENT_SOURCE_DIR}/basics/InitializeVariable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/basics/Initialization.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/basics/Operations.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/basics/TypeQualifier.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/basics/ControlFlow.cpp
