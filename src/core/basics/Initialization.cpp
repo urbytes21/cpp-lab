@@ -1,4 +1,4 @@
-// cppcheck-suppress-file [unreadVariable, unusedVariable, functionStatic]
+// cppcheck-suppress-file [unreadVariable, unusedVariable, uninitdata, uninitvar, unassignedVariable]
 
 #include "ExampleRegistry.h"
 #include "Logger.h"

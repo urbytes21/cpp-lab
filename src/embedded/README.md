@@ -59,7 +59,6 @@ $ arm-none-eabi-objcopy  # ELF to BIN converter
 $ arm-none-eabi-gdb      # Debugger
 ```
 
-`$ qemu-system-arm -M stm32vldiscovery -kernel firmware.bin`
 ### 1.4. Linker Script
 **Linker Script** is a configuration file that tells the linker how to place the program into the mcu memory.
 - Define the memory layout: Flash, RAM, Stack, Heap
