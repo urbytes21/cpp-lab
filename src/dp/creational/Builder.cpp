@@ -1,19 +1,13 @@
 // cppcheck-suppress-file [functionStatic]
 
-// Builder is a creational design pattern that lets you construct complex
-// objects step by step. The pattern allows you to produce different types and
-// representations of an object using the same construction code. Appicability:
-// (*)  Use the Builder pattern to get rid of a “telescoping constructor”.
-// (**) when you want your code to be able to create different representations
-// of some product (for example, stone and wooden houses).
-
-// UML: docs/uml/patterns_behavioral_iterator.drawio.svg
-
+#include <memory>
 #include <ostream>
 #include <sstream>
 #include <string>
 #include <vector>
 #include "Logger.h"
+
+#include "ExampleRegistry.h"
 
 namespace {
 namespace builder_pattern {
@@ -37,10 +31,8 @@ class Product {
   }
 };
 
-/**
- * The Builder interface specifies methods for creating the different parts of
- * the Product objects.
- */
+/// @class Builder Interface
+/// @brief specifics methods for creating the different parts
 class IBuilder {
  public:
   virtual ~IBuilder() = default;
@@ -49,53 +41,30 @@ class IBuilder {
   virtual IBuilder& produce_part_2() = 0;
   virtual IBuilder& produce_part_3() = 0;
 
-  virtual Product* build() = 0;
+  virtual std::unique_ptr<Product> build() = 0;
 };
 
 class AbstractBuilder : public IBuilder {
  protected:
-  Product* product_;
+  std::unique_ptr<Product> product_;
 
  public:
-  explicit AbstractBuilder() { product_ = new Product(); }
+  explicit AbstractBuilder() : product_{std::make_unique<Product>()} {}
 
-  ~AbstractBuilder() override { delete product_; }
+  AbstractBuilder(const AbstractBuilder&) = delete;
+  AbstractBuilder& operator=(const AbstractBuilder&) = delete;
 
-  AbstractBuilder(const AbstractBuilder& other) {
+  AbstractBuilder(AbstractBuilder&&) = default;
+  AbstractBuilder& operator=(AbstractBuilder&&) = default;
 
-    delete product_;
-
-    product_ = new Product();
-    *product_ = *other.product_;
-  }
-
-  AbstractBuilder& operator=(const AbstractBuilder& other) {
-    if (this == &other) {
-      return *this;
-    }
-
-    delete product_;
-    product_ = new Product();
-    *product_ = *other.product_;
-
-    return *this;
-  }
-
-  // the child classes are no longer override this function
+  /// @brief the child classes are no longer override this function
   IBuilder& reset() final {
-
-    delete product_;
-    product_ = new Product();
-
+    product_ = std::make_unique<Product>();
     return *this;
   }
 };
 
-/**
- * The Concrete Builder classes follow the Builder interface and provide
- * specific implementations of the building steps. Your program may have several
- * variations of Builders, implemented differently.
- */
+/// @class Concrete Builder
 class SimpleBuilder : public AbstractBuilder {
  public:
   IBuilder& produce_part_1() override {
@@ -113,7 +82,7 @@ class SimpleBuilder : public AbstractBuilder {
     return *this;
   }
 
-  Product* build() override { return product_; }
+  std::unique_ptr<Product> build() override { return std::move(product_); }
 };
 
 class ComplexBuilder : public AbstractBuilder {
@@ -133,23 +102,25 @@ class ComplexBuilder : public AbstractBuilder {
     return *this;
   }
 
-  Product* build() override { return product_; }
+  std::unique_ptr<Product> build() override { return std::move(product_); }
 };
 
 void run() {
   auto client_code = [](IBuilder* const builder) {
-    const Product* p1 =
+    // product 1
+    auto p1 =
         (*builder).produce_part_1().produce_part_2().produce_part_3().build();
     p1->print();
-    const Product* p2 = (*builder).reset().produce_part_1().build();
+
+    // product 2
+    auto p2 = (*builder).reset().produce_part_1().build();
     p2->print();
   };
 
   {
     LOG("ConcreteBuilder: Simple");
-    IBuilder* builder = new SimpleBuilder();
-    client_code(builder);
-    delete builder;
+    auto builder = std::make_unique<SimpleBuilder>();
+    client_code(builder.get());
   }
   {
     LOG("ConcreteBuilder: Complex");
@@ -160,8 +131,6 @@ void run() {
 }
 }  // namespace builder_pattern
 }  // namespace
-
-#include "ExampleRegistry.h"
 
 class BuilderExample : public IExample {
  public:
