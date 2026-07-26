@@ -7,7 +7,7 @@
 set(CORE_SOURCES
 
     # Basic C++ language features
-    ${CMAKE_CURRENT_SOURCE_DIR}/basics/InitializeVariable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/basics/Initialization.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/basics/Operations.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/basics/TypeQualifier.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/basics/ControlFlow.cpp
@@ -67,26 +67,27 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/container/sequence/Deque.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/container/associative/Set.cpp
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/expression/Lambda.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/expression/FunctionPointer.cpp
-
     # Smart pointers
     ${CMAKE_CURRENT_SOURCE_DIR}/smart_pointer/Unique.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/smart_pointer/Shared.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/smart_pointer/Weak.cpp
 
-    # Operator overloading
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/ArithmeticOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/IOOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/UnaryOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/ComparisonOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/InDecOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/SubscriptOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/ParenthesisOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/TypeCast.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/AssignmentOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/ClassMemberAccessOperator.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/overloading/AllocationOperator.cpp
+    # Function
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/Lambda.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/FunctionPointer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/Functional.cpp
+    ## Operator overloading
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/ArithmeticOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/StreamOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/UnaryOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/ComparisonOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/InDecOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/SubscriptOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/FunctionCallOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/TypeCast.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/AssignmentOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/ClassMemberAccessOperator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/function/operator_overloading/AllocationOperator.cpp
 
     # Date and time
     ${CMAKE_CURRENT_SOURCE_DIR}/datetime/Time.cpp
@@ -97,6 +98,7 @@ set(CORE_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/RaceCondition.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/ConditionVariable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/FuturePromise.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/concurrency/Timing.cpp
 
     # Utils
     ${CMAKE_CURRENT_SOURCE_DIR}/utils/Algorithm.cpp

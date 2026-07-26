@@ -8,3 +8,4 @@ coverage_lcov
 !.vscode/launch.json
 !.vscode/tasks.json
 .cache
+__pycache__/

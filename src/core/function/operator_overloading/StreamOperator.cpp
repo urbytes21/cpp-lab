@@ -1,17 +1,14 @@
 // cppcheck-suppress-file[]
 
-// >> <<
-#include <iostream>
+// operator>> and operator<<
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 namespace {
 class Cents {
- private:
-  int m_cents_{};
-
  public:
-  explicit Cents(int cents) : m_cents_{cents} {}
-  int getCents() const { return m_cents_; }
+  explicit Cents(int cents) : cents_{cents} {}
+  int getCents() const { return cents_; }
 
   //   // We won’t be able to use a member overload if the left operand is either not a class (e.g. int),
   //   // or it is a class that we can’t modify (e.g. std::ostream).
@@ -21,14 +18,21 @@ class Cents {
   //     out << m_cents;
   //     return out;
   //   }
+
+ private:
+  int cents_{};
 };
 
+/// @brief Write obj to stream
 std::ostream& operator<<(std::ostream& out, const Cents& c) {
+  LOG("");
   out << c.getCents();
   return out;
 }
 
+/// @brief Read obj from stream
 std::istream& operator>>(std::istream& in, Cents& c) {
+  LOG("");
   int cents{};
   in >> cents;
   c = in ? Cents{cents} : Cents{0};
@@ -38,12 +42,10 @@ std::istream& operator>>(std::istream& in, Cents& c) {
 void run() {
   Cents c1{25};
   // out >>
-  std::cout
-      << c1
-      << "\n";  // operator<<(std::cout, c1) -> operator<<(std::ostream,Cents)
+  std::cout << c1 << "\n";
 
   // in >>
-  std::cin >> c1;  // operator>>(std::cin,c1) -> operator<<(std::istream,Cents)
+  std::cin >> c1;
   std::cout << c1 << "\n";
 
   // clearing lefover newline
@@ -52,13 +54,13 @@ void run() {
 }
 }  // namespace
 
-class IOOperator : public IExample {
+class StreamOperator : public IExample {
  public:
-  std::string group() const override { return "core/overloading"; }
-  std::string name() const override { return "IOOperator"; }
+  std::string group() const override { return "core/overloading_operator"; }
+  std::string name() const override { return "StreamOperator"; }
   std::string description() const override { return ""; }
 
   void execute() override { run(); }
 };
 
-REGISTER_EXAMPLE(IOOperator);
+REGISTER_EXAMPLE(StreamOperator);

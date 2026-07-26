@@ -1,35 +1,27 @@
 // cppcheck-suppress-file [functionStatic]
 
-// Factory Method is a creational design pattern that provides an interface for
-// creating objects in a superclass, but allows subclasses to alter the type of
-// objects that will be created. Appicability:
-// (*)  when you don’t know beforehand the exact types and dependencies of the
-// objects your code should work with.
-// (**) when you want to provide users of your library or framework with a way
-// to extend its internal components.
-// (***)when you want to save system resources by reusing existing objects
-// instead of rebuilding them each time.
+// Flow in this file:
+//   1. Define a product interface            -> IGdbProduct
+//   2. Implement concrete products           -> Linux / Windows / MacOs Gdb
+//   3. Define a creator interface            -> IGdbFactory (+ AbstractGdbFactory)
+//   4. Implement concrete creators           -> Linux / Windows / MacOs factories
+//   5. Client picks a factory, then uses it  -> never constructs products directly
 
-// UML: docs/uml/patterns_creational_factorymethod.drawio.svg
-
+#include <memory>
 #include <string>
+#include "ExampleRegistry.h"
 #include "Logger.h"
 
 namespace {
 namespace factory_method {
-/**
- * The Product interface declares the operations that all concrete products must
- * implement.
- */
+
+/// @class Product Interface
 class IGdbProduct {
  public:
   virtual ~IGdbProduct() = default;
   virtual void launch() const = 0;
 };
 
-/**
- * Concrete Products provide various implementations of the Product interface.
- */
 class LinuxGdbProduct : public IGdbProduct {
  public:
   void launch() const override {
@@ -49,114 +41,94 @@ class MacOsGdbProduct : public IGdbProduct {
   void launch() const override { LOG("brew install gdb && gdb --version"); }
 };
 
-// ===================================================================================
-
-/**
- * The Creator class declares the factory method that is supposed to return an
- * object of a Product class. The Creator's subclasses usually provide the
- * implementation of this method. (a.k.a IGdbFactory)
- */
+/// @class Creator Interface
 class IGdbFactory {
  public:
   virtual ~IGdbFactory() = default;
-  virtual IGdbProduct* factory_method() = 0;
+  virtual std::unique_ptr<IGdbProduct> factory_method() = 0;
   virtual void launch_gdb() = 0;
 };
 
 class AbstractGdbFactory : public IGdbFactory {
  public:
-  // Call the factory method to create a Product object.
+  /// @brief call the factory method to create a Product object
+  /// execute operation
   void launch_gdb() final {
-    IGdbProduct* gdb = this->factory_method();
+    auto gdb = this->factory_method();
     gdb->launch();
-    delete gdb;
   }
 };
 
-/**
- * Concrete Creators override the factory method in order to change the
- * resulting product's type.
- */
 class WindowsGdbFactory : public AbstractGdbFactory {
  public:
-  IGdbProduct* factory_method() override { return new WindowsGdbProduct(); }
+  std::unique_ptr<IGdbProduct> factory_method() override {
+    return std::make_unique<WindowsGdbProduct>();
+  }
 };
 
 class LinuxGdbFactory : public AbstractGdbFactory {
  public:
-  IGdbProduct* factory_method() override { return new LinuxGdbProduct(); }
+  std::unique_ptr<IGdbProduct> factory_method() override {
+    return std::make_unique<LinuxGdbProduct>();
+  }
 };
 
 class MacOsGdbFactory : public AbstractGdbFactory {
  public:
-  IGdbProduct* factory_method() override { return new MacOsGdbProduct(); }
+  std::unique_ptr<IGdbProduct> factory_method() override {
+    return std::make_unique<MacOsGdbProduct>();
+  }
 };
 
-// ===================================================================================
-
-IGdbFactory* create_gdb_factory(const std::string& os) {
+/// @brief selector
+std::unique_ptr<IGdbFactory> create_gdb_factory(const std::string& os) {
   if (os == "linux") {
-    return new LinuxGdbFactory();
+    return std::make_unique<LinuxGdbFactory>();
   }
   if (os == "windows") {
-    return new WindowsGdbFactory();
+    return std::make_unique<WindowsGdbFactory>();
   }
   if (os == "macos") {
-    return new MacOsGdbFactory();
+    return std::make_unique<MacOsGdbFactory>();
   }
   LOG("OS not support yet - " + os);
   return nullptr;
 }
 
 void run() {
-  /**
-  * The client code works with an instance of a concrete creator, albeit through
-  * its base interface. As long as the client keeps working with the creator via
-  * the base interface, you can pass it any creator's subclass.
-  */
   auto client_code = [](IGdbFactory* gdb) {
-    if (gdb != nullptr)
+    if (gdb != nullptr) {
       gdb->launch_gdb();
+    }
   };
 
   // Create factory base on the os
   {
     const std::string os = "linux";
-    IGdbFactory* gdb = create_gdb_factory(os);
+    auto gdb = create_gdb_factory(os);
 
-    client_code(gdb);
-
-    delete gdb;
+    client_code(gdb.get());
   }
   {
     const std::string os = "windows";
-    IGdbFactory* gdb = create_gdb_factory(os);
+    auto gdb = create_gdb_factory(os);
 
-    client_code(gdb);
-
-    delete gdb;
+    client_code(gdb.get());
   }
   {
     const std::string os = "macos";
-    IGdbFactory* gdb = create_gdb_factory(os);
+    auto gdb = create_gdb_factory(os);
 
-    client_code(gdb);
-
-    delete gdb;
+    client_code(gdb.get());
   }
   {
     const std::string os = "unknown";
-    IGdbFactory* gdb = create_gdb_factory(os);
-
-    client_code(gdb);
-
-    delete gdb;
+    auto gdb = create_gdb_factory(os);
+    client_code(gdb.get());
   }
 }
 }  // namespace factory_method
 }  // namespace
-
-#include "ExampleRegistry.h"
 
 class FactoryMethodExample : public IExample {
  public:

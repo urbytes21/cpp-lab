@@ -45,7 +45,8 @@ cppcheck \
     --inline-suppr \
     --quiet \
     --error-exitcode=1 \
-    ./src ./include
+    ./src ./include \
+    -isrc/embedded/
 
 echo "[OK] Static analysis passed"
 

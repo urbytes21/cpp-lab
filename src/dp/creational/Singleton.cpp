@@ -1,77 +1,66 @@
 // cppcheck-suppress-file [functionStatic]
 
-// Singleton is a creational design pattern that lets you ensure that a class
-// has only one instance, while providing a global access point to this
-// instance. Appicability:
-// (*)  when a class in your program should have just a single instance
-// available to all clients; for example, a single database object shared by
-// different parts of the program.
-// (**) when you need stricter control over global variables.
-
-// UML: docs/uml/patterns_creational_singleton.drawio.svg
+// Singleton — ensure a class has only one instance, accessed globally.
+//
+// Flow in this file:
+//   1. Hide the constructor                  -> private SingletonConfig()
+//   2. Ban copy / assign                     -> deleted special members
+//   3. Expose a single access point          -> get_instance() (Meyers' singleton)
+//   4. Client always uses get_instance()     -> same object everywhere
 
 #include <string>
+#include "ExampleRegistry.h"
 #include "Logger.h"
 
 namespace {
 namespace singleton_pattern {
 
-/**
- * The Singleton class defines the `GetInstance` method that serves as an
- * alternative to constructor and lets clients access the same instance of this
- * class over and over.
- */
-class Singleton {
- private:
-  static inline Singleton* instance_ = nullptr;
-  static inline int id_ = 0;
-  int dummy_{};
-  /**
-   * The Singleton's constructor should always be private to prevent direct
-   * construction calls with the `new` operator.
-   */
-  Singleton() = default;
+/// @class Singleton class
+/// @brief defines the `GetInstance` method that serves as an alternative to constructor
+class SingletonConfig {
 
  public:
   // 1. Should not be cloneable.
-  Singleton(const Singleton& other) = delete;
+  SingletonConfig(const SingletonConfig& other) = delete;
 
   // 2. Should not be assignable
-  Singleton& operator=(const Singleton& other) = delete;
+  SingletonConfig& operator=(const SingletonConfig& other) = delete;
 
-  static Singleton* get_instance() {
-    if (instance_ == nullptr) {
-      instance_ = new Singleton();
-      id_++;
-    }
-    LOG("id: " + std::to_string(id_));
-    return instance_;
+  static SingletonConfig& get_instance() {
+    static SingletonConfig instance;
+    return instance;
   }
 
-  void operation() {
-    LOG("id: " + std::to_string(id_));
-    dummy_++;
+  void init(const std::string& input) {
+    LOG(input);
+    value_ = input;
   }
+
+  const std::string& get_value() const {
+    LOG("");
+    return value_;
+  };
+
+ private:
+  /// @brief Default constructor should always be private
+  SingletonConfig() = default;
+  std::string value_;
 };
 
 void run() {
-  auto client_code = [](Singleton* s) {
-    s->operation();
+  auto client_code = []() {
+    LOG(SingletonConfig::get_instance().get_value());
   };
 
-  Singleton* s1 = Singleton::get_instance();
-  client_code(s1);
-
-  Singleton* s2 = Singleton::get_instance();
-  client_code(s2);
+  SingletonConfig& s1 = SingletonConfig::get_instance();
+  s1.init("0x001");
+  client_code();
 
   // Singleton* s3 = new Singleton(); // ERROR
 }
 
 }  // namespace singleton_pattern
 }  // namespace
-
-#include "ExampleRegistry.h"
 
 class SingletonExample : public IExample {
  public:

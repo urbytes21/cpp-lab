@@ -1,159 +1,213 @@
 #include <algorithm>
+#include <cctype>
 #include <iomanip>
-#include <iostream>
+#include <sstream>
 #include <string>
+
 #include "ExampleRegistry.h"
+#include "Logger.h"
+
+namespace {
+
+void log_string_info(const char* label, const std::string& str) {
+  LOG_S(label << ": \"" << str << "\"" << " | size=" << str.size()
+              << " | empty=" << std::boolalpha << str.empty());
+}
+
+}  // namespace
 
 namespace create {
+
 void run() {
-  // 1. Direct initialization with literal
+  LOG("=== create ===");
+
+  /// @brief Direct initialization with literal
   std::string s1 = "string 1";
 
-  // 2. Constructor initialization
+  /// @brief Constructor initialization
   std::string s2("string 2");
 
-  // 3. Repeat character constructor
+  /// @brief Repeat character constructor
   std::string s3(5, 's');  // "sssss"
 
-  // 4. Concatenated string literals (compile-time)
+  /// @brief Concatenated string literals (compile-time)
   std::string s4 =
       "First "
-      "Second";  // -> "First Second"
+      "Second";
 
-  // 5. Raw string literal (no escaping needed)
+  /// @brief Raw string literal (no escaping needed)
   std::string s5 = R"(C:\folder\file.txt)";
 
-  // Print results
-  std::cout << "s1: " << s1 << '\n';
-  std::cout << "s2: " << s2 << '\n';
-  std::cout << "s3: " << s3 << '\n';
-  std::cout << "s4: " << s4 << '\n';
-  std::cout << "s5: " << s5 << '\n';
+  log_string_info("s1", s1);
+  log_string_info("s2", s2);
+  log_string_info("s3", s3);
+  log_string_info("s4", s4);
+  log_string_info("s5", s5);
 }
+
 }  // namespace create
 
 namespace modify {
+
 void run() {
-  std::string ss = "xPhong";
-  std::cout << "init      : " << ss << '\n';
+  LOG("=== modify ===");
 
-  // append
-  ss.append("Nguyen");
-  std::cout << "append    : " << ss << '\n';
+  std::string str = "xPhong";
+  log_string_info("init", str);
 
-  // insert at position
-  ss.insert(6, "Vanxx");
-  std::cout << "insert    : " << ss << '\n';
+  /// @brief Append
+  str.append("Nguyen");
+  log_string_info("append", str);
 
-  // erase (pos, length)
-  ss.erase(9, 2);
-  std::cout << "erase     : " << ss << '\n';
+  /// @brief Insert at position
+  str.insert(6, "Vanxx");
+  log_string_info("insert", str);
 
-  // erase char using pos
-  auto new_end = std::remove(ss.begin(), ss.end(), 'O');
-  ss.erase(new_end, ss.end());
-  std::cout << "erase 'O')  : " << ss << '\n';
-  // #include <algorithm>
-  // std::erase(ss, '\n');
+  /// @brief Erase by position and length
+  str.erase(9, 2);
+  log_string_info("erase", str);
 
-  // replace (pos, length, new_string)
-  ss.replace(0, 1, "My name is ");
-  std::cout << "replace   : " << ss << '\n';
+  /// @brief Erase character using remove + erase idiom
+  auto new_end = std::remove(str.begin(), str.end(), 'O');
+  str.erase(new_end, str.end());
+  log_string_info("erase 'O'", str);
 
-  // convert case
-  std::transform(ss.begin(), ss.end(), ss.begin(), ::tolower);
-  std::cout << "tolower   : " << ss << '\n';
-  std::transform(ss.begin(), ss.end(), ss.begin(), ::toupper);
-  std::cout << "toupper   : " << ss << '\n';
+  // C++20
+  // std::erase(str, 'O');
 
-  // trim white
-  ss.erase(0, ss.find_first_not_of(" \t\n\r"));
-  std::cout << "trim first   : " << ss << '\n';
-  ss.erase(ss.find_last_not_of(" \t\n\r") + 1);
-  std::cout << "trim last   : " << ss << '\n';
+  /// @brief Replace sub
+  str.replace(0, 1, "My name is ");
+  log_string_info("replace", str);
+
+  /// @brief Convert to lowercase
+  std::transform(str.begin(), str.end(), str.begin(),
+                 [](unsigned char c) { return std::tolower(c); });
+  log_string_info("tolower", str);
+
+  /// @brief Convert to uppercase
+  std::transform(str.begin(), str.end(), str.begin(),
+                 [](unsigned char c) { return std::toupper(c); });
+  log_string_info("toupper", str);
+
+  /// @brief Trim leading whitespace
+  str = "   Hello World   ";
+  log_string_info("before trim", str);
+
+  str.erase(0, str.find_first_not_of(" \t\n\r"));
+  log_string_info("trim first", str);
+
+  /// @brief Trim trailing whitespace
+  str.erase(str.find_last_not_of(" \t\n\r") + 1);
+  log_string_info("trim last", str);
 }
+
 }  // namespace modify
 
 namespace sub {
+
 void run() {
-  std::string ss = "PhongNguyen";
-  std::cout << "init      : " << ss << '\n';
-  std::string first_name = ss.substr(0, 5);
-  std::cout << "sub     : " << first_name << '\n';
+  LOG("=== sub ===");
+
+  std::string str = "PhongNguyen";
+  log_string_info("init", str);
+
+  /// @brief Extract sub
+  std::string first_name = str.substr(0, 5);
+  log_string_info("substr", first_name);
 }
+
 }  // namespace sub
 
 namespace search {
+
 void run() {
-  std::string ss = "PhongNguyen";
-  std::cout << "init           : " << ss << '\n';
+  LOG("=== search ===");
 
-  // find char
-  size_t pos = ss.find('N');
+  std::string str = "PhongNguyen";
+  log_string_info("init", str);
+
+  /// @brief Find character
+  size_t pos = str.find('N');
   if (pos != std::string::npos) {
-    std::string second_name = ss.substr(pos);  // from pos to end (default)
-    std::cout << "find 'N'       : at " << pos << " -> " << second_name << '\n';
+    std::string last_name = str.substr(pos);
+
+    LOG_S("find('N')" << " | pos=" << pos << " | result=\"" << last_name
+                      << "\"");
   }
 
-  // find substring
-  pos = ss.find("ong");
+  /// @brief Find sub
+  pos = str.find("ong");
   if (pos != std::string::npos) {
-    std::cout << "find \"ong\"    : at " << pos << '\n';
+    LOG_S("find(\"ong\")" << " | pos=" << pos);
   }
 
-  // find last occurrence
-  pos = ss.rfind('n');
+  /// @brief Find last occurrence
+  pos = str.rfind('n');
   if (pos != std::string::npos) {
-    std::cout << "rfind 'n'      : at " << pos << '\n';
+    LOG_S("rfind('n')" << " | pos=" << pos);
   }
 }
+
 }  // namespace search
 
 namespace compare {
+
 void run() {
-  std::string ss1 = "PhongNguyen";
-  std::string ss2 = "PhongNguyen";
+  LOG("=== compare ===");
 
-  int result = ss1.compare(ss2);
+  std::string str1 = "PhongNguyen";
+  std::string str2 = "PhongNguyen";
 
-  std::cout << "compare result : " << result << '\n';
-  std::cout << "equal ?        : " << std::boolalpha << (result == 0) << '\n';
+  /// @brief Compare strings
+  int result = str1.compare(str2);
+  LOG_S("compare result = " << result);
+  LOG_S("equal = " << std::boolalpha << (result == 0));
 }
 
 }  // namespace compare
 
 namespace convert {
+
 void run() {
-  // string -> int
-  std::string sint = "3";
-  int ivalue = std::stoi(sint);
-  std::cout << "stoi           : " << ivalue << '\n';
+  LOG("=== convert ===");
 
-  // string -> double
-  std::string sdouble = "3.3";
-  double dvalue = std::stod(sdouble);
-  std::cout << "stod           : " << std::setprecision(4) << dvalue << '\n';
+  /// @brief String to integer
+  std::string str_int = "3";
+  int ivalue = std::stoi(str_int);
+  LOG_S("stoi(\"3\") = " << ivalue);
 
-  // number -> string
+  /// @brief String to double
+  std::string str_double = "3.3";
+  double dvalue = std::stod(str_double);
+  LOG_S("stod(\"3.3\") = " << std::setprecision(4) << dvalue);
+
+  /// @brief Number to string
   int value = 999;
-  std::string svalue = std::to_string(value);
-  std::cout << "to_string      : " << svalue << '\n';
+  std::string str_value = std::to_string(value);
+  log_string_info("to_string", str_value);
 }
+
 }  // namespace convert
 
 namespace parsing {
+
 void run() {
+  LOG("=== parsing ===");
+
   std::string line = "a,b,c";
-  std::cout << "init      : " << line << '\n';
-  char deli = ',';
+  log_string_info("init", line);
+
+  /// @brief Parse CSV-like string
+  char delimiter = ',';
   std::stringstream ss(line);
   std::string item;
 
-  std::cout << "Parsing with delimiter ',': \n";
-  while (std::getline(ss, item, deli)) {
-    std::cout << item << std::endl;
+  LOG_S("Parsing with delimiter ','");
+  while (std::getline(ss, item, delimiter)) {
+    LOG_S("token = " << item);
   }
 }
+
 }  // namespace parsing
 
 class StdString : public IExample {
@@ -161,6 +215,7 @@ class StdString : public IExample {
   std::string group() const override { return "core/string"; }
   std::string name() const override { return "StdString"; }
   std::string description() const override { return "StdString Example"; }
+
   void execute() override {
     create::run();
     modify::run();

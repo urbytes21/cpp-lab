@@ -1,47 +1,47 @@
-#include <iostream>
 #include "ExampleRegistry.h"
+#include "Logger.h"
 
 namespace {
 void conditionals() {
-  std::cout << "\n--- Conditional Examples ---\n";
+  LOG("Conditional Examples");
   // if-else
   int x = rand();
-  std::cout << "x = " << x << "\n";
+  LOG_S("x = " << x);
   if (x > 0) {
-    std::cout << "x is positive\n";
+    LOG("x is positive");
   } else if (x < 0) {
-    std::cout << "x is negative\n";
+    LOG("x is negative");
   } else {
-    std::cout << "x is zero\n";
+    LOG("x is zero");
   }
 
   // switch
   int choice = rand() % 2 + 1;
-  std::cout << "choice = " << x << "\n";
+  LOG_S("Choice = " << std::to_string(x));
   switch (choice) {
     case 1:
-      std::cout << "Choice is 1\n";
+      LOG("Choice is 1");
       break;
     case 2:
-      std::cout << "Choice is 2\n";
+      LOG("Choice is 2");
       break;
     default:
-      std::cout << "Choice is something else\n";
+      LOG("Choice is something else");
       break;
   }
 }
 
 void jumps() {
-  std::cout << "\n--- Jump Statement Examples ---\n";
+  LOG("Jump Statement Examples");
 
   // goto
   int num = rand();
   if (num == 3)
     goto jumpLabel;
-  std::cout << "This line will be skipped.\n";
+  LOG("This line will be skipped.");
 
 jumpLabel:
-  std::cout << "Jumped here using goto!\n";
+  LOG("Jumped here using goto!");
 
   // break / continue
   for (int i = 0; i < 5; ++i) {
@@ -49,7 +49,7 @@ jumpLabel:
       continue;  // skip 2
     if (i == 4)
       break;  // stop loop at 4
-    std::cout << "i = " << i << "\n";
+    LOG_S("i = " << i);
   }
 }
 
@@ -59,43 +59,43 @@ int square(int n) {
 }
 
 void functionCalls() {
-  std::cout << "\n--- Function Call Examples ---\n";
+  LOG("Function Call Examples");
   // function call
   int result = square(5);
-  std::cout << "square(5) = " << result << "\n";
+  LOG_S("square(5) = " << result);
 }
 
 void loops() {
-  std::cout << "\n--- Loop Examples ---\n";
+  LOG("Loop Examples");
 
   // while
   int i = 0;
   while (i < 3) {
-    std::cout << "while loop i = " << i << "\n";
+    LOG_S("while loop i = " << i);
     ++i;
   }
 
   // do-while
   int j = 0;
   do {
-    std::cout << "do-while loop j = " << j << "\n";
+    LOG_S("do-while loop j = " << j);
     ++j;
   } while (j < 2);
 
   // for(initialization; condition; update)
   for (int k = 0; k < 3; ++k) {
-    std::cout << "for loop k = " << k << "\n";
+    LOG_S("for loop k = " << k);
   }
 
   // ranged-for
   const int arr[] = {10, 20, 30};
   for (int value : arr) {
-    std::cout << "ranged-for value = " << value << "\n";
+    LOG_S("ranged-for value = " << value);
   }
 }
 
 void halts() {
-  std::cout << "\n--- Halt Examples ---\n";
+  LOG("Halt Examples");
 
   // std::exit() — terminates the program normally
   // std::abort() — terminates abnormally (no cleanup)
@@ -106,20 +106,20 @@ void halts() {
 }
 
 void exceptions() {
-  std::cout << "\n--- Exception Handling Examples ---\n";
+  LOG("Exception Handling Examples");
 
   // try - catch - throw
   try {
     throw std::runtime_error("Something went wrong!");
   } catch (const std::exception& e) {
-    std::cout << "Caught exception: " << e.what() << "\n";
+    LOG_S("Caught exception: " << e.what());
   }
 }
 }  // namespace
 
 class ControlFlow : public IExample {
  public:
-  std::string group() const override { return "core"; }
+  std::string group() const override { return "core/basics"; }
   std::string name() const override { return "ControlFlow"; }
   std::string description() const override { return "ControlFlow"; }
   void execute() override {

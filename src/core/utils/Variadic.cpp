@@ -5,14 +5,12 @@
 #include "Logger.h"
 
 namespace c_variadic_style {
-/**
- * @brief Simple C-style variadic function example.
- *
- * The format string controls how arguments are read:
- *   d -> int
- *   c -> char
- *   f -> double
- */
+
+/// @brief Simple C-style variadic function
+/// The format string controls how arguments are read:
+///   d -> int
+///   c -> char
+///   f -> double
 void simple_printf(const char* fmt, ...) {
   // Holds all unnamed arguments
   va_list args;
@@ -53,14 +51,11 @@ void run() {
 }  // namespace c_variadic_style
 
 namespace modern_variadic_style {
-/**
- * @brief Base case for recursion.
- */
+
+/// @brief Base case for recursion
 inline void simple_printf(const char* /*fmt*/) {}
 
-/**
- * @brief Print one argument based on format specifier.
- */
+/// @brief Print one argument based on format specifier
 template <typename T>
 void print_arg(char fmt, const T& value) {
   switch (fmt) {
@@ -81,9 +76,7 @@ void print_arg(char fmt, const T& value) {
   }
 }
 
-/**
- * @brief Recursive variadic template implementation.
- */
+/// @brief Recursive variadic template implementation
 template <typename T, typename... Args>
 void simple_printf(const char* fmt, T value, Args... args) {
   if (*fmt == '\0') {
@@ -107,9 +100,7 @@ void run() {
 class Variadic : public IExample {
  public:
   std::string group() const override { return "core/utils"; }
-
   std::string name() const override { return "Variadic"; }
-
   std::string description() const override {
     return "Examples for C-style variadic arguments";
   }
