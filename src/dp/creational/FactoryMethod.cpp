@@ -1,5 +1,12 @@
 // cppcheck-suppress-file [functionStatic]
 
+// Flow in this file:
+//   1. Define a product interface            -> IGdbProduct
+//   2. Implement concrete products           -> Linux / Windows / MacOs Gdb
+//   3. Define a creator interface            -> IGdbFactory (+ AbstractGdbFactory)
+//   4. Implement concrete creators           -> Linux / Windows / MacOs factories
+//   5. Client picks a factory, then uses it  -> never constructs products directly
+
 #include <memory>
 #include <string>
 #include "ExampleRegistry.h"

@@ -1,5 +1,13 @@
 // cppcheck-suppress-file [functionStatic]
 
+// Singleton — ensure a class has only one instance, accessed globally.
+//
+// Flow in this file:
+//   1. Hide the constructor                  -> private SingletonConfig()
+//   2. Ban copy / assign                     -> deleted special members
+//   3. Expose a single access point          -> get_instance() (Meyers' singleton)
+//   4. Client always uses get_instance()     -> same object everywhere
+
 #include <string>
 #include "ExampleRegistry.h"
 #include "Logger.h"

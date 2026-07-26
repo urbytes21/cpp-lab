@@ -1,5 +1,12 @@
 // cppcheck-suppress-file [functionStatic]
 
+// Flow in this file:
+//   1. Define the product being built        -> Product (parts list)
+//   2. Define a builder interface            -> IBuilder (produce_part_N / build)
+//   3. Share common builder state            -> AbstractBuilder (reset / product_)
+//   4. Implement concrete builders           -> SimpleBuilder / ComplexBuilder
+//   5. Client chains steps, then build()     -> same steps, different representations
+
 #include <memory>
 #include <ostream>
 #include <sstream>

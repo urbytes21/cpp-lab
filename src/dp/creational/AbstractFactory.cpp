@@ -1,7 +1,13 @@
 // cppcheck-suppress-file [functionStatic]
 
-// Abstract Factory is a creational design pattern that lets you produce
-// families of related objects without specifying their concrete classes.
+// Abstract Factory — create families of related products without concrete types.
+//
+// Flow in this file:
+//   1. Define product interfaces             -> IGdbProduct, ICMakeProduct
+//   2. Implement concrete products per OS    -> Linux / Windows / MacOs variants
+//   3. Define an abstract factory            -> IProductAbstractFactory
+//   4. Implement concrete factories          -> one factory = one matching family
+//   5. Client uses one factory for all products -> products stay consistent (same OS)
 
 #include <memory>
 #include <string>
